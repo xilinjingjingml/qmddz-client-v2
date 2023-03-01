@@ -15,6 +15,8 @@ export interface IConfirm {
     cancelFunc?: Function
     buttonNum?: number
     exchangeButton?: boolean
+    //TODO 只负责加载，为网络问题准备提示
+    preLoad?: boolean
 }
 
 const { ccclass } = cc._decorator
@@ -59,6 +61,10 @@ export default class confirm extends BaseAdPop {
             commonPop.setHeight(height)
             this.$("node_btns", cc.Widget).updateAlignment()
             this.onNodeSizeChange()
+        }
+        if(this.params.preLoad){
+            console.log("jin---已预加载提示框")
+            this.close()
         }
     }
 

@@ -6,6 +6,7 @@ import { ads } from "../../start/ads"
 import { app } from "../../start/app"
 import { appfunc } from "../appfunc"
 import { FAKE_GIFT_KEY } from "../lobby"
+import { time } from "../../base/time"
 
 const { ccclass } = cc._decorator
 
@@ -13,39 +14,42 @@ const { ccclass } = cc._decorator
 export default class PopupCtrl extends BaseView {
 
     start() {
-        const queue = new TaskQueue(this.node)
-        
-        if (!app.getOnlineParam("app_review") && app.datas.first == 1 && app.getOnlineParam("jump2game") && !app.datas.newUserPopShow) {
+        //!app.getOnlineParam("app_review")
+        if (!appfunc.checkSpecialAward() && app.datas.first == 1 && app.getOnlineParam("jump2game") && !app.datas.newUserPopShow) {
             monitor.once("server_status_update", () => {
-                this.checkAntiAddition(()=>{
-                    appfunc.showNewUserPop()
-                })
+                appfunc.showNewUserPop()
             })
             app.datas.isLeaveGame = false
             return
-        }else{
-            //防沉迷
-            if(!appfunc.hasAntiAddition()){
-                queue.add(this.checkAntiAddition, this)
-            }
         }
-
         if (this.params.openCallback) {
             this.params.openCallback()
             app.datas.isLeaveGame = false
             return
         }
 
-        if (app.getOnlineParam("app_review") && !storage.get(FAKE_GIFT_KEY)) {
-            storage.set(FAKE_GIFT_KEY, true)
-            queue.add((next: Function) => appfunc.showFakeGiftdPop(next))
+
+        const queue = new TaskQueue(this.node)
+        //app.getOnlineParam("app_review")
+        if (appfunc.checkSpecialAward() && !storage.get(FAKE_GIFT_KEY)) {
+            //TODO 关闭新人礼包界面
+            // storage.set(FAKE_GIFT_KEY, true)
+            // queue.add((next: Function) => appfunc.showFakeGiftdPop(next))
         }
 
-        if (!app.getOnlineParam("app_review")) {
+        //TODO 添加小游戏宣传页
+        let stateOfTodayMiniGame = storage.get("MiniGame" + time.format("yyyy-mm-dd"))
+        console.log("jin---stateOfTodayMiniGame: ", stateOfTodayMiniGame, time.format("yyyy-mm-dd"))
+
+        if(app.getOnlineParam("Leaflet_game_picture") && app.getOnlineParam("Leaflet_game_appid")&& !stateOfTodayMiniGame && app.datas.morrow >= 3){
+            queue.add(this.checkMiniGame, this)
+        }
+
+        if (!appfunc.checkSpecialAward() ) {//!app.getOnlineParam("app_review")
             queue.add(this.checkDailyGift, this)
         }
 
-        if (app.getOnlineParam("app_review")) {
+        if (appfunc.checkSpecialAward()) {app.getOnlineParam("app_review")
             if (appfunc.hasActivity()) {
                 queue.add(this.checkActive, this)
             }
@@ -86,8 +90,8 @@ export default class PopupCtrl extends BaseView {
 
         next()
     }
-
-    checkAntiAddition(next: Function){
-        appfunc.showAntiAddiction(next)
+    
+    checkMiniGame(next: Function){
+        appfunc.showMiniGame(next)
     }
 }

@@ -96,4 +96,8 @@ export class WebBrowser extends Platform {
             startFunc.showToast("复制失败")
         }
     }
+    //TODO
+    localStorage(){
+
+    }
 }

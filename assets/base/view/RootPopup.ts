@@ -51,7 +51,10 @@ export default class RootPopup extends cc.Component {
         // node
         const node = cc.instantiate(this.params.prefab)
         this.child = node
-
+        if(!node){
+            console.log("jin---RootPopup error")
+            return
+        }
         // eventId
         const comps = node.getComponentsInChildren(BaseView)
         comps.forEach(comp => comp.eventId = monitor.pauseById(this.params.eventId))

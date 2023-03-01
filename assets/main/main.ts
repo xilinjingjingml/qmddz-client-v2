@@ -5,6 +5,7 @@ export default class main extends cc.Component {
     nodePersist: cc.Node
 
     onLoad() {
+        this.report("首场景加载")
         const frameSize = cc.view.getFrameSize()
         const canvas = cc.Canvas.instance
         const wideScreen = frameSize.width / frameSize.height > canvas.designResolution.width / canvas.designResolution.height
@@ -37,6 +38,7 @@ export default class main extends cc.Component {
     }
 
     loadBundles(bundles: string[]) {
+        this.report("bundle加载")
         const bundle = bundles.shift()
         cc.log("[main.loadBundles]", bundle)
         cc.assetManager.loadBundle(bundle, (err: Error, bundle: cc.AssetManager.Bundle) => {
@@ -45,6 +47,8 @@ export default class main extends cc.Component {
                 return
             }
 
+            this.report("bundle:" + bundle + "加载成功")
+
             if (bundles.length == 0) {
                 cc.game.emit("game_start", this.nodePersist)
             } else {
@@ -52,4 +56,12 @@ export default class main extends cc.Component {
             }
         })
     }
+
+    report(str) {
+        let wx = window["wx"]
+        if (wx && wx.aldSendEvent) {
+            wx.aldSendEvent(str)
+        }
+    }
+
 }

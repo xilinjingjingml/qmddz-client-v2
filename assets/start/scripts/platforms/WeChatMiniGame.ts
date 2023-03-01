@@ -19,10 +19,11 @@ enum AdsResult {
 }
 
 const UnitId = {
-    Video: "adunit-efe436952d2ef6fc",
-    Banner: "adunit-7bd52837ae07ea68",
-    Inter: "adunit-5a57b7b03655a08b",
-    // Grid: "adunit-b016cf057deb6a4c"
+    Video: "adunit-3892853d9d6c67bd",
+    Banner: "adunit-81f5c0cca8729ed6",
+    Inter: "adunit-1c48f34d0d49f9c3",
+    // Grid: "adunit-b016cf057deb6a4c",
+    CustomAd:"adunit-2c73120349def0dd"
 }
 
 const AdvertErr = [1000, 1003, 1004, 1005]
@@ -30,6 +31,9 @@ const AdvertFreqErr = [2001, 2002, 2003, 2004, 2005]
 const KEY_OPEN_ID = "WX_USER_OPENID"
 
 const adapt = { screen: null, design: null, ratio: 1, width: 0, height: 0 }
+const share = { invoked: true, time: 0, skipCheck: false, callback: null }
+
+let shareConfig: any = []
 
 export class WeChatMiniGame extends Platform {
 
@@ -37,6 +41,7 @@ export class WeChatMiniGame extends Platform {
     wxUserInfo: any = null
     wxScene: number = 0
     wxQuery: any = null
+    appQueryChecked: boolean = null
 
     video: { [adindex: string]: string } = {}
     advertVideo: { [unitid: string]: IWxVideo } = {}
@@ -48,6 +53,16 @@ export class WeChatMiniGame extends Platform {
     advertInter: { [unitid: string]: IWxInter } = {}
 
     init() {
+        app.platform.localStorage("isPureMode", 
+            null, 
+            false, 
+            state=>{ 
+                if(state){
+                    app.datas.isPureMode = Boolean(state)
+                }
+                
+                console.log("jin---checkSpecialAward localStorage1", state)
+            })
         this.wxOpenId = storage.get(KEY_OPEN_ID)
         const opt = wx.getLaunchOptionsSync()
         this.wxScene = opt.scene
@@ -82,7 +97,9 @@ export class WeChatMiniGame extends Platform {
         }
 
         const getOpenId = () => {
+            startFunc.report("微信登录_开始")
             this.code2Session((err) => {
+                startFunc.report("微信登录_完成")
                 err ? monitor.emit("platform_login_fail", "GetOpenId:" + err) : onGetOpenId()
             })
         }
@@ -93,6 +110,7 @@ export class WeChatMiniGame extends Platform {
     }
 
     loginGame() {
+        startFunc.report("lobby登录_开始")
         http.open(urls.GAME_LOGIN, {
             appid: app.wxAppID,
             pn: app.pn,
@@ -103,6 +121,7 @@ export class WeChatMiniGame extends Platform {
             signature: this.wxUserInfo ? this.wxUserInfo.signature : "",
             bindOpenId: this.getQueryOpenId(true) || ""
         }, (err, res) => {
+            // console.log("jin---res:",res)
             if (!res || res.ret != 0) {
                 let msg
                 if (err) {
@@ -138,6 +157,7 @@ export class WeChatMiniGame extends Platform {
             app.datas.first = res.first
             app.datas.morrow = res.first == 1 ? 0 : res.morrow
 
+            startFunc.report("lobby登录_完成")
             monitor.emit("platform_login_success")
         })
     }
@@ -145,10 +165,12 @@ export class WeChatMiniGame extends Platform {
     code2Session(callback: (error: string) => any) {
         wx.login({
             success: (res) => {
+                // console.log("jin---res1:",res, app.wxAppID)
                 http.open(urls.GET_WX_OPENID, {
                     appid: app.wxAppID,
                     jscode: res.code
                 }, (err, res) => {
+                    // console.log("jin---res2:",err, res)
                     if (!res || !res.openid) {
                         if (err) {
                             callback(err.message)
@@ -210,19 +232,6 @@ export class WeChatMiniGame extends Platform {
         }
     }
 
-    // wx.showShareMenu >= 1.1.0
-    showShareMenu() {
-        wx.showShareMenu && wx.showShareMenu({ withShareTicket: false })
-
-        wx.onShareAppMessage(() => {
-            return {
-                title: "",
-                imageUrl: "",
-                query: "a=1&b=2"
-            }
-        })
-    }
-
     checkSession(callback: (isValid: boolean) => any) {
         wx.checkSession({
             success: () => { callback(true) },
@@ -233,16 +242,51 @@ export class WeChatMiniGame extends Platform {
     // wx.onShareMessageToFriend >= 2.9.4
     addEventListener() {
         wx.onShow((res) => {
+            // console.log("jin---回到游戏")
             this.wxQuery = res.query
             this.wxScene = res.scene
+            this.appQueryChecked = false
+            this.showInter(UnitId.Inter)
 
-            // this.showInter(UnitId.Inter)
+            if (share.callback) {
+                // console.log("jin---回到游戏  有回调")
+                let success = true
+                if (share.skipCheck) {
+                    // do nothing
+                } else if (!share.invoked) {
+                    success = false
+                    share.invoked = true
+                    // DataManager.save("WX_FLAG_SHARE", true)
+                } else if (Date.now() - share.time < 3000) {
+                    success = false
+                }
+
+                success ? share.callback() : this.showModal("分享失败，请换个群试试。")
+                share.callback = null
+            }
         })
 
         if (wx.onShareMessageToFriend) {
             wx.onShareMessageToFriend((res) => {
+
                 monitor.emit("share_friend_result", res.success)
             })
+        }
+
+        //监听用户主动截图
+        if(wx.onUserCaptureScreen){
+            wx.onUserCaptureScreen(function (res) {
+                console.log('jin---用户截屏了', res)
+                //TODO 标记状态为纯净版状态
+                app.platform.localStorage("isPureMode", 
+                    true, 
+                    true, 
+                    state=>{ 
+                        wx.exitMiniProgram((res)=>{
+                            console.log("jin---exitMiniProgram", state, res)
+                        })
+                    })
+              })
         }
     }
 
@@ -258,32 +302,52 @@ export class WeChatMiniGame extends Platform {
 
     // wx.setClipboardData >= 1.1.0
     copyToClipBoard(text: string) {
+
         if (wx.setClipboardData) {
             wx.setClipboardData({
-                data: text,
-                success: () => startFunc.showToast("复制成功"),
-                fail: () => startFunc.showToast("复制失败")
+                data: String(text),
+                success: () => {startFunc.showToast("复制成功")},//
+                fail: (err) => {
+                    startFunc.showToast("复制失败")
+                    // console.log("jin---fail:", err, text)
+                }
             })
         }
     }
 
+    //TODO 处理 1.video 2.banner 数据
     initAdsdata() {
         const adConfig = app.getOnlineParam("adConfig")
+        // console.log("jin---initAdsdata adConfig: ",  adConfig, app.datas.regtime)
         if (adConfig) {
             const regtime = app.datas.regtime
-            for (const adindex in adConfig) {
-                const extra = adConfig[adindex].extra
-                if (extra) {
-                    const unitid = (regtime >= extra.sp ? extra.tv : extra.fv) || UnitId.Video
-
-                    if (extra.preload) {
-                        this.createVideo(unitid)
-                    }
-
-                    this.video[adindex] = unitid
-                }
+            const unitids = adConfig.unitids || {}
+            
+            for(const k in unitids){
+                const unitid = (regtime >= unitids[k].sp ? unitids[k].tv : unitids[k].fv) || UnitId.Video
+                this.video[k] = unitid
+                 //TODO 预加载
+                // for(const s of unitids.preload){
+                //     if(k == s){
+                //         this.createVideo(unitid)
+                //     }
+                // }
             }
         }
+
+        const adBannerConfig = app.getOnlineParam("adBannerConfig")
+        // console.log("jin---adBannerConfig: ", adBannerConfig)
+        if (adBannerConfig) {
+            const regtime = app.datas.regtime
+            const unitids = adBannerConfig.unitids || {}
+            
+            for(const k in unitids){
+                const unitid = (regtime >= unitids[k].sp ? unitids[k].tv : unitids[k].fv) || UnitId.Banner
+                this.banner[k] = unitid
+            }
+            
+        }
+
     }
 
     // wx.createRewardedVideoAd >= 2.0.4
@@ -336,18 +400,31 @@ export class WeChatMiniGame extends Platform {
 
         advert.callback = callback
 
-        wx.showLoading({ title: "广告加载中", mask: true })
+        // wx.showLoading({ title: "广告加载中", mask: true })
 
-        advert.instance.load()
+        advert.instance.show()
+        .then(()=>{
+            console.log("jin---已经播放成功", unitid)
+            // wx.hideLoading()
+        })
+        .catch(err =>{
+            wx.showLoading({ title: "广告加载中", mask: true })
+            advert.instance.load()
             .then(() => {
                 advert.instance.show()
-                    .then(wx.hideLoading)
+                    .then(()=>{
+                        wx.hideLoading()
+                        console.log("jin---已经播放成功2", unitid)
+                        }
+                    )
                     .catch((res) => {
                         console.error("视频广告显示", res)
                         wx.hideLoading()
                     })
             })
             .catch(wx.hideLoading)
+        })
+
     }
 
     // wx.createBannerAd >= 2.0.4
@@ -364,14 +441,14 @@ export class WeChatMiniGame extends Platform {
                 style: {
                     top: 0,
                     left: 0,
-                    width: 300
+                    width: 500
                 }
             })
 
             instance.onError((res) => {
                 console.error("Banner广告" + unitid, res)
                 if (AdvertErr.indexOf(res.errCode) !== -1) {
-                    instance.valid = false
+                    advert.valid = false
                 }
             })
 
@@ -409,7 +486,7 @@ export class WeChatMiniGame extends Platform {
         if (advert.rect) {
             monitor.emit("platform_ad_banner_size", advert.rect)
         }
-
+        console.log("jin---showBanner: ", unitid)
         advert.ref++
         advert.instance.show()
             .catch((res) => {
@@ -424,13 +501,28 @@ export class WeChatMiniGame extends Platform {
                 this.advertBanner[id].instance.hide()
             }
         } else {
-            const advert = this.createBanner(unitid || UnitId.Banner)
-            if (advert) {
+            // const advert = this.createBanner(unitid || UnitId.Banner)
+            const advert = this.advertBanner[unitid] ? this.advertBanner[unitid] : this.advertBanner[UnitId.Banner]
+            console.log("jin---消除banner广告1", unitid, advert)
+            if (advert.ref > 0) {
+                console.log("jin---消除banner广告2")
                 advert.ref--
                 if (advert.ref <= 0) {
                     advert.ref = 0
                     advert.instance.hide()
                 }
+            }else{
+                //延时销毁
+                setTimeout(()=>{
+                    console.log("jin---消除banner广告3")
+                    if(advert.ref >= 0){
+                        advert.ref--
+                        if (advert.ref <= 0) {
+                            advert.ref = 0
+                            advert.instance.hide()
+                        }
+                    }
+                },5*1000);
             }
         }
     }
@@ -482,7 +574,19 @@ export class WeChatMiniGame extends Platform {
             })
     }
 
-    openAdvert(params: { type: EAdType, index?: number, success?: Function }) {
+    openAdvert(params: { type: EAdType, index?: number, success?: Function }) {//todo cb: Function, 
+        //TODO 所有广告都转入分享
+        const parm = {
+            title: null,
+            imageUrl: null,
+            withOpenId: true,
+            callback: params.success
+        }
+        // console.log("jin---parm.callback: ", parm.callback, params.type)
+        // if(params.type == EAdType.Video){
+        //     this.sociaShare(parm)
+        // }
+        // return
         if (params.type == EAdType.Video) {
             this.showVideo(this.video[params.index], (result: AdsResult) => {
                 if (result == AdsResult.Success) {
@@ -490,7 +594,10 @@ export class WeChatMiniGame extends Platform {
                 } else if (result == AdsResult.Cancel) {
                     startFunc.showToast("完整观看广告视频才可以领取奖励哦")
                 } else {
-                    startFunc.showToast("广告视频播放失败")
+                    //TODO 视频广告播放失败转向分享
+                    console.log("jin---广告视频播放失败")
+                    this.sociaShare(parm)
+                    // startFunc.showToast("广告视频播放失败")
                 }
             })
         } else if (params.type == EAdType.Banner) {
@@ -505,4 +612,147 @@ export class WeChatMiniGame extends Platform {
             this.closeBanner(this.banner[params.index], params.closeAll)
         }
     }
+
+    /**
+     *  TODO 分享
+     *  example:
+     *  parm = {
+            title: title,
+            imageUrl: this.imageUrl,
+            withOpenId: true,
+            callback: null
+        }
+     */
+    sociaShare(param){
+        // console.log("jin---主动分享")
+        wx.shareAppMessage(this.makeShareParam(param))
+        if (param.callback) {
+            // console.log("jin---主动分享 callback")
+            share.skipCheck = param.skipCheck
+            share.callback = param.callback
+            share.time = Date.now()
+        }
+    }
+
+    // wx.showShareMenu >= 1.1.0
+    showShareMenu() {
+        wx.showShareMenu && wx.showShareMenu({ withShareTicket: false })
+        wx.onShareAppMessage(() => {
+            const config = this.randomShare()
+            let query = "openId=" + app.user.openId
+
+            return {
+                title: config.title,
+                imageUrl: config.image,
+                query: query
+            }
+        })
+    }
+
+    randomShare() {
+        shareConfig = app.getOnlineParam("shareConfig")
+        const config = shareConfig[Math.floor(Math.random() * shareConfig.length)]
+        let title = config.title
+        let image = config.image
+
+        if (Array.isArray(title)) {
+            title = title[Math.floor(Math.random() * title.length)]
+        }
+
+        if (Array.isArray(image)) {
+            image = image[Math.floor(Math.random() * image.length)]
+        }
+
+        return { title: title, image: image }
+    }
+
+    makeShareParam(shareData) {
+        shareData = shareData || {}
+
+        shareData.query = shareData.query || {}
+
+        if (shareData.withOpenId) {
+            shareData.query.openId = app.user.openId
+        }
+
+        let query = ''
+        let prefix = ''
+        for (let key in shareData.query) {
+            query += prefix + key + '=' + shareData.query[key]
+            prefix = '&'
+        }
+        shareData.query = query
+
+        const config = this.randomShare()
+
+        return {
+            title: shareData.title || config.title,
+            imageUrl: shareData.imageUrl || config.image,
+            query: shareData.query
+        }
+    }
+
+    showModal(message) {
+        wx.showModal({
+            title: "系统提示",
+            content: message,
+            showCancel: false
+        })
+    }
+
+    setStorageInfo(key: string, vaule: any, callback:(date: any) => void) {
+            wx.setStorage({
+                key: key,
+                data: vaule,
+                success: (res)=>{
+                    console.log("jin---setStorageInfo success")
+                    callback && callback(res.data)
+                },
+                fail: (res)=>{
+                    console.log("jin---setStorageInfo fail")
+                    callback && callback(res.data)
+                }
+            })
+    }
+
+    getStorageInfo(key:string, callback:(date: any) => void){
+            wx.getStorage({
+                key: key,
+                success (res) {
+                console.log("jin---getStorageInfo success",res.data)
+                callback && callback(res.data)
+                return res.data
+                }
+            })
+    }
+
+    localStorage(key: string, vaule: any, state: boolean, callback:(date: any) => void){
+        //state: true(设置数据)
+        if(state){
+            this.setStorageInfo(key, vaule, callback)
+        }else{
+            // console.log("jin---WxWrapper.getStorageInfo",WxWrapper.getStorageInfo(key))
+            this.getStorageInfo(key, callback)
+        }
+    }
+
+    //小程序跳转
+    navigateToMiniProgram(miniGameId: string, callback:(data:string) => void){
+        wx.navigateToMiniProgram({
+            appId: miniGameId,
+            path: null,
+            extraData: {
+                foo: 'QMDDZ-AD-CLIENT'
+            },
+            envVersion: 'release',
+            success(res) {
+                console.log("jin---navigateToMiniProgram success")
+                callback && callback(null)
+            },
+            fail(){
+                console.log("jin---navigateToMiniProgram fail")
+            }
+        })
+    }
+
 }

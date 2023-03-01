@@ -16,7 +16,7 @@ export default class Setting extends BasePop {
 
     start() {
         this.$("labelUserId", cc.Label).string = "ID:" + app.user.guid
-        this.$("labelVersion", cc.Label).string = "版本号:" + app.version + (["测试", "镜像"][app.env] || "")
+        this.$("labelVersion", cc.Label).string = "版本号:" + "1.1.1.2"//"版本号:" + app.version + (["测试", "镜像"][app.env] || "")
         if (cc.sys.isNative) {
             const platform = app.platform as AppNative
             this.$("labelUserId", cc.Label).string += `-${platform.getVersionName()}-${platform.getVersionCode()}`

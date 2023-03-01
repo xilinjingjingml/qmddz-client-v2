@@ -62,6 +62,8 @@ interface IDatas {
     AchieveList?: Iproto_ATAchieveData[]
     isLeaveGame?: boolean
     runGameDatas?: any
+    bannerList?:number[]
+    isPureMode?:boolean
     [x: string]: any
 }
 

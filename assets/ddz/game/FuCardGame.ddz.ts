@@ -212,6 +212,7 @@ export default class FuCardGame extends BaseGame {
         }
 
         const message: Iproto_gc_regain_lose_score_ack = this.cacheMessages["proto_gc_regain_lose_score_ack"]
+        console.log("jin---showFuCardRegainLose message: ", message)
         if (!message || message.nTime <= 0 || !(message.nRet == 0 || message.nRet == 2)) {
             next()
             return

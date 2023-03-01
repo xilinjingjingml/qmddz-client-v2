@@ -130,6 +130,7 @@ export default class player extends BaseChair {
     showOperate(operate: EOperate = EOperate.CO_NONE) {
         let opath = ""
         let audio = ""
+        const node = this.$("spt_operate")
         if (operate == EOperate.CO_NONE) {
             this.hideOperate()
             return
@@ -182,12 +183,9 @@ export default class player extends BaseChair {
             this.hideOperate()
             return
         }
-
         if (audio) {
             AudioManager.playEffect(audio, this.data.sex)
         }
-
-        const node = this.$("spt_operate")
         this.operate = operate
         this.operateRuning = true
         this.operatActive = true
@@ -209,7 +207,7 @@ export default class player extends BaseChair {
                     .delay(0.5)
                     .call(() => {
                         this.operateRuning = false
-                        if (!this.operatActive) {
+                        if (!this.operatActive || operate == EOperate.CO_SHOWCARD) {
                             node.active = false
                         }
                     })

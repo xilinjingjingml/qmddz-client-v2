@@ -11,6 +11,7 @@ export default class SocketWrapper implements ISocketWrapper, ISocketWrapperIn {
     private packer: MessagePacker
     private socket: Socket
     private delegate: ISocketDelegate
+    private connectCallback: () => void = null
     name: string
 
     constructor(name: string, delegate: ISocketDelegate) {
@@ -30,18 +31,37 @@ export default class SocketWrapper implements ISocketWrapper, ISocketWrapperIn {
     }
 
     send<T>(name: string, message: T) {
-        if (!this.socket.isConnected()) {
+        const buffer = this.packer.encode(name, message)
+        if (buffer === undefined) {
+                return
+            }
+        //TODO 1.正常：直接发  2.scoket关闭：存起来
+        if(this.socket.isConnected()){
+            console.log("jin---socket connect open")
+            name != "proto_ping" && console.debug("[SW.send]", this.name, name, message)
+            this.socket.send(buffer)
+        }else if(this.socket.getCloseState){
+            console.log("jin---socket Close save request")
+            this.connectCallback = () => { this.socket.send(buffer) }
+        }else{
+            console.log(`jin---[${this.name}.send] not connected`)
             cc.error(`[${this.name}.send] not connected`)
             return
         }
 
-        const buffer = this.packer.encode(name, message)
-        if (buffer === undefined) {
-            return
-        }
+        // if (!this.socket.isConnected()) {
+        //     cc.error(`[${this.name}.send] not connected`)
+        //     return
+        // }
 
-        name != "proto_ping" && console.debug("[SW.send]", this.name, name, message)
-        this.socket.send(buffer)
+
+        // const buffer = this.packer.encode(name, message)
+        // if (buffer === undefined) {
+        //     return
+        // }
+
+        // name != "proto_ping" && console.debug("[SW.send]", this.name, name, message)
+        // this.socket.send(buffer)
     }
 
     sendPing() {
@@ -66,7 +86,13 @@ export default class SocketWrapper implements ISocketWrapper, ISocketWrapperIn {
             return
         }
 
-        if (data.name == "proto_pong") {
+        if (data.name == "proto_pong" || !data.name) {
+            console.log("jin---date.name error: ", data.name, this.connectCallback)
+            // TODO 判断是否有为请求事件
+            if(null != this.connectCallback){
+                this.connectCallback()
+                this.connectCallback = null
+            }
             return
         }
 
@@ -82,7 +108,7 @@ export default class SocketWrapper implements ISocketWrapper, ISocketWrapperIn {
         this.delegate.onClose()
     }
 
-    onCloseTemp() {
-        this.delegate.onCloseTemp?.()
+    onCloseTemp(view : string) {
+        this.delegate.onCloseTemp?.(view)
     }
 }

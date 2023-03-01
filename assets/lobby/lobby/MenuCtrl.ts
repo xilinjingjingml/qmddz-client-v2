@@ -13,17 +13,23 @@ export default class MenuCtrl extends BaseView {
 
     start() {
         if (app.datas.TomorrowStatus) {
-            this.setTomorrowActive()
+            this.setTomorrowActive(false)
         }
 
-        if (app.getOnlineParam("app_review")) {
+        if (appfunc.checkSpecialAward()) {// app.getOnlineParam("app_review")
             this.$("exchange").active = false
             this.onChangeView({ type: 0 })
         }
     }
 
     @listen("tomorrow_status_update")
-    setTomorrowActive() {
+    setTomorrowActive(type?: boolean) {
+        console.log("jin---setTomorrowActive", type)
+        if(type === false){
+            this.$("tomorrow_gift").active = false
+            return
+        }
+        
         this.$("tomorrow_gift").active = app.datas.TomorrowStatus.enabled
     }
 

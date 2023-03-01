@@ -330,7 +330,7 @@ export class AppNative extends Platform {
         if (adConfig == null) {
             return
         }
-
+        // console.log("jin---adConfig: ", adConfig)
         const sources: Record<string, Record<string, string | { adId: string, weight?: number }>> = adConfig.sources
         if (sources == null) {
             return
@@ -822,5 +822,10 @@ export class AppNative extends Platform {
                 }
             }
         })
+    }
+
+    //TODO
+    localStorage(){
+
     }
 }

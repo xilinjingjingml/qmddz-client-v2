@@ -75,7 +75,7 @@ export default class clock extends BaseChair {
         if (!this.isSelf(message.chairId)) {
             return
         }
-
+        // console.log("jin---proto_gc_clienttimer_not: ",message)
         if (this.delayTime) {
             this.delayTime = 0
             this.scheduleOnce(() => this.startTime(Math.floor(message.sPeriod / 1000) - 1), 1)

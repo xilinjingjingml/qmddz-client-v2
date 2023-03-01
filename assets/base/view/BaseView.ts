@@ -145,4 +145,19 @@ export default class BaseView extends cc.Component {
         asset.addRef()
         this.assets.push(asset)
     }
+
+    protected getNodeComponent(perentNode:cc.Node, className: any){
+        if(perentNode == null || perentNode == undefined || !className){
+			return null
+		}
+		var component = null
+		try{
+			component = perentNode.getComponent(className)
+		}catch{
+            console.log("jin---current component don't exist", className)
+            return null
+		}
+		
+		return component
+    }
 }

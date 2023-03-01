@@ -1,16 +1,18 @@
 import { audio } from "../../base/audio"
 import { NodeExtends } from "../../base/extends/NodeExtends"
-import BasePop from "../../base/view/BasePop"
+// import BasePop from "../../base/view/BasePop"
 import { ViewManager } from "../../base/view/ViewManager"
 import { ads } from "../../start/ads"
 import { app } from "../../start/app"
 import { ITEM } from "../../start/config"
 import { appfunc } from "../appfunc"
+import BaseAdPop from "../../start/scripts/components/BaseAdPop"
 
 const { ccclass } = cc._decorator
 
 @ccclass
-export default class Treasure extends BasePop {
+export default class Treasure extends BaseAdPop {
+    bannerIndex: number = ads.banner.treasure
 
     start() {
         this.initView()

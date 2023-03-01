@@ -5,6 +5,15 @@ import { app } from "./app"
 import { IConfirm } from "./confirm/confirm"
 
 export namespace startFunc {
+    //TODO 预加载start中的资源，防止断线无法显示提示框
+    export function preLoad(){
+        const confirmParmes: IConfirm = {
+            content:"预加载",
+            preLoad: true
+        }
+        showConfirm(confirmParmes)
+    }
+    
     export function showToast(message: string) {
         ViewManager.showPopup({
             bundle: app.bundule,
@@ -36,6 +45,7 @@ export namespace startFunc {
     }
 
     export function showLobby() {
+        startFunc.report("加载大厅_开始")
         ViewManager.showScene({ bundle: "lobby", path: "lobby", multiple: true })
     }
 
@@ -80,4 +90,12 @@ export namespace startFunc {
             }
         })
     }
+
+    export function report(str) {
+        let wx = window["wx"]
+        if (wx && wx.aldSendEvent) {
+            wx.aldSendEvent(str)
+        }
+    }
+
 }

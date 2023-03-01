@@ -148,8 +148,7 @@ export default class SmallWithdrawalPop extends BasePop {
                 return
             }
         }
-
-        const isWechat = app.getOnlineParam("SmallWithdrawal_type", "wechat") == "wechat"
+        const isWechat = (app.getOnlineParam("SmallWithdrawal_type", "wechat") == "wechat") //TODOT  
         if (isWechat) {
             if (!app.datas.ifBindWeixin) {
                 if (cc.sys.isNative && (app.platform as AppNative).hasWeChatSession()) {
@@ -175,7 +174,7 @@ export default class SmallWithdrawalPop extends BasePop {
                 return
             }
         }
-
+        console.log("jin---绑定信息：", app.datas.ifBindWeixin, app.user.guid, app.gameId, app.pn, isWechat, taskId)
         http.open(urls.ACTIVE_MONEY_CHANGE, {
             uid: app.user.guid,
             gameid: app.gameId,
@@ -184,6 +183,7 @@ export default class SmallWithdrawalPop extends BasePop {
             flag: "taskCash",
             param: taskId,
         }, (err, res: { order: string, err_code: string }) => {
+            console.log("jin---提现：", res)
             if (res) {
                 if (res.err_code == "SUCCESS") {
                     storage.setToday(SmallWithdrawal_Get_Award, true)
@@ -199,7 +199,7 @@ export default class SmallWithdrawalPop extends BasePop {
                     cc.log("SmallWithdrawalPop", res)
                     startFunc.showToast("提现失败！")
 
-                    if (app.getOnlineParam("SmallWithdrawal_type", "wechat") != "wechat") {
+                    if (app.getOnlineParam("SmallWithdrawal_type", "wechat") != "wechat") {//TODOT "wechat" 
                         this.$("btn_zfb").active = true
                     }
                 }

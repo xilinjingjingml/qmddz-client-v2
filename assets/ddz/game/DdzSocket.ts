@@ -45,8 +45,8 @@ export default class DdzSocket implements ISocketDelegate {
         monitor.emit(EventName.socket_close, GameFunc.socketName)
     }
 
-    onCloseTemp() {
-        monitor.emit(EventName.socket_close_temp, GameFunc.socketName)
+    onCloseTemp(view : string) {
+        view ==="ddz" && monitor.emit(EventName.socket_close_temp, GameFunc.socketName)
     }
 
     @listen("proto_bc_login_ack")

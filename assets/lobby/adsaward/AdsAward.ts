@@ -13,7 +13,7 @@ export default class AdsAward extends BaseAdPop {
 
     params: { index: number, number: number, adindex: number }
 
-    bannerIndex: number = 0
+    bannerIndex: number = ads.banner.AdsAward
 
     start() {
         const info = appfunc.getItemIconInfo(this.params.index)
@@ -30,7 +30,7 @@ export default class AdsAward extends BaseAdPop {
         const num = app.user.getItemNum(ITEM.REDPACKET_TICKET)
         this.$("labelFuCardNum", cc.Label).string = num + " ≈ " + math.fixd(appfunc.toFuCard(num)) + "元"
 
-        if (app.getOnlineParam("app_review") || this.params.index == ITEM.CARD_RECORD) {
+        if (appfunc.checkSpecialAward() || this.params.index == ITEM.CARD_RECORD) {//app.getOnlineParam("app_review")
             this.$("nodeFuCard").active = false
         }
     }

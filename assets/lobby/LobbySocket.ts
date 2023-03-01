@@ -8,8 +8,12 @@ import message = require("./proto/lobby.message")
 
 export default class LobbySocket implements ISocketDelegate {
     socket: ISocketWrapper
+    reConnectSocket: number
+    // private leaveGameToLobbyState:boolean
 
     startSocket() {
+        this.reConnectSocket = 1
+        // this.leaveGameToLobbyState = false
         this.socket.add(message, lobbyOpcode)
         this.socket.startSocket({ ip: app.versionupdate.ip, port: parseInt(app.versionupdate.port) })
     }
@@ -32,14 +36,33 @@ export default class LobbySocket implements ISocketDelegate {
     }
 
     onClose() {
-        startFunc.checkNetwork({
-            must: true,
-            callback: () => this.socket.startSocket({ ip: app.versionupdate.ip, port: parseInt(app.versionupdate.port) })
-        })
+        console.log("jin---lobby onclose ckeckNetWork")
+        // !this.leaveGameToLobbyState && , this.leaveGameToLobbyState
+        this.ckeckNetWork()
+        // console.log("jin---LobbySocket onClose", app.versionupdate.ip, parseInt(app.versionupdate.port))
+        // startFunc.checkNetwork({
+        //     must: true,
+        //     callback: () => this.socket.startSocket({ ip: app.versionupdate.ip, port: parseInt(app.versionupdate.port) })
+        // })
+        // ++this.reConnectSocket
+        // if(this.reConnectSocket == 5 || this.reConnectSocket == 20 || this.reConnectSocket == 50){
+        //     startFunc.checkNetwork({
+        //         must: true,
+        //         callback: () => {
+        //             this.reConnectSocket = 1
+        //             this.socket.startSocket({ ip: app.versionupdate.ip, port: parseInt(app.versionupdate.port) })
+        //         }
+        //     })
+        // }
+    }
+
+    onCloseTemp(view : string) {
+        view ==="lobby" && appfunc.reLogin() //todo 重新登录 
     }
 
     @listen("proto_lc_verity_ticket_ack")
     proto_lc_verity_ticket_ack(message: Iproto_lc_verity_ticket_ack) {
+        console.log("jin---proto_lc_verity_ticket_ack: ", message)
         if (message.ret == 0) {
             app.user.ply_state = message.plyStatus
             appfunc.setUserData(message.plyLobbyData, message.plyItems)
@@ -79,8 +102,8 @@ export default class LobbySocket implements ISocketDelegate {
                 }
                 app.servers.get(server.gameId).push(server)
             })
-
-            if (app.user.ply_state.plyStatus == 2 || app.user.ply_state.plyStatus == 5) {
+            //在大厅中需要加载游戏场，进行比赛；在游戏中，不需要加载游戏场，否则覆盖已有界面
+            if ((app.user.ply_state.plyStatus == 2 || app.user.ply_state.plyStatus == 5) && cc.director.getScene().name == "lobby") {
                 app.user.ply_state.plyStatus = 0
                 appfunc.gobackGame(app.user.ply_state.gameId, app.user.ply_state.gameServerId)
             }
@@ -95,6 +118,7 @@ export default class LobbySocket implements ISocketDelegate {
 
     @listen("proto_lc_send_user_data_change_not")
     proto_lc_send_user_data_change_not(message: Iproto_lc_send_user_data_change_not) {
+        console.log("jin---proto_lc_send_user_data_change_not: ", message)
         appfunc.setUserData(message.plyLobbyData, message.plyItems)
     }
 
@@ -149,4 +173,18 @@ export default class LobbySocket implements ISocketDelegate {
             }
         }
     }
+    
+    @listen("leave_game_to_lobby")
+    leave_game_to_lobby(){
+        this.ckeckNetWork()
+    }
+
+    ckeckNetWork(){
+        // this.leaveGameToLobbyState = true
+        startFunc.checkNetwork({
+            must: true,
+            callback: () => this.socket.startSocket({ ip: app.versionupdate.ip, port: parseInt(app.versionupdate.port) })
+        })
+    }
+
 }

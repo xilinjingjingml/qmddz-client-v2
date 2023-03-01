@@ -19,9 +19,9 @@ import { hosts, urls } from "./urls"
  */
 class App {
     private _env: ENV // 当前环境
-    pn = "com.union.hbddz.wechat" // 当前渠道cn
+    pn = "com.union.xxddz.wechat" // 当前渠道cn
     gameId = 1238 // 当前gameId
-    wxAppID = "wx3ea29d364a8ddd09" // 微信小程序APPID
+    wxAppID = "wxfd9359237da92e7e" // 微信小程序APPID
     bundule: string = "start"
     version: string
     platform: Platform // 当前平台
@@ -39,11 +39,12 @@ class App {
     nodePersist: cc.Node
 
     constructor() {
-        this.env = storage.get("ENV") ?? ENV.OFFICIAL
+        this.env = storage.get("ENV") ?? ENV.OFFICIAL//OFFICIAL
         this.version = "2.1.0"
         this.user = new User()
         this.datas.role = { roundSum: 0 }
         this.datas.bindPhone = { hasBindMoble: 0, BindPhone: "" }
+        this.datas.bannerList = []
 
         if (cc.sys.isBrowser) {
             this.platform = new WebBrowser()
@@ -66,15 +67,18 @@ class App {
     }
 
     private game_start(node: cc.Node) {
+        startFunc.report("资源加载完毕")
         this.nodePersist = node
         startFunc.checkNetwork({ callback: this.loadConfig.bind(this) })
     }
 
     private loadConfig() {
+        startFunc.report("环境初始化")
         this.platform.init()
 
         const localCfg = storage.get("loadingConfig")
 
+        startFunc.report("拉取配置_开始")
         http.open(urls.LOADING_CONFIGS, {
             pn: this.pn,
             fwversion: 14042902,
@@ -138,12 +142,13 @@ class App {
                 this.sharedData = sharedData.sharedData[0]
                 // sharedData.sdContent = Object_values(JSON.parse(sharedData.sdContent))
             }
-
+            startFunc.report("拉取配置_完成")
             this.login()
         })
     }
 
     login() {
+        startFunc.report("用户登录_开始")
         monitor.once("platform_login_success", this.platform_login_success, this)
         monitor.once("platform_login_fail", this.platform_login_fail, this)
 
@@ -159,9 +164,11 @@ class App {
     }
 
     private platform_login_success() {
+        startFunc.report("用户登录_完成")
         ads.loadAdConfig()
         startFunc.getIPLocation()
         startFunc.showLobby()
+        startFunc.preLoad()
     }
 
     private platform_login_fail(message: string) {
@@ -177,10 +184,19 @@ class App {
 
     getOnlineParam(name: string, def?: any) {
         let value: any
-        if (cc.sys.isNative) {
-            value = this.onlineParam[name + (this.platform as AppNative).getVersionCode()]
-        }
+        // if (cc.sys.isNative) {
+        //     value = this.onlineParam[name + (this.platform as AppNative).getVersionCode()]
+        // }
+        // else if(cc.sys.platform === cc.sys.WECHAT_GAME){
+        //     /**
+        //      * TODO wechatMiniGame 请求线上adsConfig
+        //      * 1.消息处理暂时认为与app一样 ？？？
+        //     */
+        //     // value = this.onlineParam[name + (this.platform as WeChatMiniGame).getVersionCode()]
+        // }
+
         if (value == null) {
+            // console.log("jin---onlineParam: ", this.onlineParam)
             value = this.onlineParam[name]
         }
         if (value == null) {

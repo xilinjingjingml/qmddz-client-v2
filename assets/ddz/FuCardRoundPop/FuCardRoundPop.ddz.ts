@@ -6,6 +6,8 @@ import { ITEM } from "../../start/config"
 import BaseAdPop from "../../start/scripts/components/BaseAdPop"
 import { AudioManager } from "../audio/AudioManager.ddz"
 import { GameFunc } from "../game/GameFunc.ddz"
+import { appfunc } from "../../lobby/appfunc"
+import { WeChatMiniGame } from "../../start/scripts/platforms/WeChatMiniGame"
 
 const { ccclass } = cc._decorator
 
@@ -14,6 +16,7 @@ export default class FuCardRoundPop extends BaseAdPop {
     params: { message: Iproto_gc_get_redpackets_award_ack }
     selectIndex: number = 0
     manualBanner: boolean = true
+    bannerIndex: number = ads.banner.FuCardBoard
 
     start() {
         this.setItem(ITEM.REDPACKET_TICKET, app.user.getItemNum(ITEM.REDPACKET_TICKET))
@@ -29,7 +32,7 @@ export default class FuCardRoundPop extends BaseAdPop {
 
         this.playAni()
 
-        if (app.getOnlineParam("app_review")) {
+        if (appfunc.checkSpecialAward()) {//app.getOnlineParam("app_review")
             this.$("node_fucard").active = false
         }
     }
@@ -210,4 +213,5 @@ export default class FuCardRoundPop extends BaseAdPop {
             this.showRoundAni(itmes)
         }
     }
+
 }

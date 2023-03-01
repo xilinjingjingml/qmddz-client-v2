@@ -196,7 +196,7 @@ export namespace monitor {
         try {
             event.callback.apply(event.target, args)
         } catch (err) {
-            cc.error("[monitor.emit]", name, err)
+            cc.error("[monitor.emit]", err)
         }
     }
 

@@ -6,6 +6,7 @@ import { ITEM } from "../../start/config"
 import { EventName } from "../game/GameConfig.ddz"
 import { GameFunc } from "../game/GameFunc.ddz"
 import BaseActivity from "../scripts/base/BaseActivity.ddz"
+import { appfunc } from "../../lobby/appfunc"
 
 const { ccclass } = cc._decorator
 
@@ -19,7 +20,7 @@ export default class FuCardActivity extends BaseActivity {
         this.setCardCountActive()
         this.setItem(ITEM.REDPACKET_TICKET, app.user.getItemNum(ITEM.REDPACKET_TICKET))
 
-        if (app.getOnlineParam("app_review")) {
+        if (appfunc.checkSpecialAward()) {// app.getOnlineParam("app_review")
             this.$("btn_hb_round", TouchActive).enabled = false
         }
     }

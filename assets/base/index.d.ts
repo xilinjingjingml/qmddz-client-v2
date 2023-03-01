@@ -1,4 +1,3 @@
-
 interface ISocketConfig {
     ip: string
     port: number
@@ -18,7 +17,7 @@ interface ISocketDelegate {
     onOpen(): void
     onCloseBefore?(): void
     onClose(): void
-    onCloseTemp?(): void
+    onCloseTemp?(view : string): void
 }
 
 interface ILoadAsset {

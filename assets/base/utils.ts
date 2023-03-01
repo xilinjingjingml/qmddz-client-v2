@@ -149,4 +149,17 @@ export namespace utils {
             }
         })
     }
+
+    export function IsJSON(str: any) {
+        if (typeof str != 'string' || str == null || str == undefined || typeof str == 'object') {
+            return false
+        }
+
+        try {
+            const obj = JSON.parse(str)
+            return typeof obj == 'object' && obj ? true : false
+        } catch (e) {
+            return false
+        }
+    }
 }

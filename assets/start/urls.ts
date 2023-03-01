@@ -45,7 +45,6 @@ export const urls = {
     MOBILE_BIND_USER: { host: EHOST.login, url: "new/gateway/phone/login" },
     BIND_WEIXIN: { host: EHOST.login, url: "visitor/weixin/bind" },
     BIND_ZFB: { host: EHOST.login, url: "alipay/verified/bind" },
-    ANTI_ADDICTION: { host: EHOST.login, url: "phone/antiAddiction/info"},
 
     // web
     LOADING_CONFIGS: { host: EHOST.web, url: "get/loading/configs" },

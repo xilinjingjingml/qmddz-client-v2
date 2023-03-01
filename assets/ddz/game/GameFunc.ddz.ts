@@ -37,7 +37,12 @@ export namespace GameFunc {
     }
 
     export function leaveGame(params?: string | any) {
-        appfunc.gobackLobby(typeof params === "string" ? { openCallback: () => startFunc.showToast(params) } : params)
+        appfunc.gobackLobby(typeof params === "string" ? { openCallback: () => {
+            startFunc.showToast(params) 
+            //TODO 弹出重连提示
+            console.log("jin---leaveGame",app.versionupdate.ip, app.versionupdate.port)
+            monitor.emit("leave_game_to_lobby")
+        }} : params)
     }
 
     export function toHBString(n: number) {

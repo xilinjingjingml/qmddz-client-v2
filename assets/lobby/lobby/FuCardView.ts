@@ -14,7 +14,7 @@ export default class FuCardView extends BaseView {
     start() {
         this.setFuCardNum()
         this.setPlayerNum()
-        if (app.getOnlineParam("app_review")) {
+        if (appfunc.checkSpecialAward()) {// app.getOnlineParam("app_review")
             this.$("info").active = false
         }
     }
@@ -22,7 +22,7 @@ export default class FuCardView extends BaseView {
     @listen("user_data_update")
     setFuCardNum() {
         this.$("labelFuCardNum", cc.Label).string = math.fixd(appfunc.toFuCard(app.user.getItemNum(ITEM.REDPACKET_TICKET))) + "元"
-        if (app.getOnlineParam("app_review")) {
+        if (appfunc.checkSpecialAward()) {// app.getOnlineParam("app_review")
             this.$("labelFuCardNum", cc.Label).string = "" + app.user.getItemNum(ITEM.REDPACKET_TICKET)
         }
     }

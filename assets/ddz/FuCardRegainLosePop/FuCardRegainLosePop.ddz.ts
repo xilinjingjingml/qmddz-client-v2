@@ -67,6 +67,7 @@ export default class FuCardRegainLosePop extends BaseAdPop {
 
     @listen("proto_gc_regain_lose_score_ack")
     proto_gc_regain_lose_score_ack(message: Iproto_gc_regain_lose_score_ack) {
+        // console.log("jin---Iproto_gc_regain_lose_score_ack: ", message)
         if (message.nRet == 1) {
             const awards: IAward[] = [{ index: ITEM.GOLD_COIN, num: this.params.message.nValue[this.params.message.nCurCount] }]
             if (message.nItemIndex >= 0 && message.nItemIndex < 10000 && message.nItemNum > 0) {
@@ -103,6 +104,7 @@ export default class FuCardRegainLosePop extends BaseAdPop {
                     msg = "每日次数用完了"
                     break
                 case -8:
+                    return
                     msg = "查询 没有输的金额"
                     break
                 default:

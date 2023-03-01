@@ -90,6 +90,13 @@ export namespace ads {
 
     export const banner = {
         All: -1,
+
+        FuCardResult: 1, // 福卡结算
+        AdsAward: 2,     // 广告奖励
+        Awards: 3,       // 奖励获得
+        FuCardBoard: 4,  // 三局抽福卡
+        BaiYuanRelie: 5, // 破产补助
+        treasure: 6      // 寻宝
     }
 
     export const awards = {
@@ -112,6 +119,7 @@ export namespace ads {
             pid: app.user.guid,
             ticket: app.user.ticket
         }, (err, res) => {
+            // console.log("jin---adConfig award:", res)
             if (err || !res?.adConfig) {
                 return
             }
@@ -149,6 +157,7 @@ export namespace ads {
             }
 
             const adConfig = app.getOnlineParam("adConfig")
+            
             if (adConfig) {
                 for (const k in adConfig) {
                     if (videos[k]) {
@@ -251,6 +260,7 @@ export namespace ads {
 
         const receive = function () {
             requestAward(opt.index, (res) => {
+                console.log("jin---奖励标识：",res)
                 if (config.videos[opt.index]) {
                     config.videos[opt.index].count++
                 }
@@ -279,13 +289,15 @@ export namespace ads {
                     if (res.vipExp != null && res.vipExp > 0) {
                         awards.push({ index: ITEM.VIP_EXP, num: res.vipExp })
                     }
-
+                    console.log("jin---ads_awards open page: ", awards, opt)
                     if (awards.length > 0) {
                         // TODO isFromDailyGift: adIndex == AdsConfig.taskAdsMap.New_DailyGift
+                        // console.log("jin---ads_awards: ", awards, opt)
                         monitor.emit("ads_awards", awards, opt.closeCallback)
                     }
+                    console.log("jin---awards:", awards)
                 }
-
+                
                 monitor.emit("reload_user_data")
 
                 opt.success && opt.success(res)
@@ -308,10 +320,11 @@ export namespace ads {
         }
     }
 
-    export function openBanner(index: number) {
+    export function openBanner(index: number, success:Function ) {
         app.platform.openAdvert({
             type: EAdType.Banner,
-            index: index
+            index: index,
+            success: success
         })
     }
 

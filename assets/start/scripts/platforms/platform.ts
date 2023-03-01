@@ -39,4 +39,8 @@ export abstract class Platform {
     isSupport(name: string) {
         return this.supports && this.supports.indexOf(name) > -1
     }
+     /**
+     * 本地存储
+     */
+    localStorage(...args: any) { }
 }

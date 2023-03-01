@@ -61,7 +61,7 @@ export default class BaiYuanActivity extends BaseActivity {
     }
 
     @listen("tomorrow_status_update")
-    setTomorrowActive() {
+    setTomorrowActive(type?: boolean ) {
         this.$("btn_tomorrow").active = app.datas.TomorrowStatus.enabled
     }
 

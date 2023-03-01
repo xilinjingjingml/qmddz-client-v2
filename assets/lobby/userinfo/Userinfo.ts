@@ -18,7 +18,7 @@ export default class Userinfo extends BasePop {
 
         this.$("bindPhone").active = app.datas.bindPhone.hasBindMoble != 1
         this.$("bindWechat").active = false
-        if (app.getOnlineParam("app_review")) {
+        if (appfunc.checkSpecialAward()) {//app.getOnlineParam("app_review")
             this.$("bindPhone").active = false
             if (!app.datas.ifBindWeixin) {
                 this.$("bindWechat").active = cc.sys.isNative && (app.platform as AppNative).hasWeChatSession()

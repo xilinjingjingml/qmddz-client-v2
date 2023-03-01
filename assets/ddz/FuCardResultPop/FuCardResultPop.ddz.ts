@@ -9,6 +9,7 @@ import BaseAdPop from "../../start/scripts/components/BaseAdPop"
 import { AudioManager } from "../audio/AudioManager.ddz"
 import { EventName } from "../game/GameConfig.ddz"
 import { GameFunc } from "../game/GameFunc.ddz"
+import { WeChatMiniGame } from "../../start/scripts/platforms/WeChatMiniGame"
 
 const { ccclass } = cc._decorator
 
@@ -19,7 +20,7 @@ export default class FuCardResultPop extends BaseAdPop {
         fuCardMessage: Iproto_gc_get_redpackets_award_ack,
         closeCallback?: Function
     }
-    bannerIndex: number = 0
+    bannerIndex: number = ads.banner.FuCardResult
     manualBanner: boolean = true
     beishuInfo: Iproto_gc_beishu_info_ack
     nGameMoney: number
@@ -29,6 +30,7 @@ export default class FuCardResultPop extends BaseAdPop {
         this.refreshButtons()
         this.refreshHBRound(this.params.fuCardMessage.curRounds, this.params.fuCardMessage.limitRounds)
         this.removeCloseCallback()?.call(this)
+        this.showMiniGameGrid()
     }
 
     refreshPlayers() {
@@ -83,6 +85,7 @@ export default class FuCardResultPop extends BaseAdPop {
             [ITEM.SUPER_JIABEI]: ads.video.DoubleCard,
         }
 
+        
         let itemId
         const itemIds = Object.keys(itemAds).sort((a, b) => app.user.getItemNum(Number(a)) - app.user.getItemNum(Number(b)))
         for (const id of itemIds) {
@@ -136,6 +139,7 @@ export default class FuCardResultPop extends BaseAdPop {
     onPressItemAd(event: cc.Event.EventTouch, data: string) {
         NodeExtends.cdTouch(event)
         AudioManager.playMenuEffect()
+        console.log("jin---data：",data)
         ads.receiveAward({ index: parseInt(data) })
     }
 
@@ -147,5 +151,39 @@ export default class FuCardResultPop extends BaseAdPop {
     @listen("proto_gc_get_redpackets_award_ack")
     proto_gc_get_redpackets_award_ack(message: Iproto_gc_get_redpackets_award_ack) {
         this.refreshHBRound(message.curRounds, message.limitRounds)
+    }
+
+    showMiniGameGrid(){
+        //1.在线数据 2.显示 miniGameGrid_fuCard miniGameGrid_redPacket
+        if(!app.getOnlineParam("display_game_appid") || !app.getOnlineParam("display_game_icon") || !app.getOnlineParam("display_game_name")){
+            this.$("miniGameGrid").active = false
+            return
+        }
+        cc.tween(this.$("miniGameGrid"))// miniGameGrid_fuCard
+        .then(cc.tween().to(0.09, { angle: 35 }).to(0.18, { angle: -35 }).to(0.09, { angle: 0 }).to(0.09, { angle: 35 }).to(0.18, { angle: -35 }).to(0.09, { angle: 0 }).delay(4))
+        .repeatForever()
+        .start()
+
+        if(app.getOnlineParam("display_game_appid")){
+            //图片
+            cc.assetManager.loadRemote(app.getOnlineParam("display_game_icon"), (err: Error, asset: cc.Texture2D | cc.SpriteFrame)=>{
+                if (err) {
+                    cc.error(err.message || err)
+                    return
+                }
+                // console.log("jin---setGameId loadRes")
+                const spriteFrame = asset instanceof cc.Texture2D ? new cc.SpriteFrame(asset) : asset
+                if(this.getNodeComponent(this.$("miniGameGrid/icon"), cc.Sprite)){
+                    this.$("miniGameGrid/icon", cc.Sprite).spriteFrame = spriteFrame
+                    this.$("miniGameGrid/label_gameName", cc.Label).string = app.getOnlineParam("display_game_name")
+                }
+            })
+        }
+
+    }
+
+    navigateToMiniGame(){
+        console.log("jin---navigateToMiniGame");
+        (app.platform as WeChatMiniGame).navigateToMiniProgram(app.getOnlineParam("display_game_appid"), null)
     }
 }

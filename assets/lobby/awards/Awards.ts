@@ -1,5 +1,6 @@
 import { audio } from "../../base/audio"
 import { math } from "../../base/math"
+import { ads } from "../../start/ads"
 import { ITEM } from "../../start/config"
 import BaseAdPop from "../../start/scripts/components/BaseAdPop"
 import { appfunc } from "../appfunc"
@@ -10,7 +11,7 @@ const { ccclass } = cc._decorator
 export default class Awards extends BaseAdPop {
 
     params: { awards: IAward[] }
-    bannerIndex: number = 0
+    bannerIndex: number = ads.banner.Awards
 
     start() {
         const awards = this.params?.awards || []

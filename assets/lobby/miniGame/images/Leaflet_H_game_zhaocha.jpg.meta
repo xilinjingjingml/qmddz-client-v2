@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "933a7096-9051-4cb1-a81f-a5802371009f",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 640,
+  "height": 1135,
+  "platformSettings": {},
+  "subMetas": {
+    "Leaflet_H_game_zhaocha": {
+      "ver": "1.0.4",
+      "uuid": "4bde1ef5-2098-4300-9da3-707c892341ea",
+      "rawTextureUuid": "933a7096-9051-4cb1-a81f-a5802371009f",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 640,
+      "height": 1135,
+      "rawWidth": 640,
+      "rawHeight": 1135,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

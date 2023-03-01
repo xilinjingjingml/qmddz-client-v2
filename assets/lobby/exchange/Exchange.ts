@@ -66,7 +66,7 @@ export default class Exchange extends BasePop {
 
         this.setItemNum()
 
-        if (app.getOnlineParam("app_review")) {
+        if (appfunc.checkSpecialAward()) {// app.getOnlineParam("app_review")
             this.$("tab0").active = false
             this.$("tab1").x -= 230
             this.$("tab2").x -= 230
@@ -479,7 +479,7 @@ export default class Exchange extends BasePop {
             }
         }
 
-        if (!app.getOnlineParam("app_review")) {
+        if (!appfunc.checkSpecialAward()) {//!app.getOnlineParam("app_review")
             // 检测手机绑定
             if (!this.checkCanExchangePhoneBind(data, updateCond)) {
                 return false

@@ -55,6 +55,10 @@ export default class AutoLoad extends cc.Component {
 
             const node = cc.instantiate(prefab)
 
+            if(!node){
+                console.log("jin---AutoLoad error")
+                return
+            }
             // 子AutoLoad也会继续缓存消息
             node.getComponentsInChildren(AutoLoad).forEach(comp => comp.eventId = monitor.pauseById(this.eventId))
 

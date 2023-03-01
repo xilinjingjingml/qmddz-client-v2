@@ -1,5 +1,5 @@
 {
-  "title": "app",
+  "title": "XXDDZ-H5",
   "packageName": "org.cocos2d.demo",
   "startScene": "e78f5986-1625-4690-bce7-90337f3c0606",
   "excludeScenes": [],
@@ -12,8 +12,8 @@
   "webOrientation": "portrait",
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": false,
-  "mainCompressionType": "default",
-  "mainIsRemote": false,
+  "mainCompressionType": "merge_all_json",
+  "mainIsRemote": true,
   "optimizeHotUpdate": true,
   "md5Cache": true,
   "nativeMd5Cache": false,

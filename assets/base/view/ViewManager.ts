@@ -54,7 +54,10 @@ export namespace ViewManager {
         views.length = 0
 
         const node = cc.Canvas.instance.node
-
+        if(!node){
+            console.log("jin---viewManager error")
+            return
+        }
         // eventId
         const comps = node.getComponentsInChildren(BaseView)
         comps.forEach(comp => comp.eventId = monitor.pauseById(view.id))

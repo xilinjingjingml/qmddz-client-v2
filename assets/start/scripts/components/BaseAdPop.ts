@@ -18,21 +18,30 @@ export default class BaseAdPop extends BasePop {
     private bannerRect: cc.Rect
 
     onEnable() {
+        // console.log("jin---调用了父类onEnable")
         super.onEnable()
 
         if (!app.getOnlineParam("show_banner", true)) {
             return
         }
 
+        console.log("jin---消除baner广告", app.datas.bannerList)
         if (this.bannerIndex != null) {
-            ads.openBanner(this.bannerIndex)
+            ads.openBanner(this.bannerIndex,()=>{
+                if(!this || !this.node || !this.node.isValid){
+                    ads.closeBanner(this.bannerIndex)
+                }
+            })
         }
 
         this.scheduleOnce(() => monitor.emit("ViewManager_showPopup", this), 0.1)
     }
 
     onDisable() {
+        //1.本界面bannerId消失，但全局还有bannerId,延时关闭banner广告
+        // console.log("jin---消除baner广告", app.datas.bannerList)
         if (this.bannerIndex != null) {
+            console.log("jin---消除baner广告1")
             ads.closeBanner(this.bannerIndex)
         }
     }

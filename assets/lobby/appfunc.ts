@@ -19,7 +19,7 @@ export namespace appfunc {
     monitor.on("ads_loading_hide", closeAdLoading)
 
     export function showCashOutPop(params?: any) {
-        if (app.getOnlineParam("cashout_type", "SmallWithdrawal") == "SmallWithdrawal") {
+        if (app.getOnlineParam("cashout_type", "SmallWithdrawal") == "SmallWithdrawal") { //TODOT
             appfunc.showSmallWithdrawalPop(params)
             return
         }
@@ -29,10 +29,6 @@ export namespace appfunc {
 
     export function showLotteryPop(closeCallback?: Function) {
         ViewManager.showPopup({ bundle: "lobby", path: "lottery/lottery", params: { closeCallback: closeCallback } })
-    }
-
-    export function showAntiAddiction(closeCallback?: Function) {
-        ViewManager.showPopup({ bundle: "lobby", path: "antiAddiction/antiAddiction", params: { closeCallback: closeCallback } })
     }
 
     export function showTomorrowPop() {
@@ -106,6 +102,11 @@ export namespace appfunc {
     export function showBindZFBConfirmPop(params?: any) {
         ViewManager.showPopup({ bundle: "lobby", path: "BindZFB/BindZFBConfirmPop", params: params, openTween: cc.tween().set({ scale: 0.4 }).to(0.25, { scale: 1 }, { easing: "sineInOut" }) })
     }
+
+    export function showMiniGame(closeCallback?: Function) {
+        ViewManager.showPopup({ bundle: "lobby", path: "miniGame/miniGamePop", params: { closeCallback: closeCallback }, openTween: cc.tween().set({ scale: 0.4 }).to(0.25, { scale: 1 }, { easing: "sineInOut" }) })
+    }
+
 
     export function closeAdLoading() {
         ViewManager.close("AdLoading")
@@ -288,45 +289,14 @@ export namespace appfunc {
                 if (!res.tomorrowAward) {
                     res.tomorrowAward = []
                 }
-
+                
                 const curday = res.ret == 0 ? res.list[0].signDay : 0
                 res.enabled = curday < 7 || (curday == 7 && res.tomorrowAward.length > 0)
 
+                // console.log("jin---app.datas.TomorrowStatus: ",res)
                 app.datas.TomorrowStatus = res
                 monitor.emit("tomorrow_status_update")
                 callback && callback()
-            }
-        })
-    }
-    //防沉迷
-    export function hasAntiAddition(){
-        //1.本地存储信息
-        console.log("jin---anti_addiction_valid: ", storage.get("anti_addiction_valid"))
-        if(!storage.get("anti_addiction_valid")){
-            return false
-        }
-        return true
-    }
-    export function UpdateAntiAddition(idCard : string, realName : string, callback: Function){
-        http.open(urls.ANTI_ADDICTION, {
-            idCard: idCard,
-            realName: realName,
-            uid: app.user.guid,
-        }, (err, res) => {
-            if(err){
-                console.log("jin---UpdateAntiAddition err: ", err)
-            }
-
-            if (res) {
-                console.log("jin---UpdateAntiAddition res: ", res)
-                if(res.ret == 0 && res.authenStatus == 0){
-                    startFunc.showToast(res.msg)
-                    callback && callback(true)
-                }else{
-                    startFunc.showToast(res.msg)
-                    callback && callback(false)
-                    return
-                }
             }
         })
     }
@@ -607,7 +577,7 @@ export namespace appfunc {
     }
 
     export function checkCanJoinNormalGame() {
-        if (app.getOnlineParam("app_review")) {
+        if (!appfunc.checkSpecialAward()) {// app.getOnlineParam("app_review")
             return true
         }
 
@@ -624,6 +594,19 @@ export namespace appfunc {
         cc.game.emit("main_active", true)
         startFunc.showConfirm({
             content: "您的帐号已在其他地方登录\n是否需要重新登录？",
+            showClose: false,
+            confirmText: "重新登录",
+            confirmFunc: () => app.login(),
+            buttonNum: 1,
+        })
+    }
+
+    //todo 您的网络异常\n请重新登录
+    export function reLogin(){
+        SocketManager.closeAll()
+        cc.game.emit("main_active", true)
+        startFunc.showConfirm({
+            content: "您的网络异常\n请重新登录",
             showClose: false,
             confirmText: "重新登录",
             confirmFunc: () => app.login(),
@@ -655,4 +638,40 @@ export namespace appfunc {
     export function toFuCard(n: number) {
         return math.div(n, 10000)
     }
+
+    
+    //是否为红包场地区 true: redpurekt  false: prue_mode
+    export function checkSpecialAward(){
+        //因用户截图，被标记只能玩纯净版
+        if(app.datas.isPureMode){
+            // console.log("jin---checkSpecialAward localStorage2")
+            return true
+        }else if(app.getOnlineParam("specialAward") != null){
+            // console.log("jin---checkSpecialAward localStorage3")
+            if(app.getOnlineParam("specialAward") == "all"){
+                return true
+            }
+            
+            const area = app.getOnlineParam("specialAward")// ["北京市"]
+            if(app.datas.IPLocation){
+                return area.indexOf(app.datas.IPLocation.city) != -1
+            }
+        }
+    }
+
+    export function getNodeComponent(node: cc.Node, className: any){
+		if(node == null || node == undefined || !className){
+			return null
+		}
+		var component = null
+		try{
+			component = node.getComponent(className)
+		}catch{
+            console.log("jin---current component don't exist", className)
+            return null
+		}
+		
+		return component
+	}
+
 }

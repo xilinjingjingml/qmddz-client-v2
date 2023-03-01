@@ -144,14 +144,18 @@ export default class HandCard extends BaseChair {
     private playDealCardAni() {
         // 加快发牌动画 暂停音效
         // AudioManager.playSound("audio_dispatch")
-        this.node.children.forEach(child => child.active = false)
+        this.node.children.forEach(child => 
+            {
+                child && (child.active = false)
+            })
 
         let i = 0
         cc.Tween.stopAllByTarget(this.node)
         cc.tween(this.node)
             .then(cc.tween()
                 .call(() => {
-                    this.node.children[i++].active = true
+                    this.node.children[i] && (this.node.children[i].active = true)
+                    i++
                     monitor.emit(EventName.game_deal_card_num, i)
                 })
                 .delay(0.04))

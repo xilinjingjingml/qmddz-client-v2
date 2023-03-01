@@ -1,19 +1,21 @@
 import { NodeExtends } from "../../base/extends/NodeExtends"
 import { math } from "../../base/math"
 import { listen } from "../../base/monitor"
-import BasePop from "../../base/view/BasePop"
+// import BasePop from "../../base/view/BasePop"
 import { appfunc } from "../../lobby/appfunc"
 import { ads } from "../../start/ads"
 import { startFunc } from "../../start/startFunc"
 import { AudioManager } from "../audio/AudioManager.ddz"
 import { GameFunc } from "../game/GameFunc.ddz"
+import BaseAdPop from "../../start/scripts/components/BaseAdPop"
 
 const { ccclass } = cc._decorator
 
 @ccclass
-export default class BaiYuanReliefPop extends BasePop {
+export default class BaiYuanReliefPop extends BaseAdPop {
 
     params: { itemNum: number }
+    bannerIndex: number = ads.banner.BaiYuanRelie
 
     start() {
         this.$("labelNumber", cc.Label).string = math.fixd(appfunc.toCash(this.params.itemNum))

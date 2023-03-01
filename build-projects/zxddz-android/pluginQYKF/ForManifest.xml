@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifestConfig xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- 
+    	注意所有的插件以及依赖工程的AndroidMainfest都添加如下格式:
+	    <uses-sdk
+	        android:minSdkVersion="8"
+	        android:targetSdkVersion="19" />
+	             必须一致，否则编译出错(eclipse的sdk的Build: 版本必须是v22以上)
+    	（选择android4.4）
+    	
+    	主项目Project.properties文件中需要添加
+    	manifestmerger.enabled=true
+     -->
+    
+    
+    
+    <!-- 
+    
+	1.plugins.plist配置
+	    <dict>
+	      	<key>name</key>
+		  	<string>ExtendQIYUKF</string>
+		  	<key>type</key>
+		  	<string>6</string>
+		  	<key>tag</key>
+		  	<string>3</string>
+	      	<key>default</key>
+	      	<string>1</string>
+	    </dict>
+	
+</manifestConfig> 

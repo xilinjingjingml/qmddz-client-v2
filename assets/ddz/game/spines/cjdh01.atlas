@@ -1,0 +1,34 @@
+
+cjdh01.png
+size: 1278,298
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+5
+  rotate: true
+  xy: 2, 2
+  size: 50, 88
+  orig: 50, 88
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 92, 18
+  size: 50, 34
+  orig: 50, 34
+  offset: 0, 0
+  index: -1
+7
+  rotate: true
+  xy: 2, 54
+  size: 242, 710
+  orig: 242, 710
+  offset: 0, 0
+  index: -1
+8
+  rotate: true
+  xy: 714, 6
+  size: 290, 562
+  orig: 290, 562
+  offset: 0, 0
+  index: -1

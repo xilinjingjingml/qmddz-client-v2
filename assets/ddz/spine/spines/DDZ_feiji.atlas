@@ -1,0 +1,853 @@
+
+DDZ_feiji.png
+size: 1016,332
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+feiji
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_1
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_11
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_13
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_15
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_17
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_19
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_21
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_23
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_25
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_27
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_29
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_3
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_31
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_33
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_35
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_37
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_39
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_5
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_7
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_9
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_1
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_11
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_13
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_15
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_17
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_19
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_21
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_23
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_25
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_27
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_29
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_3
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_31
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_33
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_35
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_37
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_39
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_5
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_7
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_9
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+noImage
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_00
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_01
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_02
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_03
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_04
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_05
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_06
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_07
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_08
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_09
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_10
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_11
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_12
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_13
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_14
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_15
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_16
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_17
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_18
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_19
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_20
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_21
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_22
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_23
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_24
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_25
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_26
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_27
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_28
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penhuo/penhuo_29
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penqi_00
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+penqi_03
+  rotate: false
+  xy: 866, 134
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+feiji2
+  rotate: false
+  xy: 2, 2
+  size: 585, 328
+  orig: 585, 328
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_0
+  rotate: false
+  xy: 974, 181
+  size: 32, 29
+  orig: 32, 29
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_10
+  rotate: false
+  xy: 931, 85
+  size: 48, 26
+  orig: 48, 26
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_12
+  rotate: false
+  xy: 912, 62
+  size: 55, 21
+  orig: 55, 21
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_14
+  rotate: false
+  xy: 869, 95
+  size: 60, 16
+  orig: 60, 16
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_16
+  rotate: false
+  xy: 843, 82
+  size: 67, 11
+  orig: 67, 11
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_18
+  rotate: true
+  xy: 1004, 257
+  size: 73, 10
+  orig: 73, 10
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_2
+  rotate: false
+  xy: 780, 22
+  size: 35, 30
+  orig: 35, 30
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_20
+  rotate: false
+  xy: 784, 95
+  size: 80, 14
+  orig: 80, 14
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_22
+  rotate: false
+  xy: 667, 2
+  size: 86, 18
+  orig: 86, 18
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_24
+  rotate: true
+  xy: 761, 110
+  size: 91, 21
+  orig: 91, 21
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_26
+  rotate: false
+  xy: 589, 24
+  size: 98, 23
+  orig: 98, 23
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_28
+  rotate: false
+  xy: 784, 186
+  size: 90, 22
+  orig: 90, 22
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_30
+  rotate: false
+  xy: 784, 111
+  size: 83, 21
+  orig: 83, 21
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_32
+  rotate: false
+  xy: 589, 2
+  size: 76, 20
+  orig: 76, 20
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_34
+  rotate: false
+  xy: 755, 2
+  size: 68, 18
+  orig: 68, 18
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_36
+  rotate: false
+  xy: 847, 63
+  size: 60, 17
+  orig: 60, 17
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_38
+  rotate: false
+  xy: 944, 162
+  size: 53, 16
+  orig: 53, 16
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_4
+  rotate: true
+  xy: 879, 5
+  size: 36, 32
+  orig: 36, 32
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_40
+  rotate: true
+  xy: 999, 133
+  size: 46, 15
+  orig: 46, 15
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_6
+  rotate: true
+  xy: 825, 2
+  size: 39, 31
+  orig: 39, 31
+  offset: 0, 0
+  index: -1
+feiji_tuowei01/skeleton-jiaodizhu-1_8
+  rotate: false
+  xy: 933, 133
+  size: 42, 27
+  orig: 42, 27
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_0
+  rotate: true
+  xy: 941, 3
+  size: 34, 27
+  orig: 34, 27
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_10
+  rotate: true
+  xy: 970, 8
+  size: 49, 20
+  orig: 49, 20
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_12
+  rotate: false
+  xy: 847, 43
+  size: 59, 18
+  orig: 59, 18
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_14
+  rotate: false
+  xy: 873, 162
+  size: 69, 16
+  orig: 69, 16
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_16
+  rotate: false
+  xy: 876, 180
+  size: 77, 11
+  orig: 77, 11
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_18
+  rotate: false
+  xy: 761, 81
+  size: 80, 12
+  orig: 80, 12
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_2
+  rotate: true
+  xy: 913, 2
+  size: 35, 26
+  orig: 35, 26
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_20
+  rotate: false
+  xy: 888, 193
+  size: 84, 17
+  orig: 84, 17
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_22
+  rotate: false
+  xy: 784, 162
+  size: 87, 22
+  orig: 87, 22
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_24
+  rotate: false
+  xy: 689, 22
+  size: 89, 27
+  orig: 89, 27
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_26
+  rotate: false
+  xy: 589, 49
+  size: 93, 30
+  orig: 93, 30
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_28
+  rotate: false
+  xy: 684, 51
+  size: 86, 28
+  orig: 86, 28
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_30
+  rotate: false
+  xy: 784, 134
+  size: 80, 26
+  orig: 80, 26
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_32
+  rotate: false
+  xy: 772, 54
+  size: 73, 25
+  orig: 73, 25
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_34
+  rotate: false
+  xy: 866, 137
+  size: 65, 23
+  orig: 65, 23
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_36
+  rotate: false
+  xy: 869, 113
+  size: 59, 22
+  orig: 59, 22
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_38
+  rotate: false
+  xy: 913, 39
+  size: 52, 21
+  orig: 52, 21
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_4
+  rotate: false
+  xy: 969, 59
+  size: 36, 24
+  orig: 36, 24
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_40
+  rotate: false
+  xy: 930, 113
+  size: 46, 18
+  orig: 46, 18
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_6
+  rotate: true
+  xy: 981, 94
+  size: 37, 23
+  orig: 37, 23
+  offset: 0, 0
+  index: -1
+feiji_tuowei02/skeleton-jiaodizhu-2_8
+  rotate: true
+  xy: 858, 2
+  size: 39, 19
+  orig: 39, 19
+  offset: 0, 0
+  index: -1
+luoxuanjiang_001
+  rotate: false
+  xy: 771, 210
+  size: 115, 120
+  orig: 115, 120
+  offset: 0, 0
+  index: -1
+luoxuanjiang_002
+  rotate: false
+  xy: 888, 212
+  size: 114, 118
+  orig: 114, 118
+  offset: 0, 0
+  index: -1
+penh01
+  rotate: false
+  xy: 589, 203
+  size: 180, 127
+  orig: 180, 127
+  offset: 0, 0
+  index: -1
+penh02
+  rotate: false
+  xy: 589, 81
+  size: 170, 120
+  orig: 170, 120
+  offset: 0, 0
+  index: -1

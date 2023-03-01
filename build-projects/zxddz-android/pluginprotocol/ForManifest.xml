@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifestConfig xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- 
+    	各个应用对应的百度定位key
+    	掌心棋牌圈：Vwt9pTNtBWOQBfottr15Bza5Pf91tDnW
+    	<meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="Vwt9pTNtBWOQBfottr15Bza5Pf91tDnW" />
+            
+                             注意！注意！注意！重要的事要写三遍！
+                             更新基础插件视频功能后，需要在工程的主java文件（Game.java）里的onCreate函数里：
+        PluginWrapper.init(this);
+                            修改为
+        PluginWrapper.init(this, this.mFrameLayout);
+    	
+    	在后台申请的应用的appid,拷贝到工程目录下的androidmanifest.xml里。
+    	<meta-data
+            android:name="VideoAppid"
+            android:value="" />
+        
+        ////////////////////////////////////////////////////////////////
+       	 注意！注意！注意！
+       	要在工程的AndroidManifest.xml里的application里添加：
+       	android:name="org.cocos2dx.plugin.BaseApplication"
+        
+        openinstall配置：
+        
+        1.在localchess.java里的onCreate函数里添加：
+        	//获取唤醒参数
+	        OpenInstall.getWakeUp(this.getIntent(), wakeUpAdapter);
+        
+        2.在localchess.java里的onNewIntent函数里添加：
+        	// 此处要调用，否则App在后台运行时，会无法截获
+            OpenInstall.getWakeUp(intent, wakeUpAdapter);
+        3.在localchess.java里添加：
+        	AppWakeUpAdapter wakeUpAdapter = new AppWakeUpAdapter() {
+		        @Override
+		        public void onWakeUp(AppData appData) {
+		            //获取渠道数据
+		            //String channelCode = appData.getChannel();
+		            //获取绑定数据
+		            String bindData = appData.getData();
+		            Log.d("OpenInstall", "getWakeUp : wakeupData = " + appData.toString());
+		            PlatformWrapper.onPlatformResult(PlatformWP.mPlatformwp, PlatformWrapper.GET_OPENISNTALL_PARMS,
+		                    "获取app拉起参数", bindData);
+		        }
+		    };
+        
+     -->
+</manifestConfig> 
+
+<application
+    android:name="org.cocos2dx.plugin.BaseApplication">
+    
+    <!-- openinstall STAER -->
+	<meta-data android:name="com.openinstall.APP_KEY" android:value=""/>
+</application>

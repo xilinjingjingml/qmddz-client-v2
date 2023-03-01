@@ -1,0 +1,1 @@
+window._CCSettings={platform:"android",groupList:["default"],collisionMatrix:[[true]],hasResourcesBundle:false,hasStartSceneBundle:false,remoteBundles:[],subpackages:[],launchScene:"db://assets/main/main.fire",orientation:"",server:"",jsList:["assets/base/extensions/md5.min.js","assets/base/hook/label.js"]};

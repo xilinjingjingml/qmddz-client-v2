@@ -1,0 +1,113 @@
+assets_path: &assets_path
+  assets_path: build\zxddz.zip
+assets_paths: &assets_paths
+  assets_paths:
+    - build\jsb-link\assets
+    - build\jsb-link\src
+resources_warehouse: &resources_warehouse
+  resources_warehouse: D:\warehouse
+resources_exts: &resources_exts
+  resources_exts:
+    - .png
+    - .jpg
+android_path: &android_path
+  android_path: D:\AndroidProjects\zxddz-android
+version_url: &version_url
+  version_url: https://statics.weipinggame.com.cn/get/loading/configs?pn=com.union.hbddz.ad.kuaishou&fwversion=14042902&gtype=mainF33&sgtype=f33&sign=3afd28e370c9af8ecf2b02e382b4e38c&md5=d40383ab4e303867e7d57c132a41b3af01&uid=&imei=&level=&gameNums=0&loginSecret=0725038722bf9d6855e367683c20ca49&buildCode=1&appConfigGame=1238&appcode=1
+
+commands:
+  # - compile_proto
+  # - compile_creater
+  - compress_resources
+  - compress_assets
+  - publish_test
+  # - publish_process
+  # - publish_android
+  # - compile_apk
+  - toast_finish
+compile_proto:
+  path: assets
+compile_creater:
+  path: C:\CocosDashboard_1.0.11\resources\.editors\Creator\2.4.3\CocosCreator.exe
+  params:
+    platform: android
+compress_resources:
+  <<: *resources_exts
+  <<: *resources_warehouse
+  assets_paths:
+    - build\jsb-link\assets
+  tinify_key: btRHh5gmlehRLtgioOlkyZ6VgYgNeQwe
+compress_assets:
+  <<: *assets_path
+  <<: *assets_paths
+  <<: *resources_warehouse
+  work_path: build\jsb-link
+  zip_paths:
+    - build\jsb-link\assets\base\import
+    - build\jsb-link\assets\ddz\import
+    - build\jsb-link\assets\internal\import
+    - build\jsb-link\assets\lobby\import
+    - build\jsb-link\assets\main\import
+    - build\jsb-link\assets\start\import
+  compress_configs:
+    - name: game
+      configs:
+        - from:
+            - .png
+            - .jpg
+          operates:
+            - compress
+          #   -
+          #     name: encrypt_xxtea
+          #     key: 456rt7y89u0-p['
+          #     sign: XXTEA
+          # to: ""
+        - from: .js
+          to: .zip
+          operates: zip
+        # - from: .js
+        #   to: .jsc
+        #   operates:
+        #     name: gzip
+        #     key: a253bd3f-4bb6-48
+publish_test:
+  <<: *assets_path
+  codepath: build\code.jpg
+  host: http://t_admin.wpgame.com.cn
+  usrname: user
+  password: user
+  gameid: 1238
+  channel: 137
+  auto_id: 9
+  channel_id: 137
+  packages:
+    - com.union.hbddz.android
+    - com.izhangxin.zxddz.android
+    - com.union.hbddz.ad.android
+    - net.technology.spddz
+  version_add: 1
+publish_process:
+  <<: *assets_path
+  <<: *version_url
+  version_add: 2
+publish_h5:
+  <<: *resources_exts
+  <<: *resources_warehouse
+  output_path: D:\workspace\trunk\BDMobile\BDCasino\Web-H5-Test-DDZHB\web-mobile-ad.zip
+  assets_path: build\web-mobile
+  name: web-mobile-ad
+publish_android:
+  <<: *assets_path
+  <<: *assets_paths
+  <<: *android_path
+  <<: *version_url
+  name: game
+  version_add: 0
+  assets_dir: assets
+compile_apk:
+  <<: *android_path
+  apk_path: D:\APK
+  filename: zxddz
+  name: app
+  # mode: debug
+  mode: release

@@ -1,0 +1,55 @@
+
+jiaosanfen.png
+size: 624,229
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+10
+  rotate: true
+  xy: 517, 62
+  size: 165, 105
+  orig: 165, 105
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 377, 87
+  size: 138, 140
+  orig: 138, 140
+  offset: 0, 0
+  index: -1
+13
+  rotate: false
+  xy: 496, 35
+  size: 53, 25
+  orig: 53, 25
+  offset: 0, 0
+  index: -1
+14
+  rotate: false
+  xy: 441, 33
+  size: 53, 52
+  orig: 53, 52
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 2, 3
+  size: 373, 224
+  orig: 373, 224
+  offset: 0, 0
+  index: -1
+8
+  rotate: true
+  xy: 441, 2
+  size: 29, 42
+  orig: 29, 42
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 377, 19
+  size: 62, 66
+  orig: 62, 66
+  offset: 0, 0
+  index: -1

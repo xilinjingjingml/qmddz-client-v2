@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#FFFFFFFF"
+    android:id="@+id/mosads_nbanner_root">
+    <ImageView
+        android:id="@+id/mosads_nbanner_imageicon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="left"
+        android:scaleType="fitXY"
+        android:src="@drawable/mosads_imagebox" />
+
+    <RelativeLayout
+        android:id="@+id/mosads_nbanner_rightcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/mosads_nbanner_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:gravity="left"
+            android:text="广告标题"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/mosads_nbanner_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mosads_nbanner_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:gravity="left"
+            android:text="选择世界选择你我desc"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="11sp" />
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/mosads_nakp_tsa_ad_logo"
+        android:layout_width="31dp"
+        android:layout_height="10dp"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/mosads_tsa_ad_logo" />
+
+    <ImageButton
+        android:id="@+id/mosads_nbanner_close"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="3dp"
+        android:background="@drawable/mosads_cpimgclose" />
+
+</FrameLayout>

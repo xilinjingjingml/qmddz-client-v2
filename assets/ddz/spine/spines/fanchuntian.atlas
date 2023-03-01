@@ -1,0 +1,202 @@
+
+fanchuntian.png
+size: 1747,519
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+01
+  rotate: true
+  xy: 2, 11
+  size: 506, 597
+  orig: 506, 597
+  offset: 0, 0
+  index: -1
+AnGuang01
+  rotate: true
+  xy: 822, 195
+  size: 322, 199
+  orig: 322, 199
+  offset: 0, 0
+  index: -1
+FangSheGuang01
+  rotate: true
+  xy: 1205, 209
+  size: 308, 281
+  orig: 308, 281
+  offset: 0, 0
+  index: -1
+GuangQuan01
+  rotate: true
+  xy: 601, 173
+  size: 344, 219
+  orig: 344, 219
+  offset: 0, 0
+  index: -1
+HuaBan01
+  rotate: false
+  xy: 1488, 445
+  size: 27, 39
+  orig: 27, 39
+  offset: 0, 0
+  index: -1
+HuaBan02
+  rotate: true
+  xy: 1492, 15
+  size: 42, 40
+  orig: 42, 40
+  offset: 0, 0
+  index: -1
+HuaBan03
+  rotate: true
+  xy: 1243, 2
+  size: 53, 59
+  orig: 53, 59
+  offset: 0, 0
+  index: -1
+HuaBan04
+  rotate: true
+  xy: 1497, 486
+  size: 31, 34
+  orig: 31, 34
+  offset: 0, 0
+  index: -1
+HuaBan05
+  rotate: true
+  xy: 1422, 8
+  size: 49, 68
+  orig: 49, 68
+  offset: 0, 0
+  index: -1
+HuaLei01
+  rotate: false
+  xy: 1668, 253
+  size: 77, 65
+  orig: 77, 65
+  offset: 0, 0
+  index: -1
+MeiHua01
+  rotate: true
+  xy: 1366, 59
+  size: 148, 129
+  orig: 148, 129
+  offset: 0, 0
+  index: -1
+MeiHua02
+  rotate: true
+  xy: 1488, 209
+  size: 109, 83
+  orig: 109, 83
+  offset: 0, 0
+  index: -1
+MeiHua03
+  rotate: false
+  xy: 1672, 452
+  size: 73, 65
+  orig: 73, 65
+  offset: 0, 0
+  index: -1
+MeiHua04
+  rotate: true
+  xy: 760, 3
+  size: 168, 163
+  orig: 168, 163
+  offset: 0, 0
+  index: -1
+MeiHua05
+  rotate: true
+  xy: 601, 2
+  size: 169, 157
+  orig: 169, 157
+  offset: 0, 0
+  index: -1
+MeiHua06
+  rotate: true
+  xy: 1243, 57
+  size: 150, 121
+  orig: 150, 121
+  offset: 0, 0
+  index: -1
+MeiHua07
+  rotate: false
+  xy: 1573, 154
+  size: 91, 84
+  orig: 91, 84
+  offset: 0, 0
+  index: -1
+ShuZhi01
+  rotate: true
+  xy: 1668, 130
+  size: 121, 70
+  orig: 121, 70
+  offset: 0, 0
+  index: -1
+Spring01
+  rotate: false
+  xy: 925, 13
+  size: 316, 180
+  orig: 316, 180
+  offset: 0, 0
+  index: -1
+Spring02
+  rotate: true
+  xy: 1023, 201
+  size: 316, 180
+  orig: 316, 180
+  offset: 0, 0
+  index: -1
+YeZi01
+  rotate: false
+  xy: 1304, 5
+  size: 116, 50
+  orig: 116, 50
+  offset: 0, 0
+  index: -1
+YeZi02
+  rotate: false
+  xy: 1573, 240
+  size: 93, 90
+  orig: 93, 90
+  offset: 0, 0
+  index: -1
+YeZi03
+  rotate: false
+  xy: 1534, 442
+  size: 136, 75
+  orig: 136, 75
+  offset: 0, 0
+  index: -1
+YeZi04
+  rotate: false
+  xy: 1488, 342
+  size: 82, 98
+  orig: 82, 98
+  offset: 0, 0
+  index: -1
+YeZi05
+  rotate: false
+  xy: 1672, 320
+  size: 70, 130
+  orig: 70, 130
+  offset: 0, 0
+  index: -1
+YeZi06
+  rotate: false
+  xy: 1573, 332
+  size: 94, 108
+  orig: 94, 108
+  offset: 0, 0
+  index: -1
+YeZi07
+  rotate: false
+  xy: 1497, 62
+  size: 70, 90
+  orig: 70, 90
+  offset: 0, 0
+  index: -1
+YeZi08
+  rotate: true
+  xy: 1569, 22
+  size: 106, 98
+  orig: 106, 98
+  offset: 0, 0
+  index: -1

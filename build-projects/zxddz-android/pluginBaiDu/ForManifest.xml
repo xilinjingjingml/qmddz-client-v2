@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifestConfig xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+    1.在AppActivity.java里的onRequestPermissionsResult函数里添加下面代码：
+        PermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    2.
+    	<dict>
+			<key>name</key>
+			<string>SessionBaiDu</string>
+			<key>type</key>
+			<string>5</string>
+			<key>tag</key>
+			<string>4</string>
+			<key>default</key>
+			<string>1</string>
+		</dict>
+    	<dict>
+      		<key>name</key>
+			<string>IAPBaiDu</string>
+			<key>type</key>
+			<string>3</string>
+			<key>default</key>
+			<string>1</string>
+			<key>mid</key>
+			<string>74</string>
+			<key>needConfirm</key>
+			<string>0</string>
+		</dict>
+    	<dict>
+	      	<key>name</key>
+		  	<string>ExtendBaiDu</string>
+		  	<key>type</key>
+		  	<string>6</string>
+		  	<key>tag</key>
+		  	<string>7</string>
+	      	<key>default</key>
+	      	<string>1</string>
+	    </dict>
+     -->
+    
+
+    <applicationCfg>
+        <meta-data
+            android:name="baidu_appid"
+            android:value="baidu_" />
+        <meta-data
+            android:name="baidu_appkey"
+            android:value="" />
+        <!-- 适配Android N系统必需的ContentProvider声明，写权限包含应用包名-->
+        <provider android:name="com.baidu.android.pushservice.PushInfoProvider"
+            android:authorities="${applicationId}.bdpush" android:exported="true"
+            android:protectionLevel="signature"
+            android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.${applicationId}" />
+    </applicationCfg>
+
+    <!-- 百度PUSH 适配Android N系统必需的ContentProvider写权限声明，写权限包含应用包名，其余权限在aar中已经包含 -->
+    <uses-permission
+        android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.${applicationId}" />
+    <permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.${applicationId}"
+        android:protectionLevel="normal" />
+</manifestConfig> 

@@ -1,0 +1,233 @@
+
+message proto_cl_use_protocol_proto_req{
+
+}
+
+message proto_cl_verify_ticket_req{
+
+	required	int64	ply_guid	=	1;
+	required	string	ply_nickname	=	2;
+	required	string	ply_ticket	=	3;
+	required	int32	game_id	=	4;
+	required	int32	version	=	5;
+	required	string	ext_param	=	6;
+	required	int32	sex	=	7;
+	required	string	packet_name	=	8;
+}
+
+message proto_lc_verity_ticket_ack{
+
+	required	int32	ret	=	1;
+	required	proto_PlyLobbyData	ply_lobby_data	=	2;
+	required	proto_PlayerStatus	ply_status	=	3;
+	required	proto_LoginAward	ply_login_award	=	4;
+	repeated	proto_ItemData	ply_items	=	5;
+	required	proto_LoginAward2	ply_login_award2	=	6;
+	required	proto_VipData	ply_vip	=	7;
+	required	int32	time_stamp	=	8;
+	required	int32	daily_online_time_ = 9;
+}
+
+message proto_cl_get_player_game_list_req{
+
+	repeated	int32	game_list	=	1;
+}
+
+message proto_lc_get_player_game_list_ack{
+
+	required	int32	ret	=	1;
+	repeated	proto_ServerData2	server_status	=	2;
+}
+
+message proto_lc_trumpet_not{
+
+	required	int64	ply_guid	=	1;
+	required	string	ply_nickname	=	2;
+	required	string	message	=	3;
+	required	int32	game_id	=	4;
+	required	string	game_name	=	5;
+	required	int32	vip_level	=	6;
+	required	int32	user_level	=	7;
+}
+
+message proto_lc_broadcast_message_not{
+
+	required	int32	game_id	=	1;
+	required	string	pn	=	2;
+	required	string	msg	=	3;
+}
+
+message proto_ServerData2{
+
+	required	int32	game_id	=	1;
+	required	int32	server_id	=	2;
+	required	string	server_name	=	3;
+	required	string	server_key	=	4;
+	required	string	server_addr	=	5;
+	required	int32	server_port	=	6;
+	required	int32	base_bet	=	7;
+	required	int32	min_money	=	8;
+	required	int32	online_player_num	=	9;
+	required	int32	channel_id	=	10;
+	required	string	ext_param	=	11;
+}
+
+message proto_PlyLobbyData{
+
+	required	int64	ply_guid	=	1;
+	required	string	nickname	=	2;
+	required	int32	sex	=	3;
+	required	int32	gift	=	4;
+	required	int64	money	=	5;
+	required	int32	score	=	6;
+	required	int32	won	=	7;
+	required	int32	lost	=	8;
+	required	int32	money_rank	=	9;
+	required	int32	won_rank	=	10;
+	required	int32	param_1	=	11;
+	required	int32	param_2	=	12;
+}
+
+message proto_PlayerStatus{
+
+	required	int64	ply_guid	=	1;
+	required	string	ply_nickname	=	2;
+	required	int32	ply_status	=	3;
+	required	int32	sex	=	4;
+	required	int32	game_id	=	5;
+	required	int32	game_server_id	=	6;
+	required	int32	table_id	=	7;
+	required	int64	money	=	8;
+	required	int32	won	=	9;
+	required	int32	lost	=	10;
+	required	int32	money_rank	=	11;
+	required	int32	won_rank	=	12;
+	required	int32	param_1	=	13;
+	required	int32	param_2	=	14;
+	required	float	latitude	=	15;
+	required	float	longitude	=	16;
+}
+
+message proto_LoginAward{
+
+	required	int32	login_days	=	1;
+	required	int32	money	=	2;
+}
+
+message proto_ItemData{
+
+	required	int32	index	=	1;
+	required	int32	num	=	2;
+	required	int32	game_id	=	3;
+	required	int32	param_1	=	4;
+	required	int32	param_2	=	5;
+	required	string	name	=	6;
+	required	string	url	=	7;
+}
+
+message proto_LoginAward2{
+
+	required	int32	today	=	1;
+	repeated	proto_LoginAward	login_award	=	2;
+}
+
+message proto_VipData{
+
+	required	int32	level	=	1;
+	required	int32	nex_level_total_days	=	2;
+	required	int32	auto_upgrade_day	=	3;
+	required	int32	login_award	=	4;
+	required	int32	friend_count	=	5;
+	required	int32	next_level_due_days	=	6;
+	required	int32	remain_due_days	=	7;
+	required	int32	status	=	8;
+}
+
+message proto_lc_send_user_data_change_not{
+
+	required	proto_PlyLobbyData	ply_lobby_data	=	1;
+	repeated	proto_ItemData	ply_items	=	2;
+	required	proto_VipData	ply_vip	=	3;
+	required	int32	ply_grading_value	=	4;
+}
+
+message proto_lc_send_vip_data_change_not{
+
+	required	int32	vipLevel	=	1;
+	required	int32	vipRate	=	2;
+	required	int32	nextVipneedMoney	=	3;
+	required	string	param	=	4;
+}
+
+message proto_cl_check_relief_status_req{
+
+	required	int32	type	=	1;
+}
+
+message proto_lc_check_relief_status_ack{
+
+	required	int32	ret	=	1;
+	required	int32	current_relief	=	2;
+	required	int32	relief_time_left	=	3;
+	required	int32	relief_award_count	=	4;
+	required	int32	relief_cd	=	5;
+	required	int32	current_relief_2	=	6;
+	required	int32	relief_times_max	=	7;
+}
+
+message proto_cl_get_relief_req{
+
+	required	int32	type	=	1;
+}
+
+message proto_lc_get_relief_ack{
+
+	required	int32	ret	=	1;
+}
+
+message proto_cl_reload_user_data_req{
+
+}
+message proto_bc_message_not{
+
+	required	int32	type	=	1;
+	required	string	message	=	2;
+}
+message proto_cl_get_at_achieve_list_req{
+
+	required	int32	type	=	1;
+}
+message proto_lc_get_at_achieve_list_ack{
+
+	repeated	proto_ATAchieveData	vecItems	=	1;
+}
+message proto_ATAchieveData{
+
+	required	int32	game_id	=	1;
+	required	int32	type	=	2;
+	required	int32	index	=	3;
+	required	int32	cond	=	4;
+	required	int32	value	=	5;
+	required	int32	max	=	6;
+	required	int32	status	=	7;
+	required	int32	merge	=	8;
+	repeated	proto_ATAchieveAward	vecAwards	=	9;
+	required	string	name	=	10;
+	required	string	desc	=	11;
+}
+message proto_ATAchieveAward{
+
+	required	int32	item_index	=	1;
+	required	int32	item_num	=	2;
+}
+message proto_cl_get_at_achieve_award_req{
+
+	required	int32	game_id	=	1;
+	required	int32	index	=	2;
+	required	int32	type	=	3;
+}
+message proto_lc_get_at_achieve_award_ack{
+
+	required	int32	ret	=	1;
+	repeated	proto_ATAchieveAward	vecAwards	=	2;
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifestConfig xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- 
+    	注意所有的插件以及依赖工程的AndroidMainfest都添加如下格式:
+	    <uses-sdk
+	        android:minSdkVersion="8"
+	        android:targetSdkVersion="19" />
+	             必须一致，否则编译出错(eclipse的sdk的Build: 版本必须是v22以上)
+    	（选择android4.4）
+    	
+    	主项目Project.properties文件中需要添加
+    	manifestmerger.enabled=true
+    	
+    	1.在plugins.plist中添加
+    	<dict>
+			<key>name</key>
+			<string>AdsGather</string>
+			<key>type</key>
+			<string>1</string>
+			<key>tag</key>
+			<string>1</string>
+		</dict>
+	    2.在androidmanifest.xml里添加
+        <uses-sdk tools:overrideLibrary="android.support.v7.appcompat, android.support.v7.recyclerview,com.dingmouren.layoutmanagergroup,
+                                        com.squareup.leakcanary, com.squareup.leakcanary.analyzer, com.squareup.leakcanary.android.noop" />
+        3.在ApppActiity.java文件onNewIntent函数里添加
+        if (AdsMosads.isRewardVideo) {
+            AdsMosads.mRewardVideo.load();
+            if(AdsMosads.mRewardVideo.isValid() == true) //
+            {
+                if (AdsMosads.mRewardVideo.isReady()) {
+                    AdsMosads.mRewardVideo.show();  //默认有声
+                }
+            }
+        }
+    -->
+
+    <applicationCfg>
+        <meta-data android:name="HyADXOpenAppId" android:value="ads_" />
+        <meta-data android:name="TTAdsAppId" android:value="ads_" />
+    </applicationCfg>
+</manifestConfig> 

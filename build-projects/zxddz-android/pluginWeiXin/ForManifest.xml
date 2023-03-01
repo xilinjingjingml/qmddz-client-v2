@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifestConfig xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    
+    <!-- 
+    
+    	微信支付打热更新的壳后的apk，必须用改之理，在androidmanifest.xml里添加
+    	如下的activity：
+    	<activity 
+	    	android:exported="true" 
+	    	android:launchMode="singleTop" 
+	    	android:name=".wxapi.WXPayEntryActivity" 
+	    	android:process=":platform.gameplugin" 
+	    	android:screenOrientation="landscape" />
+    	否则，微信支付会收不到客户端支付回调通知。
+    	
+    
+    
+    	注意：
+    	
+    	1.把add目录下的wxapi文件夹拷贝到工程目录下。
+    		必须是：包名/wxapi
+    		微信登陆、分享回调文件：WXEnteryActivity.java
+    		微信支付回调文件：WXPayEnteryActivity.java
+    		
+    		如果接登录或分享，就只拷贝WXEnteryActivity.java。
+    		如果只接支付，就只拷贝WXPayEnteryActivity.java。
+    	
+    	2.appid是微信开放平台申请应用的ID。
+    	
+    	掌心斗地主（豪华版）
+    	appid：wx54ae8e8d6459267d
+    	包名：com.izhangxin.ddz.android
+    	
+    	掌心牛牛2 appid：wxc860cad2854e9d4e
+    	包名：com.izhangxin.nn.android.tx
+    	
+    	小宝斗地主单机版
+    	AppID：wxdabeecb0019b1956
+    	包名：com.tencent.tmgp.xbddz
+    	
+    	
+    	<dict>
+			<key>LoginRequestURL</key>
+			<string>new/gateway/webchat/login</string>
+			<key>name</key>
+			<string>SessionWeiXin</string>
+			<key>type</key>
+			<string>5</string>
+			<key>tag</key>
+			<string>4</string>
+			<key>default</key>
+			<string>1</string>
+		</dict>
+    	<dict>
+			<key>OrderRequestURL</key>
+			<string>weixin/intl/pay</string>
+      		<key>name</key>
+			<string>IAPWeiXin</string>
+			<key>type</key>
+			<string>3</string>
+			<key>default</key>
+			<string>1</string>
+			<key>mid</key>
+			<string>111</string>
+			<key>SmsTyp</key>
+			<string>0</string>
+			<key>needConfirm</key>
+			<string>0</string>
+		</dict>
+    	<dict>
+			<key>name</key>
+			<string>SocialWeiXin</string>
+			<key>tag</key>
+			<string>5</string>
+			<key>type</key>
+			<string>4</string>
+			<key>default</key>
+			<string>1</string>
+		</dict>
+		
+     -->
+    
+    
+    <applicationCfg>
+        
+        <meta-data
+            android:name="wxapiAppID"
+            android:value="微信appid" >
+        </meta-data>
+        <!-- 微信支付 -->
+        <!-- 在主activity中添加 -->
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:scheme="wx54ae8e8d6459267d"/><!-- 微信appid -->
+        </intent-filter>
+        
+        <!-- 微信支付回调 -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true"
+            android:taskAffinity="填写你的包名"
+            android:launchMode="singleTask">
+        </activity>
+        <!-- 微信登陆、分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true"
+            android:taskAffinity="填写你的包名"
+            android:launchMode="singleTask">
+        </activity>
+    </applicationCfg>
+
+</manifestConfig> 

@@ -1,0 +1,90 @@
+
+qifu1.png
+size: 874,1041
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+10
+  rotate: false
+  xy: 648, 663
+  size: 79, 61
+  orig: 79, 61
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 2, 660
+  size: 644, 379
+  orig: 644, 379
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 2, 293
+  size: 512, 365
+  orig: 512, 365
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 541, 37
+  size: 54, 46
+  orig: 54, 46
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 648, 726
+  size: 105, 87
+  orig: 105, 87
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 541, 85
+  size: 73, 81
+  orig: 73, 81
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 755, 757
+  size: 76, 56
+  orig: 76, 56
+  offset: 0, 0
+  index: -1
+guang1
+  rotate: false
+  xy: 281, 33
+  size: 258, 258
+  orig: 258, 258
+  offset: 0, 0
+  index: -1
+jlhb12
+  rotate: false
+  xy: 648, 815
+  size: 224, 224
+  orig: 224, 224
+  offset: 0, 0
+  index: -1
+jlhb13
+  rotate: false
+  xy: 541, 168
+  size: 230, 230
+  orig: 230, 230
+  offset: 0, 0
+  index: -1
+jlhb7
+  rotate: false
+  xy: 516, 400
+  size: 258, 258
+  orig: 258, 258
+  offset: 0, 0
+  index: -1
+jlhb8
+  rotate: false
+  xy: 2, 2
+  size: 277, 289
+  orig: 277, 289
+  offset: 0, 0
+  index: -1

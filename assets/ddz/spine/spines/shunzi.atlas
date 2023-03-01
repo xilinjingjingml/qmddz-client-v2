@@ -1,0 +1,41 @@
+
+shunzi.png
+size: 904,238
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+images/Glow09
+  rotate: true
+  xy: 2, 145
+  size: 91, 493
+  orig: 91, 493
+  offset: 0, 0
+  index: -1
+images/Glow10
+  rotate: true
+  xy: 2, 48
+  size: 95, 428
+  orig: 95, 428
+  offset: 0, 0
+  index: -1
+images/beijing_00
+  rotate: true
+  xy: 764, 43
+  size: 193, 68
+  orig: 193, 68
+  offset: 0, 0
+  index: -1
+images/dzzhao_01
+  rotate: true
+  xy: 497, 2
+  size: 234, 265
+  orig: 234, 265
+  offset: 0, 0
+  index: -1
+images/tongtianshun
+  rotate: true
+  xy: 834, 43
+  size: 193, 68
+  orig: 193, 68
+  offset: 0, 0
+  index: -1

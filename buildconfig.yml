@@ -1,0 +1,31 @@
+resources_warehouse: &resources_warehouse
+  resources_warehouse: D:\warehouse
+resources_exts: &resources_exts
+  resources_exts:
+    - .png
+    - .jpg
+
+commands:
+  # - compile_proto
+  # - compile_creater
+  - compress_resources
+  - publish_h5
+  - toast_finish
+compile_proto:
+  path: assets
+compile_creater:
+  path: C:\CocosDashboard_1.0.11\resources\.editors\Creator\2.4.3\CocosCreator.exe
+  params:
+    platform: web-mobile
+compress_resources:
+  <<: *resources_exts
+  <<: *resources_warehouse
+  assets_paths:
+    - build\web-mobile
+  tinify_key: btRHh5gmlehRLtgioOlkyZ6VgYgNeQwe
+publish_h5:
+  <<: *resources_exts
+  <<: *resources_warehouse
+  assets_path: build\web-mobile
+  output_path: D:\workspace\trunk\BDMobile\BDCasino\Web-H5-Test-DDZHB\web-mobile-ad.zip
+  name: web-mobile-ad

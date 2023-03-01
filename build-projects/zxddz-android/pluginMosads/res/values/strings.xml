@@ -1,0 +1,4 @@
+<resources>
+    <string name="gdtslogan" translatable="false">GDTslogan</string>
+    <string name="click_to_skip" translatable="false">跳过</string>
+</resources>

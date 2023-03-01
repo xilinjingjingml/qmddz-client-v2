@@ -1,0 +1,7 @@
+
+message proto_ping {
+	required int32 now = 1;
+}
+
+message proto_pong {
+}

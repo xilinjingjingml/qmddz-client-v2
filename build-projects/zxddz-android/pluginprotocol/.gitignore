@@ -1,0 +1,8 @@
+# android插件忽略文件
+/build
+*/build
+*.iml
+.gradle/
+.idea/
+local.properties
+# ios插件忽略文件

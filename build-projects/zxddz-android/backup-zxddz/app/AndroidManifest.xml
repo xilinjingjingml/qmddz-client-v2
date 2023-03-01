@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.izhangxin.zxddz.android"
+    android:installLocation="auto">
+
+    <uses-feature android:glEsVersion="0x00020000" />
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <application
+        android:name="org.cocos2dx.plugin.BaseApplication"
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/ic_launcher"
+        android:resizeableActivity="false"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        <!-- Tell Cocos2dxActivity the name of our .so -->
+        <meta-data android:name="android.app.lib_name"
+                   android:value="cocos2djs" />
+        
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+            android:theme="@style/AppTheme_Portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AppActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:usesCleartextTraffic="true"
+            android:theme="@style/AppTheme_Portrait"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="com.izhangxin.circle.1238"
+                    android:host="izhangxin"
+                    android:path=""
+                    tools:ignore="AppLinkUrlError" />
+            </intent-filter>
+            <!-- WeiXin STAER -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wx220c51766d64dbaf"/>
+            </intent-filter>
+            <!-- WeiXin END -->
+            <!-- openinstall STAER-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.VIEW"/>-->
+            <!--                <category android:name="android.intent.category.DEFAULT"/>-->
+            <!--                <category android:name="android.intent.category.BROWSABLE"/>-->
+            <!--                <data android:scheme="cum8il"/>-->
+            <!--            </intent-filter>-->
+            <!-- openinstall END -->
+        </activity>
+
+
+        <meta-data android:name="android:max_aspect" android:value="2.4"/>
+        <meta-data android:name="android.notch_support" android:value="true" />
+        <meta-data android:name="notch.config" android:value="portrait|landscape"/>
+
+        <meta-data android:name="ChannelName" android:value="com.izhangxin.zxddz.android"/>
+
+        <!-- WeiXin STAER -->
+        <meta-data android:name="wxapiAppID" android:value="wx220c51766d64dbaf"/>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true"
+            android:taskAffinity="${applicationId}"
+            android:launchMode="singleTask">
+        </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true"
+            android:taskAffinity="${applicationId}"
+            android:launchMode="singleTask">
+        </activity>
+        <!-- WeiXin END -->
+
+        <!-- UMENG STAER -->
+        <meta-data android:name="UMENG_APPKEY" android:value="5d8c1356570df3c4b3000b0d"/>
+        <meta-data android:name="UMENG_CHANNEL" android:value="com.izhangxin.zxddz.android"/>
+        <!-- UMENG END -->
+
+        <!-- XinGe STAER -->
+        <!--        <meta-data android:name="XG_V2_ACCESS_ID" android:value="2100344250" />-->
+        <!--        <meta-data android:name="XG_V2_ACCESS_KEY" android:value="AZ3371NKA4TR" />-->
+        <!-- XinGe END -->
+
+        <!-- openinstall STAER -->
+        <!--        <meta-data android:name="com.openinstall.APP_KEY" android:value="cum8il"/>-->
+        <!-- openinstall END -->
+
+        <!--TTads-->
+        <meta-data android:name="TTAdsAppId" android:value="ttads_5117592" />
+
+        <!--QQAds-->
+        <meta-data android:name="qqads_appid" android:value="qqads_1111154504" />
+
+        <!--BDAds-->
+        <meta-data android:name="BaiduMobAd_APP_ID" android:value="dcd45bc6" />
+    </application>
+    
+</manifest>

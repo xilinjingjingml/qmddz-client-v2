@@ -1,0 +1,81 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.cocos2dx.libPluginMosads"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <!-- SDK 需要 -->
+    <!--<uses-sdk tools:overrideLibrary="android.support.v7.appcompat, android.support.v7.recyclerview,com.dingmouren.layoutmanagergroup,-->
+                                        <!--com.squareup.leakcanary, com.squareup.leakcanary.analyzer, com.squareup.leakcanary.android.noop" />-->
+    <!-- SDK 相关声明 -->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <!-- 如果需要精确定位的话请加上此权限 -->
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />    -->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- targetSdkVersion >= 26 时需要配置此权限，否则无法进行安装app的动作 -->
+    <!-- 必须要有的权限 -->
+    <!--suppress DeprecatedClassUsageInspection -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- 如果有视频相关的广告且使用textureView播放，请务必添加，否则黑屏 -->
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
+
+    <application>
+        <!--调试状态    需要 正式打包务必关闭 false-->
+        <meta-data android:name="MosAdsDebugMode" android:value="false" />
+        <meta-data
+            android:name="com.tencent.rdm.uuid"
+            android:value="f932ad01-3914-48e9-844a-cb0ae42dc8a2" />
+        <!--<activity-->
+            <!--android:name="com.mosads.adslib.Splash.MosSplashActivity"-->
+            <!--android:label="@string/app_name"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+            <!--android:screenOrientation="landscape"-->
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
+            <!--&lt;!&ndash;是否显示log 对指定闪屏有效&ndash;&gt;-->
+            <!--<meta-data android:name="mosads_Splash_AppLog" android:value="1"></meta-data>-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <!-- 声明SDK所需要的组件 -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <!-- 声明SDK所需要的组件 -->
+        <service
+            android:name="com.qq.e.comm.DownloadService"
+            android:exported="false" /> <!-- 请开发者注意字母的大小写，ADActivity，而不是AdActivity -->
+        <activity
+            android:name="com.qq.e.ads.ADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.qq.e.ads.PortraitADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.qq.e.ads.LandscapeADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <!-- 声明SDK所需要的组件  TT -->
+        <!-- targetSDKVersion >= 24时才需要添加这个provider。provider的authorities属性的值为${applicationId}.TTMultiProvider，请开发者根据自己的${applicationId}来设置这个值，例如本例中applicationId为"com.yxhd.hcrzzss.nearme"。 -->
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
+            android:authorities="${applicationId}.TTFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/mos_file_paths" />
+        </provider>
+        <!-- targetSDKVersion >= 24时才需要添加这个provider。provider的authorities属性的值为${applicationId}.TTMultiProvider，请开发者根据自己的${applicationId}来设置这个值，例如本例中applicationId为"com.yxhd.hcrzzss.nearme"。 -->
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
+            android:authorities="${applicationId}.TTMultiProvider"
+            android:exported="false" />
+        <service android:name="com.mosads.adslib.tt.utils.service.AppDownloadService" />
+    </application>
+</manifest>

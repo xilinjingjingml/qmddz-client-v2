@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFFFF"
+    android:id="@+id/mosads_fullinline_nativeadContainer"
+    android:descendantFocusability="blocksDescendants" >
+    <RelativeLayout
+        android:id="@+id/mosads_fullinline_native_ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:id="@+id/mosads_fullinline_img_poster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:scaleType="fitXY" />
+            <ImageView
+                android:id="@+id/mosads_fullinline_tsa_ad_logo"
+                android:layout_width="62dp"
+                android:layout_height="20dp"
+                android:layout_margin="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignRight="@+id/mosads_fullinline_img_poster"
+                android:background="@drawable/mosads_tsa_ad_logo" />
+        </RelativeLayout>
+        <ImageButton
+            android:id="@+id/mosads_fullinline_addialog_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/mosads_cpimgclose" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,74 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.cocos2dx.libPluginProtocol"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+	<!-- 允许应用程序打开网络Socket的权限 -->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<!-- 内置sd卡的写权限 -->
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<!-- 内置sd卡的读权限 -->
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<!-- 允许应用程序获取网络状态信息的权限 -->
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<!-- 允许程序访问Wi-Fi网络状态信息 -->
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<!-- 请求访问使用照相设备 -->
+<!--	<uses-permission android:name="android.permission.CAMERA" />-->
+	<!-- 请求拨打电话 -->
+<!--	<uses-permission  android:name="android.permission.CALL_PHONE" />-->
+    <!-- 读取联系人权限 -->
+<!--    <uses-permission android:name="android.permission.READ_CONTACTS"/>-->
+    <!--用户唤醒机器:
+        打开app的界面后，如果不操作，app保持屏幕常亮。系统不会因为用户长时间不操作而关闭屏幕。
+　　        保持唤醒状态是安卓系统的一大特色，当你打开一个app退出后，其实并没有真正的关闭，
+           因为再次打开一个app所需的耗电量比让这个app从上次退出后保持唤醒状态要高，所以手机里的某个app保持唤醒状态。
+-->
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+	<!-- 允许使用PowerManager WakeLocks，避免处理器进入休眠，或屏幕变暗 -->
+	<uses-permission android:name="android.permission.WAKE_LOCK"/>
+	<!-- 特殊如海信电视渠道网络判断权限 -->
+<!--	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />-->
+	<!-- 获取MIC权限 -->
+<!--	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />-->
+<!--	<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
+<!--	<uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />-->
+	<!-- 允许一个程序访问精良位置(如GPS) -->
+<!--	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+	<!-- 允许一个程序访问CellID或WiFi热点来获取粗略的位置 -->
+<!--	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+	<!--添加震动权限-->
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<!-- 视频通话权限  -->
+<!--    <uses-permission android:name="android.permission.READ_LOGS" />-->
+<!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+<!--    <uses-permission android:name="android.permission.BLUETOOTH" />-->
+<!--    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />-->
+    
+    <!--<uses-feature-->
+        <!--android:glEsVersion="0x00020000"-->
+        <!--android:required="true" />-->
+    <!--<uses-feature android:name="android.hardware.camera" />-->
+    <!--<uses-feature android:name="android.hardware.camera.autofocus" />-->
+    
+	<application>
+	    <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
+		<provider
+			android:name="androidx.core.content.FileProvider"
+			android:authorities="${applicationId}.fileprovider"
+			android:exported="false"
+			android:grantUriPermissions="true">
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/file_paths" />
+		</provider>
+	</application>
+</manifest>

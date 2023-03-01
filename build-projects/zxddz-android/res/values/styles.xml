@@ -1,0 +1,6 @@
+<resources>
+    <style name="AppTheme_Portrait" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_portrait</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+</resources>

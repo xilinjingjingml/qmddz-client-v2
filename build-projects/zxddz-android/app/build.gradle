@@ -1,0 +1,176 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'com.android.application'
+
+android {
+    //加载资源
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    properties.load(inputStream)
+    //读取文件
+    def sdkDir = properties.getProperty('key.file')
+    //读取字段
+    def keyfile =file(sdkDir)
+    def key_keyAlias = properties.getProperty('keyAlias')
+    def key_keyPassword = properties.getProperty('keyPassword')
+    def key_storePassword = properties.getProperty('storePassword')
+
+    compileSdkVersion PROP_COMPILE_SDK_VERSION.toInteger()
+    buildToolsVersion PROP_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "com.izhangxin.zxddz.android"
+        minSdkVersion PROP_MIN_SDK_VERSION
+        targetSdkVersion PROP_TARGET_SDK_VERSION
+        versionCode 24
+        versionName "1.0.7"
+
+        externalNativeBuild {
+            ndkBuild {
+                if (!project.hasProperty("PROP_NDK_MODE") || PROP_NDK_MODE.compareTo('none') != 0) {
+                    // skip the NDK Build step if PROP_NDK_MODE is none
+                    targets 'cocos2djs'
+                    arguments 'NDK_TOOLCHAIN_VERSION=clang'
+                    
+                    def module_paths = [project.file("C:/CocosDashboard_1.0.11/resources/.editors/Creator/2.4.3/resources/cocos2d-x"),
+                                        project.file("C:/CocosDashboard_1.0.11/resources/.editors/Creator/2.4.3/resources/cocos2d-x/cocos"),
+                                        project.file("C:/CocosDashboard_1.0.11/resources/.editors/Creator/2.4.3/resources/cocos2d-x/external")]
+                    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                        arguments 'NDK_MODULE_PATH=' + module_paths.join(";")
+                    }
+                    else {
+                        arguments 'NDK_MODULE_PATH=' + module_paths.join(':')
+                    }
+
+                    arguments '-j' + Runtime.runtime.availableProcessors()
+                    abiFilters.addAll(PROP_APP_ABI.split(':').collect{it as String})
+                }
+            }
+        }
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+    }
+
+    sourceSets.main {
+        java.srcDirs "../src", "src"
+        res.srcDirs "../res", 'res'
+        jniLibs.srcDirs "../libs", 'libs'
+        manifest.srcFile "AndroidManifest.xml"
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            if (!project.hasProperty("PROP_NDK_MODE") || PROP_NDK_MODE.compareTo('none') != 0) {
+                // skip the NDK Build step if PROP_NDK_MODE is none
+                path "jni/Android.mk"
+            }
+        }
+    }
+
+    signingConfigs {
+
+        release {
+            storeFile keyfile
+            storePassword key_storePassword
+            keyAlias key_keyAlias
+            keyPassword key_keyPassword
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        debug {
+            storeFile keyfile
+            storePassword key_storePassword
+            keyAlias key_keyAlias
+            keyPassword key_keyPassword
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            minifyEnabled true //是否混淆
+            shrinkResources true //是否去除无效的资源文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            externalNativeBuild {
+                ndkBuild {
+                    arguments 'NDK_DEBUG=0'
+                }
+            }
+        }
+
+        debug {
+            debuggable true
+            jniDebuggable true
+            renderscriptDebuggable true
+            externalNativeBuild {
+                ndkBuild {
+                    arguments 'NDK_DEBUG=1'
+                }
+            }
+            signingConfig signingConfigs.debug
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+android.applicationVariants.all { variant ->
+    // delete previous files first
+    delete "${buildDir}/intermediates/merged_assets/${variant.dirName}"
+
+    variant.mergeAssets.doLast {
+        def sourceDir = "${buildDir}/../../assets"
+
+        copy {
+            from "${sourceDir}/assets"
+            into "${outputDir}/assets"
+        }
+
+        copy {
+            from "${sourceDir}/src"
+            into "${outputDir}/src"
+        }
+
+        copy {
+            from "${sourceDir}/jsb-adapter"
+            into "${outputDir}/jsb-adapter"
+        }
+
+        copy {
+            from "${sourceDir}/main.js"
+            from "${sourceDir}/project.json"
+            into outputDir
+        }
+
+        copy {
+            from "${sourceDir}/thirdparty"
+            into "${outputDir}/thirdparty"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: '../libs', include: ['*.jar','*.aar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+    implementation fileTree(dir: "C:/CocosDashboard_1.0.11/resources/.editors/Creator/2.4.3/resources/cocos2d-x/cocos/platform/android/java/libs", include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation project(':libcocos2dx')
+    implementation project(':pluginGuest')
+    implementation project(':pluginPhone')
+    implementation project(':pluginprotocol')
+    implementation project(':pluginQYKF')
+    implementation project(':pluginUmeng.v5.6.4')
+    implementation project(':pluginWeiXin')
+    implementation project(':pluginTTAds')
+    implementation project(':pluginQQAds')
+    implementation project(':pluginAlipay')
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifestConfig xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- 
+    	//////////////////////////////////////////////
+     	  注意所有的插件以及依赖工程的AndroidMainfest都添加如下格式:
+	    <uses-sdk
+	        android:minSdkVersion="8"
+	        android:targetSdkVersion="19" />
+	             必须一致，否则编译出错(eclipse的sdk的Build: 版本必须是v22以上)
+    	（选择android4.4）
+    	
+    	主项目Project.properties文件中需要添加
+    	manifestmerger.enabled=true
+    	/////////////////////////////////////////////
+    	
+    	注意事项:
+    
+    	1.在工程目录下的AndroidManifest.xml中，
+    		主activity里必须添加下面一行：
+    		android:launchMode="singleTask"
+    		(主要是点击收到的通知后，能把后台运行的应用打开。)
+    		
+    	2.在工程的主代码中添加下面的函数：
+    		例如：Ddz.java中：
+    		@Override
+			protected void onNewIntent(Intent intent) {
+				super.onNewIntent(intent);
+				setIntent(intent);// 必须要调用这句
+			}
+    	
+    	在plugins.plist里配置如下：
+    	<dict>
+			<key>name</key>
+			<string>PushXinGe</string>
+			<key>type</key>
+			<string>7</string>
+			<key>tag</key>
+			<string>4</string>
+			<key>default</key>
+			<string>1</string>
+		</dict>
+		
+     -->
+    
+    <permissionCfg>
+	    
+        <!-- 【必须】 通知service，其中android:name部分要改为当前包名 -->
+	    <service
+	        android:name="com.tencent.android.tpush.rpc.XGRemoteService"
+	        android:exported="true" >
+	      <intent-filter>
+	        <!-- 【必须】 请修改为当前APP名包.PUSH_ACTION，如demo的包名为：com.qq.xgdemo -->
+	        <action android:name="名包.PUSH_ACTION" />
+	      </intent-filter>
+	    </service>
+	    <!-- 【必须】 【注意】authorities修改为 包名.AUTH_XGPUSH, 如demo的包名为：com.qq.xgdemo -->
+	    <provider
+	        android:name="com.tencent.android.tpush.XGPushProvider"
+	        android:authorities="名包.AUTH_XGPUSH"
+	        android:exported="true" />
+	    <!-- 【必须】 【注意】authorities修改为 包名.TPUSH_PROVIDER, 如demo的包名为：com.qq.xgdemo -->
+	    <provider
+	        android:name="com.tencent.android.tpush.SettingsContentProvider"
+	        android:authorities="名包.TPUSH_PROVIDER"
+	        android:exported="false" />
+	    <!-- 【必须】 【注意】authorities修改为 包名.TENCENT.MID.V3, 如demo的包名为：com.qq.xgdemo -->
+	    <provider
+	        android:name="com.tencent.mid.api.MidProvider"
+	        android:authorities="名包.TENCENT.MID.V3"
+	        android:exported="true" >
+	    </provider>
+	    <!-- 【必须】 请修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
+	    <meta-data
+	        android:name="XG_V2_ACCESS_ID"
+	        android:value="" />
+	    <!-- 【必须】 请修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
+	    <meta-data
+	        android:name="XG_V2_ACCESS_KEY"
+	        android:value="" />
+	    <!-- xinge end -->
+    </permissionCfg>
+</manifestConfig> 

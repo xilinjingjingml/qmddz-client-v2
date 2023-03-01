@@ -1,0 +1,4 @@
+include ':libcocos2dx',':game', ':instantapp', ':pluginGuest', ':pluginUmeng.v5.6.4', ':pluginPhone', ':pluginWeiXin', ':pluginXinGe', ':pluginQYKF', ':pluginprotocol', ':pluginAlipay', ':pluginTTAds', ':pluginAdsGather', ':pluginQQAds', ':pluginBDAds'
+project(':libcocos2dx').projectDir = new File('C:/CocosDashboard_1.0.11/resources/.editors/Creator/2.4.3/resources/cocos2d-x/cocos/platform/android/libcocos2dx')
+include ':app'
+project(':app').projectDir = new File(settingsDir, 'app')

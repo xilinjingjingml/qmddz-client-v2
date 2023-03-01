@@ -1,0 +1,48 @@
+
+zfk.png
+size: 575,184
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 2, 2
+  size: 307, 180
+  orig: 307, 180
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 430, 75
+  size: 92, 107
+  orig: 92, 107
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 524, 75
+  size: 45, 47
+  orig: 45, 47
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 430, 18
+  size: 142, 55
+  orig: 142, 55
+  offset: 0, 0
+  index: -1
+6
+  rotate: true
+  xy: 524, 124
+  size: 58, 49
+  orig: 58, 49
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 311, 25
+  size: 117, 157
+  orig: 117, 157
+  offset: 0, 0
+  index: -1

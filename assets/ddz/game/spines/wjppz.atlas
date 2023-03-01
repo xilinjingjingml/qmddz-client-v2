@@ -1,0 +1,41 @@
+
+wjppz.png
+size: 349,76
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+2
+  rotate: false
+  xy: 214, 2
+  size: 64, 72
+  orig: 64, 72
+  offset: 0, 0
+  index: -1
+3
+  rotate: true
+  xy: 144, 5
+  size: 69, 68
+  orig: 69, 68
+  offset: 0, 0
+  index: -1
+4
+  rotate: true
+  xy: 280, 8
+  size: 66, 67
+  orig: 66, 67
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 2, 2
+  size: 69, 72
+  orig: 69, 72
+  offset: 0, 0
+  index: -1
+6
+  rotate: true
+  xy: 73, 4
+  size: 70, 69
+  orig: 70, 69
+  offset: 0, 0
+  index: -1

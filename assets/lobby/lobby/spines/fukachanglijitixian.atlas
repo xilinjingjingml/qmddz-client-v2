@@ -1,0 +1,69 @@
+
+fukachanglijitixian.png
+size: 443,210
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+di
+  rotate: false
+  xy: 288, 105
+  size: 103, 103
+  orig: 103, 103
+  offset: 0, 0
+  index: -1
+guang1
+  rotate: false
+  xy: 288, 2
+  size: 101, 101
+  orig: 101, 101
+  offset: 0, 0
+  index: -1
+hb3
+  rotate: true
+  xy: 178, 9
+  size: 89, 103
+  orig: 89, 103
+  offset: 0, 0
+  index: -1
+hb4
+  rotate: false
+  xy: 2, 34
+  size: 174, 174
+  orig: 174, 174
+  offset: 0, 0
+  index: -1
+hb5
+  rotate: false
+  xy: 178, 100
+  size: 108, 108
+  orig: 108, 108
+  offset: 0, 0
+  index: -1
+hb6
+  rotate: false
+  xy: 391, 7
+  size: 36, 41
+  orig: 36, 41
+  offset: 0, 0
+  index: -1
+hb7
+  rotate: false
+  xy: 391, 50
+  size: 50, 53
+  orig: 50, 53
+  offset: 0, 0
+  index: -1
+hb8
+  rotate: false
+  xy: 2, 3
+  size: 25, 29
+  orig: 25, 29
+  offset: 0, 0
+  index: -1
+lijixixianzi1-1
+  rotate: true
+  xy: 393, 117
+  size: 91, 26
+  orig: 91, 26
+  offset: 0, 0
+  index: -1

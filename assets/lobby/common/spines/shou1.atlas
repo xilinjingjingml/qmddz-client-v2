@@ -1,0 +1,27 @@
+
+shou1.png
+size: 284,112
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+guang1
+  rotate: false
+  xy: 120, 2
+  size: 108, 108
+  orig: 108, 108
+  offset: 0, 0
+  index: -1
+guang2
+  rotate: false
+  xy: 230, 58
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+shou1
+  rotate: false
+  xy: 2, 3
+  size: 116, 107
+  orig: 116, 107
+  offset: 0, 0
+  index: -1

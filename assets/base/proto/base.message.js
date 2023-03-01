@@ -1,0 +1,1 @@
+module.exports={"package":null,"syntax":"proto2","messages":[{"name":"proto_ping","syntax":"proto2","fields":[{"rule":"required","type":"int32","name":"now","id":1}]},{"name":"proto_pong","syntax":"proto2","fields":[]}],"isNamespace":true}

@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.cocos2dx.libPluginMonitor"
+    android:versionCode="1"
+    android:versionName="1.0">
+	
+    <!-- monitor -->
+    <!--联网权限-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--获取MAC地址，用于标识用户-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--检测当前网络状态是2G、3G、4G还是WiFi-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--获取设备标识IMEI。用于标识用户-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <application>
+        <meta-data
+            android:name="kuaishou_appname"
+            android:value="zhangxindoudizhu" />
+    </application>
+</manifest>

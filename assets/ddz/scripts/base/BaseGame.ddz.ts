@@ -4,6 +4,7 @@ import BaseView from "../../../base/view/BaseView"
 import { startFunc } from "../../../start/startFunc"
 import { EventName } from "../../game/GameConfig.ddz"
 import { GameFunc } from "../../game/GameFunc.ddz"
+import { storage } from "../../../base/storage"
 
 const { ccclass } = cc._decorator
 
@@ -54,7 +55,12 @@ export default abstract class BaseGame extends BaseView {
             // } else {
             //     Data.ins.leaveGame()
             // }
-            monitor.emit(EventName.game_result_start)
+            // monitor.emit(EventName.game_result_start)
+
+            //原逻辑：打开按钮界面 开始游戏 改：展示 继续游戏 界面 startOfGamePop
+            // monitor.emit(EventName.startOfGamePop)
+            // GameView.showGoToGamePop()
+            monitor.emit(EventName.game_result_next)
         } else {
             monitor.emit(EventName.game_wait_show)
             GameFunc.changeTable()
@@ -81,6 +87,7 @@ export default abstract class BaseGame extends BaseView {
     @listen(EventName.socket_join_table)
     onSocketJoinTable(plyData: Iproto_PlyBaseData) {
         GameFunc.setIsJoinTable(true)
+        console.log("jin---onSocketJoinTable:", plyData.chairId)
         GameFunc.setSMyChairId(plyData.chairId)
         GameFunc.send<Iproto_cb_ready_req>("proto_cb_ready_req", {})
     }
@@ -113,5 +120,6 @@ export default abstract class BaseGame extends BaseView {
     @listen(EventName.game_result)
     onGameResult() {
         this.showGameResultPops()
+        storage.set("result_next", 2)
     }
 }

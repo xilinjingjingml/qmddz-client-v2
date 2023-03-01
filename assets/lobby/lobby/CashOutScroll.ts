@@ -6,7 +6,7 @@ const { ccclass } = cc._decorator
 @ccclass
 export default class CashOutScroll extends cc.Component {
 
-    data: { name: string, area: string, time: number }[] = []
+    data: { name: string, area: string, time: number, money: number }[] = []
 
     onLoad() {
         const date: Date = appfunc.accurateTime(true)
@@ -14,7 +14,10 @@ export default class CashOutScroll extends cc.Component {
         math.setSeed(Math.floor(date.getTime() / 1000))
 
         for (let i = 0; i < 10; i++) {
-            this.data.push({ name: appfunc.randomName(6), area: appfunc.randomArea(), time: Math.floor(math.randomSeed() * 57 + 3) })
+            this.data.push({
+                name: appfunc.randomName(6), area: appfunc.randomArea(), time: Math.floor(math.randomSeed() * 10 + 3),
+                money: (math.randomSeed() * 300) / 100
+            })
         }
 
         this.data.sort((a, b) => { return b.time - a.time })
@@ -24,16 +27,20 @@ export default class CashOutScroll extends cc.Component {
 
     setNodeView(node: cc.Node, index: number, highlight: boolean, posY?: number, parent?: cc.Node) {
         const data = this.data[index]
-        const label = node.getComponent(cc.RichText)
-        if (highlight) {
-            label.fontSize = 28
-            label.string = `${data.time}分钟前${data.area}的${data.name}领取<color=#ffcc24> ${appfunc.toCash(appfunc.CASH_OUT_NUM)} </c>元`
-            node.opacity = 255
-        } else {
-            label.fontSize = 26
-            label.string = `${data.time}分钟前${data.area}的${data.name}领取 ${appfunc.toCash(appfunc.CASH_OUT_NUM)} 元`
-            node.opacity = 178
-        }
+        // const label = node.getComponent(cc.RichText)
+        // if (highlight) {
+        node.children.forEach(i => i.getComponent(cc.RichText).fontSize = 28)
+        node.children[0].getComponent(cc.RichText).string = `${data.time}分钟前`
+        node.children[1].getComponent(cc.RichText).string = `${data.name}`
+        node.children[2].getComponent(cc.RichText).string = `提现${data.money < .3 ? "0.3" : data.money.toFixed(1)}元`
+        node.opacity = 255
+        // } else {
+        //     node.children.forEach(i => i.getComponent(cc.RichText).fontSize = 26)            
+        //     node.children[0].getComponent(cc.RichText).string = `${data.time}分钟前`
+        //     node.children[1].getComponent(cc.RichText).string = `${data.area}的${data.name}`
+        //     node.children[2].getComponent(cc.RichText).string = `${appfunc.toCash(appfunc.CASH_OUT_NUM)} </c>元`
+        //     node.opacity = 178
+        // }
 
         if (posY != undefined) {
             node.y = posY
@@ -42,6 +49,8 @@ export default class CashOutScroll extends cc.Component {
         if (parent != undefined) {
             node.parent = parent
         }
+
+        node.active = true
     }
 
     initView() {

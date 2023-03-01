@@ -3,9 +3,12 @@ import { storage } from "../../base/storage"
 import TaskQueue from "../../base/TaskQueue"
 import { utils } from "../../base/utils"
 import BaseView from "../../base/view/BaseView"
+import { appfunc } from "../../lobby/appfunc"
+import { report } from "../../report"
 import { app } from "../app"
 import { IConfirm } from "../confirm/confirm"
 import { AppNative } from "../scripts/platforms/AppNative"
+import { WebBrowser } from "../scripts/platforms/WebBrowser"
 import { startFunc } from "../startFunc"
 import { EHOST, hosts } from "../urls"
 
@@ -20,6 +23,7 @@ export default class update extends BaseView {
     hotUpdate: HotUpdate
 
     start() {
+        report("更新", "界面显示")
         this.showProgress(false)
 
         this.taskQueue = new TaskQueue(this.node)
@@ -109,22 +113,49 @@ export default class update extends BaseView {
     }
 
     showProgress(active: boolean) {
-        this.$("node_progress").active = active
         this.$("node_loading").active = !active
+
+        this.$("node_progress").active = active
+        this.$("node_progress/tips/tip0").active = active
+
+        cc.Tween.stopAllByTarget(this.$("node_progress"))
+
+        this.$("node_progress/tips/point", cc.Label).string = "..."
+        // let self = this
+        // cc.tween(this.$("node_progress"))
+        //     .then(
+        //         cc.tween()
+        //             .call(() => self?.node?.isValid && (self.$("node_progress/tips/point", cc.Label).string = "."))
+        //             .delay(.1)
+        //             .call(() => self?.node?.isValid && (self.$("node_progress/tips/point", cc.Label).string = ".."))
+        //             .delay(.1)
+        //             .call(() => self?.node?.isValid && (self.$("node_progress/tips/point", cc.Label).string = "..."))
+        //             .delay(.1)
+        //     )
+        //     .repeatForever()
+        //     .start()
     }
 
-    setProgress(value: number) {
+    setProgress(value: number, total: number, download: number) {
         cc.log("[update.setProgress]", value)
         this.showProgress(true)
-        this.$("progressBar", cc.ProgressBar).progress = value
-        this.$("label_progress", cc.Label).string = Math.floor(value * 100) + "%"
+        this.$("node_progress/progressBar", cc.ProgressBar).progress = value
+        this.$("node_progress/tips/val0", cc.Label).string = Math.floor(value * 100) + "%"
+        this.$("node_progress/tips/val1", cc.Label).string = `(${Math.floor(download / 1000000)}m/${Math.floor(total / 1000000)}m)`
     }
 
     onResult(ret: EUpdateState) {
         if (ret == EUpdateState.failed) {
+            report("更新", "更新失败")
             this.showProgress(false)
             startFunc.checkNetwork({
-                callback: () => this.hotUpdate.update(),
+                callback: () => {
+                    this.hotUpdate = new HotUpdate(name, getAppNative().thirdparty)
+                    this.hotUpdate.setProgressHandle(this.setProgress.bind(this))
+                    this.hotUpdate.setResultHandle(this.onResult.bind(this))
+                    this.hotUpdate.setUpdateUrl(`${hosts[app.env][EHOST.update]}${app.gameId}/${app.getOnlineParam(versionName)}`)
+                    this.hotUpdate.update()
+                },
                 must: true,
                 content: "更新失败, 您的设备可能没有网络了",
                 confirmText: "继续更新"
@@ -139,6 +170,7 @@ export default class update extends BaseView {
         if (ret == EUpdateState.noFound || ret == EUpdateState.already) {
             this.taskQueue.next()
         } else {
+            report("更新", "更新完成")
             this.scheduleOnce(() => cc.game.restart())
         }
     }

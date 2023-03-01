@@ -158,7 +158,7 @@ export namespace monitor {
                 i--
             }
 
-            call(event, ...args)
+            call(event, name, ...args)
         }
     }
 
@@ -182,11 +182,11 @@ export namespace monitor {
                 i--
             }
 
-            call(event, ...args)
+            call(event, name, ...args)
         }
     }
 
-    function call(event: IEvent, ...args: any[]) {
+    function call(event: IEvent, name: string, ...args: any[]) {
         // 自己测试使用
         if (cc.sys.isBrowser) {
             event.callback.apply(event.target, args)

@@ -482,8 +482,9 @@ export class WeChatMiniGame extends Platform {
             })
     }
 
-    openAdvert(params: { type: EAdType, index?: number, success?: Function }) {
+    openAdvert(params: { type: EAdType, index?: number, success?: Function }) {        
         if (params.type == EAdType.Video) {
+            // app.user.switch_plugin = true
             this.showVideo(this.video[params.index], (result: AdsResult) => {
                 if (result == AdsResult.Success) {
                     params.success && params.success()

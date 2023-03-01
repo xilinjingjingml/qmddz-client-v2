@@ -8,6 +8,7 @@ import { Platform } from "./platform"
 
 export class WebBrowser extends Platform {
     querys: any = {}
+    readonly thirdparty: string = "thirdparty/"
 
     init() {
         // 解析 window.location.search
@@ -17,6 +18,8 @@ export class WebBrowser extends Platform {
                 const splits = pairs[i].split("=")
                 this.querys[splits[0]] = decodeURIComponent(splits[1])
             }
+
+            app.datas.querys = this.querys
         }
 
         // env
@@ -79,8 +82,13 @@ export class WebBrowser extends Platform {
         }
     }
 
+    preloadAdvert(data) {
+        console.log("===preLoadAdvert", data)
+    }
+
     openAdvert(data) {
-        data.success && data.success()
+        // app.user.switch_plugin = true   
+        data.success && data.success(100)
     }
 
     copyToClipBoard(text: string) {
@@ -95,5 +103,13 @@ export class WebBrowser extends Platform {
         } catch (e) {
             startFunc.showToast("复制失败")
         }
+    }
+
+    getVersionCode() {
+        return app.version
+    }
+
+    callStaticMethod() {
+
     }
 }

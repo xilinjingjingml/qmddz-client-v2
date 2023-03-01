@@ -62,6 +62,18 @@ interface IDatas {
     AchieveList?: Iproto_ATAchieveData[]
     isLeaveGame?: boolean
     runGameDatas?: any
+    Sign?: Iproto_AccumulateSigninInfo
+
+    querys?: any
+    adTotal?: number
+    adToday?: number
+    byLevel?: number
+    cashStatus?: any
+    cashTask?: any
+
+    cashVec?: cc.Vec2
+    ingotVec?: cc.Vec2
+
     [x: string]: any
 }
 
@@ -184,6 +196,8 @@ interface IAdsReceiveOpt {
     showAward?: boolean
     method?: number
     closeCallback?: Function
+
+    order?: number
 }
 
 interface IItemInfo {

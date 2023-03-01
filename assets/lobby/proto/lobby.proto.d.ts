@@ -209,3 +209,62 @@ interface Iproto_lc_get_at_achieve_award_ack {
     ret: number
     vecAwards: Iproto_ATAchieveAward[]
 }
+
+interface Iproto_AccumulateSigninInfo {
+
+}
+
+interface Iproto_AccumulateSigninAward2 {
+    days: number
+    awardStrings: string
+}
+
+interface Iproto_ContinuousSigninAward {
+    days: number
+    awardStrings: string
+}
+
+interface Iproto_AccumulateSigninAward {
+    today: number
+    accumulateDays: number
+    accSigninAward: Iproto_AccumulateSigninAward2[]
+    conSigninAward: Iproto_ContinuousSigninAward[]
+}
+
+interface Iproto_AccumulateSigninInfo {
+    signinDays: number[]
+    buqianka: number
+    signinAward: Iproto_AccumulateSigninAward
+}
+
+interface Iproto_cl_get_user_accumulate_signin_days_req {
+}
+
+interface Iproto_lc_get_user_accumulate_signin_days_ack {
+    ret: number
+    signinInfo: Iproto_AccumulateSigninInfo
+}
+
+interface Iproto_cl_set_user_accumulate_signin_days_req {
+    day: number
+}
+
+interface Iproto_lc_set_user_accumulate_signin_days_ack {
+    ret: number
+    day: number
+    continuousDays: number
+    accumulatyeDays: number
+    money: number
+}
+
+interface Iproto_cl_get_user_accumulate_signin_award_req {
+    continupusDays: number
+    accumulateDays: number
+    type_: number
+}
+
+interface Iproto_lc_get_user_accumulate_signin_award_ack {
+    ret: number
+    continupusDays: number
+    accumulateDays: number
+}

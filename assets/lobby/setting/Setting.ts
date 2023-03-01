@@ -16,10 +16,10 @@ export default class Setting extends BasePop {
 
     start() {
         this.$("labelUserId", cc.Label).string = "ID:" + app.user.guid
-        this.$("labelVersion", cc.Label).string = "版本号:" + app.version + (["测试", "镜像"][app.env] || "")
+        this.$("labelVersion", cc.Label).string = "版本号:" + app.sVersion + (["测试", "镜像"][app.env] || "")
         if (cc.sys.isNative) {
             const platform = app.platform as AppNative
-            this.$("labelUserId", cc.Label).string += `-${platform.getVersionName()}-${platform.getVersionCode()}`
+            this.$("labelVersion", cc.Label).string += `-${platform.getVersionName()}-${platform.getVersionCode()}`
         }
 
         this.musicVol = audio.getMusicVolume()
@@ -65,7 +65,13 @@ export default class Setting extends BasePop {
 
     onPressProtocol(event: cc.Event.EventTouch, type) {
         audio.playMenuEffect()
-        appfunc.showProtocolPop(Number(type))
+        
+        if (cc.WebView) {
+            appfunc.showWebview({ url: type === "0" ? app.protocol0_url : app.protocol1_url, title: type === "0" ? "用户协议" : "隐私协议" })
+        } else {
+            ViewManager.showPopup({ bundle: "lobby", path: type === "0" ? "setting/protocol0" : "setting/protocol1" })
+        }
+
         this.close()
     }
 
@@ -81,5 +87,15 @@ export default class Setting extends BasePop {
             this.close()
             ViewManager.showPopup({ bundle: "lobby", path: "command/command" })
         }
+    }
+
+    onPressPush() {
+
+    }
+
+    onPressService() {
+        audio.playMenuEffect()
+        appfunc.showWebview({ url: app.service_url, title: "客服" })
+        this.close()
     }
 }

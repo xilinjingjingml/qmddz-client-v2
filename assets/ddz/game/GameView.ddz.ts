@@ -86,14 +86,6 @@ export namespace GameView {
         })
     }
 
-    export function showTomorrowPop(params?: any) {
-        ViewManager.showPopup({
-            bundle: "lobby",
-            path: "tomorrow/tomorrow",
-            params: params,
-        })
-    }
-
     export function showDailyGiftPop(params?: any) {
         ViewManager.showPopup({
             bundle: "lobby",
@@ -142,6 +134,33 @@ export namespace GameView {
             path: "ExchangeItemPop/ExchangeItemPop",
             params: params,
             openTween: cc.tween().set({ scale: 0.4 }).to(0.25, { scale: 1 }, { easing: "sineInOut" })
+        })
+    }
+
+    export function showGoToGamePop(params?: any) {
+        ViewManager.showPopup({
+            bundle: GameFunc.bundle,
+            path: "GotoGamePop/GotoGamePop",
+            params: params,
+            mask: { show: false },
+            block: { show: false },
+            // openTween: cc.tween().set({ scale: 0.4 }).to(0.25, { scale: 1 }, { easing: "sineInOut" })
+        })
+    }
+    
+    export function showBaiYuanJiaSuTiXianPop(params?: any) {
+        ViewManager.showPopup({
+            bundle: GameFunc.bundle,
+            path: "Jiasutixian/jiasutixianPop",
+            params: params,
+        })
+    }
+
+    export function showBaiYuanJinLiPop(params?: any) {
+        ViewManager.showPopup({
+            bundle: GameFunc.bundle,
+            path: "BaiYuanJinLiPop/BaiYuanJinLiPop",
+            params: params,
         })
     }
 }

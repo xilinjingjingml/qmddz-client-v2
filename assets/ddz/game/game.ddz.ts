@@ -5,6 +5,8 @@ import { SocketManager } from "../../base/socket/SocketManager"
 import TaskCounter from "../../base/TaskCounter"
 import BaseView from "../../base/view/BaseView"
 import { ViewManager } from "../../base/view/ViewManager"
+import { appfunc } from "../../lobby/appfunc"
+import { report } from "../../report"
 import { app } from "../../start/app"
 import { ITEM } from "../../start/config"
 import { AppNative } from "../../start/scripts/platforms/AppNative"
@@ -13,6 +15,8 @@ import DdzSocket from "./DdzSocket"
 import { EGameState, EventName } from "./GameConfig.ddz"
 import { GameFunc } from "./GameFunc.ddz"
 import { ECardPoint } from "./GameRule.ddz"
+import { GameView } from "./GameView.ddz"
+import { storage } from "../../base/storage"
 
 const { ccclass } = cc._decorator
 
@@ -26,13 +30,31 @@ export default class Game extends BaseView {
         this.taskCounter = new TaskCounter(() => this.isValid && this.onStart())
         this.autoLoads = this.getComponentsInChildren(AutoLoad)
         this.autoLoads.forEach(comp => comp.enabled = false)
+
     }
 
     start() {
+        // report("斗地主", "界面显示")
         this.initData()
         this.loadAssets()
 
-        GameFunc.fsm.transform(EGameState.game_init)
+        // GameFunc.fsm.transform(EGameState.game_init)
+        // ViewManager.showPopup({// TODOT
+        //     bundle: GameFunc.bundle,
+        //     path: "BaiYuanResultPop/BaiYuanResultPop",
+        //     params: {},
+        //     mask: { opacity: 0 }
+        // })
+        // GameView.showBaiYuanRegainLosePop({
+        //     // closeCallback: next,
+        //     // message: message,
+        // })
+        // let node = this.$("3dai1")
+        // const dragonBone = node.getComponent(dragonBones.ArmatureDisplay)
+        // // dragonBone.addEventListener(dragonBones.EventObject.LOOP_COMPLETE,this.animationEventHandler,this)
+        // console.log("jin---dragonBonesName222:", dragonBone)
+        // dragonBone.playAnimation("newAnimation", 1)
+        // GameView.showGoToGamePop({})//mask:{show:false}
     }
 
     initData() {
@@ -119,11 +141,15 @@ export default class Game extends BaseView {
         AudioManager.playMenuEffect()
 
         monitor.emit(EventName.game_onPressExit)
+
+        // report("斗地主", "离开")
     }
 
     @listen(EventName.game_onPressStart)
     onPressStart() {
         GameFunc.fsm.transform(EGameState.game_init)
+
+        // report("斗地主", "开始下一局")
     }
 
     /******************************************************************************************************************/
@@ -138,8 +164,19 @@ export default class Game extends BaseView {
         // ads.closeBanner()
     }
 
+    @listen(EventName.game_result_next)
+    onGameNext() {
+        this.$("btn_exit").active = true
+        this.$("node_player1").active = false
+        this.$("node_player2").active = false
+    }
+
     @listen(EventName.game_start)
     onGameStart(message: Iproto_gc_game_start_not) {
+        this.$("btn_exit").active = false
+        this.$("node_player1").active = true
+        this.$("node_player2").active = true
+
         GameFunc.setDizhu(message.nGameMoney)
 
         this.hideWait()
@@ -148,20 +185,39 @@ export default class Game extends BaseView {
         // TODO
         // ads.closeBanner()
 
+        GameFunc.send<Iproto_cg_look_lord_card_item_req>("proto_cg_look_lord_card_item_req", {})
+
         if (app.datas.role.roundSum == 0) {
-            if (cc.sys.isNative) {
-                (app.platform as AppNative).uploadKuaiShou(1)
-            }
+            // if (cc.sys.isNative) {
+            //     (app.platform as AppNative).uploadKuaiShou(1)
+            // }
+            // report("游戏", "牌局开始", "0局")
         }
+
+        if (app.datas.role.roundSum <= 20) {
+            report("斗地主", "游戏开始", app.datas.role.roundSum + "局")
+        }
+
+        cc.game.emit("cashout_pause")
     }
 
     @listen(EventName.game_end)
     onGameEnd() {
         GameFunc.setIsReconnect(false)
+
+        if (app.datas.role.roundSum == 0) {
+            // if (cc.sys.isNative) {
+            //     (app.platform as AppNative).uploadKuaiShou(1)
+            // }
+            report("游戏", "牌局结算", "0局")
+        }
+
         app.datas.role.roundSum++
 
         // 关闭无效弹窗
         ViewManager.close("PlayerInfoPop")
+        // report("斗地主", "游戏结束")
+        cc.game.emit("cashout_resume")
     }
 
     @listen(EventName.game_reinit)
@@ -177,8 +233,9 @@ export default class Game extends BaseView {
     proto_bc_join_table_ack(message: Iproto_bc_join_table_ack) {
         if (message.ret == 0) {
             for (const plyData of message.tableAttrs.players) {
-                if (plyData.plyGuid == app.user.guid) {
+                if (plyData.plyGuid == app.user.guid && Number(storage.get("result_next")) == 1) {
                     monitor.emit(EventName.socket_join_table, plyData)
+                    storage.set("result_next", 1)
                     break
                 }
             }
@@ -247,5 +304,10 @@ export default class Game extends BaseView {
     @listen("proto_gc_game_result_not1")
     proto_gc_game_result_not1(message: Iproto_gc_game_result_not1) {
         GameFunc.fsm.transform(EGameState.game_end, message)
+    }
+
+    @listen("proto_gc_look_lord_card_item_ack")
+    proto_gc_look_lord_card_item_ack(message: Iproto_gc_look_lord_card_item_ack) {
+        console.log(message)
     }
 }

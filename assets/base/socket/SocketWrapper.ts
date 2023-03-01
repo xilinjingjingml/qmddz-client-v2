@@ -13,6 +13,8 @@ export default class SocketWrapper implements ISocketWrapper, ISocketWrapperIn {
     private delegate: ISocketDelegate
     name: string
 
+    private _config: ISocketConfig;
+
     constructor(name: string, delegate: ISocketDelegate) {
         this.name = name
         this.delegate = delegate
@@ -27,11 +29,15 @@ export default class SocketWrapper implements ISocketWrapper, ISocketWrapperIn {
 
     startSocket(config: ISocketConfig) {
         this.socket.connect(config)
+
+        this._config = config
     }
 
     send<T>(name: string, message: T) {
+        console.log("===send: " + name, message)
         if (!this.socket.isConnected()) {
-            cc.error(`[${this.name}.send] not connected`)
+            cc.log(`[${this.name}.send] not connected`)
+            this._config && this.socket.tryConnect(this._config)
             return
         }
 
@@ -71,6 +77,7 @@ export default class SocketWrapper implements ISocketWrapper, ISocketWrapperIn {
         }
 
         console.debug("[SW.rece]", this.name, data.name, data.message)
+        console.log("===on msg: " + data.name, data.message)
         monitor.emit(data.name, data.message)
     }
 

@@ -57,7 +57,10 @@ export default class PlayerAdapter extends BaseView {
             adapter({ name: "chat_label", anchor: true })
             adapter({ name: "spine_zanman" })
             adapter({ name: "node_putcard", anchor: true, widgetSize: true, area: true })
-            adapter({ name: "node_handcard", anchor: true, widgetSize: true, area: true })
+            adapter({ name: "node_handcard", widgetSize: true, area: true })
+            adapter({ name: "node_dragonBons", widgetSize: true, area: true })
+            adapter({ name: "node_dizhu_sp", widgetSize: true, area: true })
+            adapter({ name: "ani_pos", widgetSize: true, area: true })
         }
     }
 }

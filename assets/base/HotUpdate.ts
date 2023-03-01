@@ -31,9 +31,10 @@ export default class HotUpdate {
     private assetsManager: jsb.AssetsManager
     private manifestJson: any
     private defaultManifestJson: any
-    private progressHandle: (percent: number) => void
+    private progressHandle: (percent: number, total: number, download: number) => void
     private resultHandle: (ret: EUpdateState) => void
     private percent: number = -1
+    private download: number = 0
 
     constructor(name: string, path: string) {
         this.name = name
@@ -118,7 +119,7 @@ export default class HotUpdate {
                 break
             case jsb.EventAssetsManager.UPDATE_PROGRESSION:
                 cc.log("[HotUpdate.updateCallback] Updated file.", event.getMessage())
-                this.updateProgress(event.getPercent())
+                this.updateProgress(event)
                 break
             case jsb.EventAssetsManager.ERROR_UPDATING:
                 cc.log("[HotUpdate.updateCallback] Asset update error:", event.getMessage())
@@ -156,8 +157,11 @@ export default class HotUpdate {
         }
     }
 
-    private updateProgress(percent: number) {
-        cc.log("[HotUpdate.updateProgress] percent", percent)
+    private updateProgress(event: jsb.EventAssetsManager) {
+        let percent = event.getPercent()
+        let total = event.getTotalBytes()
+        let download = event.getDownloadedBytes()
+        cc.log("[HotUpdate.updateProgress] percent", percent, total, download)
         if (this.progressHandle == null || isNaN(percent)) {
             return
         }
@@ -167,7 +171,11 @@ export default class HotUpdate {
         if (percent <= this.percent) {
             return
         }
+        if (download <= this.download) {
+            this.download = download
+        }
         this.percent = percent
-        this.progressHandle(percent)
+        this.download = download
+        this.progressHandle(percent, total, download)
     }
 }

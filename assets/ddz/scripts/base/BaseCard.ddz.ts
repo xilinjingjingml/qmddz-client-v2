@@ -18,6 +18,14 @@ export default abstract class BaseCard extends BaseView {
         this.unuse()
     }
 
+    getCard() {
+        return {
+            mNColor: this.card.mNColor,
+            mNValue: this.card.mNValue,
+            mNCard_Baovalue: this.card.mNCard_Baovalue
+        }
+    }
+
     setLordMark(active: boolean) {
         this.$("mark_lord").active = active
     }

@@ -14,10 +14,13 @@ export class User {
     score: number = 0
     won: number = 0
     lost: number = 0
+    dogfall: number = 0
     money_rank: number = 0
     won_rank: number = 0
     ply_state: Iproto_PlayerStatus
     items: Record<number, Iproto_ItemData> = {}
+
+    switch_plugin: boolean = false
 
     getItemNum(itemId: ITEM) {
         if (itemId == ITEM.GOLD_COIN) {

@@ -210,9 +210,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 47,
-      "b": 255,
+      "r": 75,
+      "g": 108,
+      "b": 165,
       "a": 255
     },
     "_contentSize": {
@@ -278,7 +278,7 @@
     "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_batchAsBitmap": false,
-    "_styleFlags": 0,
+    "_styleFlags": 1,
     "_underlineHeight": 0,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
@@ -290,10 +290,10 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 1
+      "__id__": 2
     },
     "asset": {
-      "__uuid__": "5221e1a0-e165-4d56-b590-d07e72b1b1a5"
+      "__uuid__": "1f55e3be-b89b-4b79-88de-47fd31018044"
     },
     "fileId": "3eRICW1fBA4b+f78DNVC8l",
     "sync": false

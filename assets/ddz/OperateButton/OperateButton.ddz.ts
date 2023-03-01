@@ -1,6 +1,8 @@
 import AutoLoad from "../../base/components/AutoLoad"
 import { NodeExtends } from "../../base/extends/NodeExtends"
 import { listen, monitor } from "../../base/monitor"
+import { appfunc } from "../../lobby/appfunc"
+import { report } from "../../report"
 import { ads } from "../../start/ads"
 import { app } from "../../start/app"
 import { GAME_TYPE, ITEM } from "../../start/config"
@@ -39,10 +41,16 @@ export default class OperateButton extends BaseChair {
     nSerialID: number
     showPutShowCard: boolean = false
 
-    start() {
+    onLoad(){
+        this.params.chairId = 0
         this.$("node_clock", AutoLoad).params = { chairId: this.params.chairId }
         this.buttons = this.$("node_buttons").children.slice()
         this.onGameReinit()
+    }
+
+    start() {
+        // this.$("node_clock", AutoLoad).params = { chairId: this.params.chairId }
+        
     }
 
     @listen(EventName.game_reinit)
@@ -66,7 +74,7 @@ export default class OperateButton extends BaseChair {
         } else if (operate == EButton.Start) {
             this.showButtons([this.$("btn_start")])
         } else if (operate == EButton.CallLord) {
-            this.showButtons([this.$("btn_no_call"), this.$("btn_call")], true)
+            this.showButtons([this.$("btn_no_call"), this.$("btn_call_1"), this.$("btn_call_2")], true)
         } else if (operate == EButton.RobLord) {
             this.showButtons([this.$("btn_no_rob"), this.$("btn_rob")], true)
         } else if (operate == EButton.ShowCardDeal) {
@@ -86,9 +94,9 @@ export default class OperateButton extends BaseChair {
         } else if (operate == EButton.YaoBuQi) {
             this.showButtons([this.$("btn_yaobuqi")], true)
         } else if (operate == EButton.Next) {
-            this.showButtons([this.$("btn_next")])
+            // this.showButtons([this.$("btn_next")])
         } else if (operate == EButton.Next_Free) {
-            this.showButtons([this.$("node_next_free")])
+            // this.showButtons([this.$("node_next_free")])
         } else {
             this.showButtons([])
         }
@@ -105,7 +113,7 @@ export default class OperateButton extends BaseChair {
         }
 
         const parent = this.$("node_button")
-        parent.getComponent(cc.Layout).spacingX = [0, 8, 40, 30][buttons.length] || 0
+        parent.getComponent(cc.Layout).spacingX = [0, 15, 70, 60][buttons.length] || 0
         const index = Math.floor(buttons.length / 2)
         for (let i = 0; i < buttons.length; i++) {
             const button = buttons[i]
@@ -119,12 +127,12 @@ export default class OperateButton extends BaseChair {
             this.$("node_clock_center").active = false
             return
         }
-
         this.$("node_clock_center").zIndex = index
         this.$("node_clock_center").active = !upClock
         nodeClock.removeFromParent(false)
         nodeClock.parent = upClock ? this.$("node_clock_up") : this.$("node_clock_center")
         nodeClock.active = true
+        // console.log("jin---showButtons: ", " showClock:",showClock, " upClock:", upClock, " upClock:"," index:", index, this.$("node_clock_up"), this.$("node_clock_center"))
     }
 
     onPressCall(event: cc.Event.EventTouch, data: string) {
@@ -136,6 +144,8 @@ export default class OperateButton extends BaseChair {
             nSerialID: this.nSerialID,
             nScore: parseInt(data) || 0,
         })
+
+        // report("斗地主", "叫分")
     }
 
     onPressRob(event: cc.Event.EventTouch, data: string) {
@@ -147,6 +157,8 @@ export default class OperateButton extends BaseChair {
             nSerialID: this.nSerialID,
             cRob: parseInt(data) || 0,
         })
+
+        // report("斗地主", data === "0" ? "不抢地主" : "抢地主")
     }
 
     onPressBuChu(event: cc.Event.EventTouch) {
@@ -159,6 +171,8 @@ export default class OperateButton extends BaseChair {
             cTimeOut: 0,
             vecCards: [],
         })
+
+        // report("斗地主", "不出")
     }
 
     onPressTiShi(event: cc.Event.EventTouch) {
@@ -166,6 +180,8 @@ export default class OperateButton extends BaseChair {
         AudioManager.playMenuEffect()
 
         monitor.emit(EventName.game_OperateButton_onPressTiShi)
+
+        // report("斗地主", "提示")
     }
 
     onPressChuPai(event: cc.Event.EventTouch) {
@@ -173,6 +189,14 @@ export default class OperateButton extends BaseChair {
         AudioManager.playMenuEffect()
 
         monitor.emit(EventName.game_OperateButton_onPressChuPai)
+
+        // report("斗地主", "出牌")
+        if (app.datas.role.roundSum == 0) {
+            if (!cc.sys.localStorage.getItem("firstChuPai")) {
+                report("游戏", "牌局中", "玩家手动出牌", "0局")
+                cc.sys.localStorage.setItem("firstChuPai", true)
+            }
+        }
     }
 
     onPressStart(event: cc.Event.EventTouch) {
@@ -183,6 +207,15 @@ export default class OperateButton extends BaseChair {
         monitor.emit(EventName.game_onPressStart)
     }
 
+    @listen(EventName.startOfGamePop)
+    startOfGamePop() {
+        // NodeExtends.cdTouch(event)
+        AudioManager.playMenuEffect()
+        this.showOperateButtons()
+        monitor.emit(EventName.game_onPressStart)
+    }
+
+
     onPressNextFreeStart(event: cc.Event.EventTouch) {
         NodeExtends.cdTouch(event)
         AudioManager.playMenuEffect()
@@ -192,6 +225,8 @@ export default class OperateButton extends BaseChair {
             index: ads.video.New_NextLoseZero,
             success: () => monitor.emit(EventName.game_onPressStart)
         })
+
+        // report("斗地主", "下局免费")
     }
 
     onPressShowCardStart(event: cc.Event.EventTouch, data: string) {
@@ -207,6 +242,8 @@ export default class OperateButton extends BaseChair {
         })
 
         monitor.emit(EventName.game_onPressStart)
+
+        // report("斗地主", "")
     }
 
     onPressShowCardDeal(event: cc.Event.EventTouch, data: string) {
@@ -220,6 +257,8 @@ export default class OperateButton extends BaseChair {
             nShowCardBet: parseInt(data),
             nShowCardType: 2,
         })
+
+        // report("斗地主", "明牌", data)
     }
 
     onPressShowCardPut(event: cc.Event.EventTouch, data: string) {
@@ -239,6 +278,8 @@ export default class OperateButton extends BaseChair {
         NodeExtends.cdTouch(event)
         AudioManager.playMenuEffect()
         this.onJiaBei(parseInt(data))
+
+        // report("斗地主", "加倍", data)
     }
 
     onJiaBei(double: number) {
@@ -280,14 +321,20 @@ export default class OperateButton extends BaseChair {
     @listen("proto_gc_call_score_req")
     proto_gc_call_score_req(message: Iproto_gc_call_score_req) {
         this.nSerialID = message.nSerialID
-
+        console.log("jin---proto_gc_call_score_req: ", message)
         const isCallScore = app.runGameServer.ddz_game_type == GAME_TYPE.DDZ_JF || isBaiYuan()
         if (!isCallScore) {
             this.showOperateButtons(EButton.CallLord)
             return
         }
 
-        const buttons = [this.$("btn_call_1"), this.$("btn_call_2"), this.$("btn_call_3")].slice(message.nScore)
+        // const buttons = [this.$("btn_call_1"), this.$("btn_call_2")].slice(message.nScore)//, this.$("btn_call_3")
+        let buttons = null
+        if (message.nScore == 4) {
+            buttons = [this.$("btn_call_2")]
+        } else if (message.nScore == 0) {
+            buttons = [this.$("btn_call_1"), this.$("btn_call_2")]
+        }
         buttons.unshift(this.$("btn_no_call"))
         this.showButtons(buttons, true, buttons.length >= 4)
     }
@@ -345,6 +392,7 @@ export default class OperateButton extends BaseChair {
 
     @listen(EventName.game_result_next)
     game_result_next(nextype: number) {
+        console.log("jin---game_result_next: ", nextype)
         if (nextype == 0) {
             this.$("btn_continue").active = false
         } else {

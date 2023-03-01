@@ -25,4 +25,10 @@ export default {
     20155: "",
     20166: "proto_cl_get_player_game_list_req",
     20167: "proto_lc_get_player_game_list_ack",
+    20158: "proto_cl_get_user_accumulate_signin_days_req",
+    20159: "proto_lc_get_user_accumulate_signin_days_ack",
+    20160: "proto_cl_get_user_accumulate_signin_award_req",
+    20161: "proto_lc_get_user_accumulate_signin_award_ack",
+    20162: "proto_cl_set_user_accumulate_signin_days_req",
+    20163: "proto_lc_set_user_accumulate_signin_days_ack",
 }

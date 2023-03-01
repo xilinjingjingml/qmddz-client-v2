@@ -1,0 +1,89 @@
+
+skeleton.png
+size: 1012,1019
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dizhumao
+  rotate: false
+  xy: 666, 345
+  size: 214, 154
+  orig: 214, 154
+  offset: 0, 0
+  index: -1
+dizhumao_text
+  rotate: false
+  xy: 639, 239
+  size: 198, 104
+  orig: 198, 104
+  offset: 0, 0
+  index: -1
+guang_3
+  rotate: false
+  xy: 666, 501
+  size: 226, 226
+  orig: 226, 226
+  offset: 0, 0
+  index: -1
+guang_4
+  rotate: false
+  xy: 345, 51
+  size: 292, 292
+  orig: 292, 292
+  offset: 0, 0
+  index: -1
+guang_5
+  rotate: false
+  xy: 2, 2
+  size: 341, 341
+  orig: 341, 341
+  offset: 0, 0
+  index: -1
+guang_6
+  rotate: false
+  xy: 2, 345
+  size: 662, 672
+  orig: 662, 672
+  offset: 0, 0
+  index: -1
+quan-l
+  rotate: false
+  xy: 666, 729
+  size: 312, 288
+  orig: 312, 288
+  offset: 0, 0
+  index: -1
+sg3
+  rotate: true
+  xy: 980, 899
+  size: 118, 30
+  orig: 118, 30
+  offset: 0, 0
+  index: -1
+xingxing_1
+  rotate: false
+  xy: 639, 139
+  size: 96, 98
+  orig: 96, 98
+  offset: 0, 0
+  index: -1
+xingxing_2
+  rotate: false
+  xy: 345, 31
+  size: 19, 18
+  orig: 19, 18
+  offset: 0, 0
+  index: -1
+
+skeleton2.png
+size: 466,475
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+guang_1
+  rotate: false
+  xy: 2, 2
+  size: 462, 471
+  orig: 462, 471
+  offset: 0, 0
+  index: -1

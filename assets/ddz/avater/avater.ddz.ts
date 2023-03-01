@@ -1,5 +1,5 @@
 import { UserExtends } from "../../base/extends/UserExtends"
-import { listen } from "../../base/monitor"
+import { listen, monitor } from "../../base/monitor"
 import { app } from "../../start/app"
 import { EventName } from "../game/GameConfig.ddz"
 import BaseChair from "../scripts/base/BaseChair.ddz"
@@ -58,7 +58,7 @@ export default class avater extends BaseChair {
                 rand -= configs[i].weight
                 if (rand < 0) {
                     if (configs[i].value > 0) {
-                        this.$("node_tixian").active = true
+                        // this.$("node_tixian").active = true
                         this.$("label_tixian", cc.Label).string = "已提" + configs[i].value
                     }
                     return
@@ -67,8 +67,24 @@ export default class avater extends BaseChair {
         }
     }
 
-    setLord(active: boolean) {
-        this.$("mark_lord").active = active
+    setLord(active: boolean, ChairID?:any, type?:string) {
+        if(!active){
+            this.$("mark_lord").active = active
+        }else{
+            cc.tween(this.$("mark_lord"))
+            .call(()=>{
+                if(type == "proto_gc_lord_card_not"){
+                    monitor.emit(EventName.game_showdizuAni, active, ChairID)
+                }
+            })
+            .delay(2.9)
+            .call(()=>{
+                this.$("mark_lord").active = active
+            })
+            .start()
+        }
+        
+        
     }
 
     setAuto(auto: boolean) {
@@ -97,10 +113,11 @@ export default class avater extends BaseChair {
 
     @listen("proto_gc_lord_card_not")
     proto_gc_lord_card_not(message: Iproto_gc_lord_card_not) {
+        console.log("jin---proto_gc_lord_card_not: ", message)
         if (message.cLord < 0 || !this.isSelf(message.cLord)) {
             return
         }
-        this.setLord(true)
+        this.setLord(true, message.cLord, "proto_gc_lord_card_not")
     }
 
     @listen("proto_gc_play_card_req")

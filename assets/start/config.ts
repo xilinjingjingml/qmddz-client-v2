@@ -113,12 +113,22 @@ export enum ITEM {
     /**
      *提现道具
      */
-    TO_CASH = 382,
+    OLD_TO_CASH = 382,
 
     /**
      *免扣符
      */
     FREE_LOSE = 383,
+
+    /**
+     *元宝                                                                                                                   
+     */
+    INGOT = 384,
+
+     /**
+     *提现道具 新                                                                                                                   
+     */
+     TO_CASH = 385,
 
     /**
      *VIP经验
@@ -130,7 +140,7 @@ export enum GAME {
     /**
      * 斗地主
      */
-    DDZ = 389,
+    DDZ = 408,
 }
 
 export enum GAME_TYPE {
@@ -151,6 +161,10 @@ export enum GAME_TYPE {
      */
     DDZ_BAIYUAN = 3,
 }
+
+
+export const s0 = "c-950q0oldzx7rpqd"
+export const s1 = "MffcVoozO5zdwIDAQAB"
 
 export enum TASK {
     /**

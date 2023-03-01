@@ -49,9 +49,45 @@ export default class Socket {
         this.connectSocket()
     }
 
+    tryConnect(config: ISocketConfig) {
+        cc.log("[Socket.tryConnect]", this.wrapper.name, this.url)
+        if (this.connectState) {
+            cc.log("[Socket.tryConnect] connectState is true")
+            return
+        }
+
+        if (this.socket.CONNECTING) {
+            cc.log("[Socket.tryConnect] socket connecting")
+            return
+        }
+
+        if (this.connectCounter < CONNECT_COUNTER) {
+            cc.log("[Socket.tryConnect] connectCounter ", this.connectCounter)
+            return
+        }
+
+        this.connect(config)
+    }
+
     private connectSocket() {
         this.connectCounter += 1
         cc.log("[Socket.connectSocket]", this.wrapper.name, this.connectCounter)
+
+        if (this.socket) {
+            this.socket.onopen = () => { }
+            this.socket.onmessage = () => { }
+            this.socket.onerror = () => { }
+            this.socket.onclose = () => { }
+
+            if (this.connectTimeId) {
+                clearTimeout(this.connectTimeId)
+                this.connectTimeId = null
+            }
+
+            this.socket.close()
+
+            this.socket = null
+        }
 
         this.socketState = true
         this.socket = cc.sys.isNative ? new WebSocket(this.url, undefined, caFilePath) : new WebSocket(this.url)
@@ -97,6 +133,7 @@ export default class Socket {
         cc.log("[Socket.onClose]", this.wrapper.name, event)
         this.socketState = false
         this.stopPing()
+        this.stopTimeout()
         this.closeSocket()
         this.reconnect()
     }

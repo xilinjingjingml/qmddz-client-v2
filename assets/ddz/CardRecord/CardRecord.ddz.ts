@@ -20,6 +20,15 @@ export default class CardRecord extends BaseView {
     start() {
         this.initCardCount()
         this.showCardCount(false)
+
+        this.setItem(ITEM.CARD_RECORD, app.user.getItemNum(ITEM.CARD_RECORD))
+    }
+
+    @listen("item_update")
+    setItem(itemId: ITEM, itemNum: number) {
+        if (itemId === ITEM.CARD_RECORD) {
+            this.$("label_card_count", cc.Label).string = "" + itemNum
+        }
     }
 
     onPressCardCount(event: cc.Event.EventTouch) {

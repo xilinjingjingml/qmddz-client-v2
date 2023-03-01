@@ -1,0 +1,20 @@
+
+skeleton.png
+size: 615,569
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ljpq_guang
+  rotate: true
+  xy: 2, 2
+  size: 565, 573
+  orig: 565, 573
+  offset: 0, 0
+  index: -1
+ljpq_xx
+  rotate: false
+  xy: 577, 532
+  size: 36, 35
+  orig: 36, 35
+  offset: 0, 0
+  index: -1

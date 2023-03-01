@@ -1,0 +1,27 @@
+
+fj.png
+size: 996,600
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fjyz
+  rotate: false
+  xy: 502, 317
+  size: 492, 281
+  orig: 492, 281
+  offset: 0, 0
+  index: -1
+sti
+  rotate: false
+  xy: 502, 51
+  size: 481, 264
+  orig: 481, 264
+  offset: 0, 0
+  index: -1
+weiguang
+  rotate: true
+  xy: 2, 2
+  size: 596, 498
+  orig: 596, 498
+  offset: 0, 0
+  index: -1

@@ -1,5 +1,6 @@
 import { audio } from "../../base/audio"
 import { http } from "../../base/http"
+import { math } from "../../base/math"
 import BasePop from "../../base/view/BasePop"
 import { app } from "../../start/app"
 import { AppNative } from "../../start/scripts/platforms/AppNative"
@@ -13,20 +14,28 @@ const { ccclass } = cc._decorator
 export default class Userinfo extends BasePop {
 
     start() {
-        this.$("labelName", cc.Label).string = app.user.nickname
-        this.$("labelUserId", cc.Label).string = "" + app.user.guid
+        this.$("labelName", cc.Label).string = "" + (app.user.nickname.length > 6 ? app.user.nickname.substring(0, 6) + "..." : app.user.nickname)
+        this.$("labelUserId", cc.Label).string = "ID:" + app.user.guid
 
-        this.$("bindPhone").active = app.datas.bindPhone.hasBindMoble != 1
-        this.$("bindWechat").active = false
-        if (app.getOnlineParam("app_review")) {
-            this.$("bindPhone").active = false
-            if (!app.datas.ifBindWeixin) {
-                this.$("bindWechat").active = cc.sys.isNative && (app.platform as AppNative).hasWeChatSession()
-            }
-        }
+        // this.$("bindPhone").active = app.datas.bindPhone.hasBindMoble != 1
+        // this.$("bindWechat").active = false
+        // if (app.getOnlineParam("app_review")) {
+        //     this.$("bindPhone").active = false
+        //     if (!app.datas.ifBindWeixin) {
+        //         this.$("bindWechat").active = cc.sys.isNative && (app.platform as AppNative).hasWeChatSession()
+        //     }
+        // }
+
+
 
         this.setSprite({ node: this.$("face"), path: app.user.face, adjustSize: true })
         this.setSexStatus()
+
+        this.$("nodeUser/labelLocal", cc.Label).string = app.datas.IPLocation?.city || "未知"
+        this.$("nodeUser/labelLv", cc.Label).string = "等级: " + app.datas.byLevel + "级"
+
+        this.$("games", cc.Label).string = `${app.user.won + app.user.lost}`
+        this.$("won", cc.Label).string = `${app.user.won != 0 ? math.fixd(app.user.won / (app.user.won + app.user.lost) * 100) : "0"}%`
     }
 
     setSexStatus() {

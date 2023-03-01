@@ -35,6 +35,7 @@ export namespace http {
         let params = url as any
         params = params.query == null ? { url: url, query: query, callback: callback } : url
         if (typeof params.url !== "string") {
+            params.method = params.url.method || "POST"
             params.url = _host[params.url.host] + params.url.url
         }
 
@@ -43,6 +44,7 @@ export namespace http {
         const xhr = new XMLHttpRequest()
 
         const option: IHttpOption = params
+        // option.method = "POST"
         if (option.propertys) {
             for (const key in option.propertys) {
                 xhr[key] = option.propertys[key]
@@ -92,16 +94,15 @@ export namespace http {
             }
         }
 
-        let body: string | null = null
         if (option.query) {
             if (option.method == "POST") {
                 const querys = []
                 for (const key in option.query) {
                     querys.push(key + "=" + encodeURIComponent(option.query[key]))
                 }
-                if (querys.length > 0) {
-                    body = querys.join("&")
-                }
+                xhr.open("POST", option.url, true)
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send(querys.join("&"))
             } else {
                 const querys = []
                 for (const key in option.query) {
@@ -111,13 +112,12 @@ export namespace http {
                     option.url += "?"
                     option.url += querys.join("&")
                 }
+                xhr.open("GET", option.url, true)
+                xhr.send()
             }
+        } else {
+            xhr.open("GET", option.url, true)
+            xhr.send()
         }
-
-        xhr.open(option.method || "GET", option.url, true)
-        if (option.method == "POST" && option.queryType == "formdata") {
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        }
-        xhr.send(body)
     }
 }

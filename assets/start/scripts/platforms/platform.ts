@@ -14,6 +14,11 @@ export abstract class Platform {
     pay(...args: any) { }
 
     /**
+     * 预加载广告
+     */
+    preloadAdvert(...args: any) { }
+
+    /**
      * 打开广告
      */
     openAdvert(...args: any) { }
@@ -39,4 +44,6 @@ export abstract class Platform {
     isSupport(name: string) {
         return this.supports && this.supports.indexOf(name) > -1
     }
+
+    logEvent(name: string, param?: any) {}
 }

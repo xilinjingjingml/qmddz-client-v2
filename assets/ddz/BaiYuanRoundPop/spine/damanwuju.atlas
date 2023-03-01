@@ -1,0 +1,69 @@
+
+damanwuju.png
+size: 853,709
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+anniu
+  rotate: true
+  xy: 743, 391
+  size: 316, 96
+  orig: 316, 96
+  offset: 0, 0
+  index: -1
+guangdian
+  rotate: false
+  xy: 609, 2
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+lizi_guang_2
+  rotate: true
+  xy: 743, 147
+  size: 89, 90
+  orig: 89, 90
+  offset: 0, 0
+  index: -1
+rmb
+  rotate: true
+  xy: 743, 238
+  size: 151, 108
+  orig: 151, 108
+  offset: 0, 0
+  index: -1
+tjhb
+  rotate: true
+  xy: 609, 147
+  size: 560, 132
+  orig: 560, 132
+  offset: 0, 0
+  index: -1
+uiditu
+  rotate: false
+  xy: 2, 16
+  size: 605, 691
+  orig: 605, 691
+  offset: 0, 0
+  index: -1
+xxxdd
+  rotate: false
+  xy: 609, 17
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+zg
+  rotate: true
+  xy: 739, 27
+  size: 118, 30
+  orig: 118, 30
+  offset: 0, 0
+  index: -1
+zuigao
+  rotate: true
+  xy: 771, 80
+  size: 65, 34
+  orig: 65, 34
+  offset: 0, 0
+  index: -1

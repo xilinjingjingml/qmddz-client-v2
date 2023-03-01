@@ -4,8 +4,10 @@ import TaskQueue from "../../base/TaskQueue"
 import BaseView from "../../base/view/BaseView"
 import { ads } from "../../start/ads"
 import { app } from "../../start/app"
+import { GAME, GAME_TYPE } from "../../start/config"
 import { appfunc } from "../appfunc"
 import { FAKE_GIFT_KEY } from "../lobby"
+import { checkSign } from "../sign/Sign"
 
 const { ccclass } = cc._decorator
 
@@ -14,20 +16,20 @@ export default class PopupCtrl extends BaseView {
 
     start() {
         const queue = new TaskQueue(this.node)
-        
-        if (!app.getOnlineParam("app_review") && app.datas.first == 1 && app.getOnlineParam("jump2game") && !app.datas.newUserPopShow) {
+
+        // if (!app.getOnlineParam("app_review") && app.datas.first == 1 && app.getOnlineParam("jump2game") && !app.datas.newUserPopShow) {
+        if (app.datas.first == 1 && !app.datas.newUserPopShow) {
             monitor.once("server_status_update", () => {
-                this.checkAntiAddition(()=>{
+                if (app.getOnlineParam("anti_review") === 1) {
+                    this.checkAntiAddition(appfunc.showNewUserPop)
+                } else {
                     appfunc.showNewUserPop()
-                })
+                }
             })
             app.datas.isLeaveGame = false
             return
-        }else{
-            //防沉迷
-            if(!appfunc.hasAntiAddition()){
-                queue.add(this.checkAntiAddition, this)
-            }
+        } else if (app.getOnlineParam("anti_review") !== 2) {
+            queue.add(this.checkAntiAddition, this)
         }
 
         if (this.params.openCallback) {
@@ -42,7 +44,7 @@ export default class PopupCtrl extends BaseView {
         }
 
         if (!app.getOnlineParam("app_review")) {
-            queue.add(this.checkDailyGift, this)
+            queue.add(this.checkDaliySign, this)
         }
 
         if (app.getOnlineParam("app_review")) {
@@ -87,7 +89,21 @@ export default class PopupCtrl extends BaseView {
         next()
     }
 
-    checkAntiAddition(next: Function){
+    checkAntiAddition(next: Function) {
+        // if (app.datas.querys["skipAnti"] === "true") {
+        //     next()
+        //     return
+        // }
+        if (appfunc.hasAntiAddition()) {
+            next()
+            return
+        }
         appfunc.showAntiAddiction(next)
+    }
+
+    checkDaliySign(next: Function) {
+        checkSign((can: boolean) => {
+            can && appfunc.showSignPop(next)
+        })
     }
 }

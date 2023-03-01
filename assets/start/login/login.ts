@@ -3,8 +3,11 @@ import { NodeExtends } from "../../base/extends/NodeExtends"
 import { listen, monitor } from "../../base/monitor"
 import { storage } from "../../base/storage"
 import BaseView from "../../base/view/BaseView"
+import { ViewManager } from "../../base/view/ViewManager"
+import { report } from "../../report"
 import { app } from "../app"
 import { AppNative, EPluginType, IAppSessionInfo } from "../scripts/platforms/AppNative"
+import { WebBrowser } from "../scripts/platforms/WebBrowser"
 import { startFunc } from "../startFunc"
 
 const { ccclass } = cc._decorator
@@ -15,13 +18,14 @@ export default class login extends BaseView {
     tempSessionType: string
 
     start() {
+        // report("登录", "界面显示")
         if (cc.sys.isBrowser) {
             app.platformApp = this.platform = new AppNative()
             this.platform.init()
-            monitor.once("platform_init", this.initLoginButtons, this)
+            // monitor.once("platform_init", this.initLoginButtons, this)
         } else {
             this.platform = app.platform as AppNative
-            this.initLoginButtons()
+            // this.initLoginButtons()
         }
 
         this.showLoginButtons(false)
@@ -29,13 +33,15 @@ export default class login extends BaseView {
         // 上次自动登录
         const lastLoginType = storage.get("login_type")
         if (lastLoginType) {
+            console.log("=====lastLoginType ", lastLoginType)
             this.login(lastLoginType)
             return
         }
 
         // 游客自动登录
         const SessionName = "SessionGuest"
-        if (storage.get("auto_login") != false && app.getOnlineParam("auto_login_guest", true) && this.platform.hasPluginByName(SessionName)) {
+        if (storage.get("auto_login") != false && app.getOnlineParam("auto_login_guest", false) && this.platform.hasPluginByName(SessionName)) {
+            console.log("=====auto_login ", "SessionGuest")
             this.login(SessionName)
             return
         }
@@ -43,33 +49,35 @@ export default class login extends BaseView {
         storage.remove("auto_login")
         // 手动选择登录
         this.showLoginButtons(true)
+
+        this.$("jiazaidonghua").active = false
     }
 
-    initLoginButtons() {
-        const button: cc.Node = this.$("btn_login")
-        button.active = false
-        for (const plugin of this.platform.plugins) {
-            if (plugin.type != EPluginType.kPluginSession.toString()) {
-                continue
-            }
+    // initLoginButtons() {
+    //     const button: cc.Node = this.$("btn_login")
+    //     button.active = false
+    //     for (const plugin of this.platform.plugins) {
+    //         if (plugin.type != EPluginType.kPluginSession.toString()) {
+    //             continue
+    //         }
 
-            if (!this.checkLoginSession(plugin.name)) {
-                continue
-            }
+    //         if (!this.checkLoginSession(plugin.name)) {
+    //             continue
+    //         }
 
-            cc.log("[LoginLayer.initLoginButtons] add plugin", plugin.name)
-            const node = cc.instantiate(button)
-            node.active = true
-            node.parent = this.$("node_btns")
-            node.getComponent(cc.Button).clickEvents[0].customEventData = plugin.name
-            this.setSpriteLocal({
-                node: node,
-                bundle: app.bundule,
-                path: this.platform.thirdparty + plugin.name,
-                delay: true,
-            })
-        }
-    }
+    //         cc.log("[LoginLayer.initLoginButtons] add plugin", plugin.name)
+    //         const node = cc.instantiate(button)
+    //         node.active = true
+    //         node.parent = this.$("node_btns")
+    //         node.getComponent(cc.Button).clickEvents[0].customEventData = plugin.name
+    //         this.setSpriteLocal({
+    //             node: node,
+    //             bundle: app.bundule,
+    //             path: this.platform.thirdparty + plugin.name,
+    //             delay: true,
+    //         })
+    //     }
+    // }
 
     checkLoginSession(name: string) {
         const showname = "show" + name.substring(7)
@@ -97,6 +105,35 @@ export default class login extends BaseView {
         audio.playMenuEffect()
         NodeExtends.cdTouch(event)
         this.login(data)
+    }
+
+    onPressWeixin() {
+        audio.playMenuEffect()
+        if (!this.checkPact()) {
+            return
+        }
+        this.login("SessionWeiXin")
+        report("登录", "微信登录")
+    }
+
+    onPressFast() {
+        audio.playMenuEffect()
+        if (!this.checkPact()) {
+            return
+        }
+        this.login("SessionGuest")
+        report("登录", "快速登录")
+    }
+
+    checkPact() {
+        let check = this.$("node_btns/check_pact", cc.Toggle).isChecked
+        if (!check) {
+            startFunc.showToast("请勾选同意下方的协议后即可进入游戏！")
+            // report("登录", "提示勾选协议")
+            return false
+        }
+
+        return true
     }
 
     login(data: string) {
@@ -134,17 +171,25 @@ export default class login extends BaseView {
             app.datas.morrow = app.datas.first == 1 ? 0 : Number(res.morrow)
             app.datas.kuaishou_callback = res.callback
 
+            cc.sys.localStorage.setItem("guid", app.user.guid)
+
             this.platform.startPush()
             if (app.datas.first == 1) {
-                this.platform.uploadKuaiShou(1)
+                // this.platform.uploadKuaiShou(1)
+                if (cc.sys.isNative) {
+                    (app.platform as AppNative).uploadKuaiShou(1)
+                }
             } else if (app.datas.morrow == 1) {
                 if (!storage.get("kuaishou_second_stay")) {
                     storage.set("kuaishou_second_stay", true)
-                    this.platform.uploadKuaiShou(7)
+                    if (cc.sys.isNative) {
+                        (app.platform as AppNative).uploadKuaiShou(7)
+                    }
                 }
             }
-
+            cc.sys.localStorage.setItem("newbiew", app.datas.first === 1)
             monitor.emit("platform_login_success")
+            report("登录", "登录成功")
         } else {
             this.showLoginButtons(true)
 
@@ -156,11 +201,23 @@ export default class login extends BaseView {
             }
             startFunc.showToast(msg)
             storage.remove("login_type")
+
+            report("登录", "登录失败", msg)
         }
     }
 
     @listen("platform_login_success")
     platform_login_success() {
         storage.set("login_type", this.tempSessionType)
+    }
+
+    onPressProtocol(event: cc.Event.EventTouch, type) {
+        audio.playMenuEffect()
+
+        if (cc.WebView) {
+            ViewManager.showPopup({ bundle: "lobby", path: "setting/webview", params: { url: type === "0" ? app.protocol0_url : app.protocol1_url, title: type === "0" ? "用户协议" : "隐私协议" } })
+        } else {
+            ViewManager.showPopup({ bundle: "lobby", path: type === "0" ? "setting/protocol0" : "setting/protocol1" })
+        }
     }
 }

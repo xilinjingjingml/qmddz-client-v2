@@ -8,7 +8,7 @@ export default class AdLoading extends BasePop {
 
     start() {
         // loading转圈
-        cc.tween(this.$("loading_bg")).by(1, { angle: -360 }).repeatForever().start()
+        // cc.tween(this.$("loading_bg")).by(1, { angle: -360 }).repeatForever().start()
 
         if (this.params.time > 0) {
             this.scheduleOnce(this.close.bind(this), this.params.time)

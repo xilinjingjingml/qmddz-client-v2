@@ -22,6 +22,7 @@ export default class BaiYuanActivity extends BaseActivity {
 
     start() {
         this.$("btn_lottery").active = false
+        this.$("btn_card_count").active = false
         this.$("btn_tomorrow").active = false
         this.$("node_hb_round").active = false
         this.$("btn_hb_round").active = false
@@ -36,6 +37,7 @@ export default class BaiYuanActivity extends BaseActivity {
     @listen(EventName.game_result_next)
     onGameResultNext() {
         this.$("btn_lottery").active = true
+        this.$("btn_card_count").active = true
         this.$("btn_tomorrow").active = true
         this.setTomorrowActive()
         this.setCardCountActive()
@@ -62,19 +64,19 @@ export default class BaiYuanActivity extends BaseActivity {
 
     @listen("tomorrow_status_update")
     setTomorrowActive() {
-        this.$("btn_tomorrow").active = app.datas.TomorrowStatus.enabled
+        // this.$("btn_tomorrow").active = app.datas.TomorrowStatus.enabled
     }
 
     @listen("ads_config_update")
     setCardCountActive() {
-        this.$("btn_card_count").active = ads.checkCanReceive(ads.video.CardNoteBuyPop) && !GameFunc.isGameRuning()
+        // this.$("btn_card_count").active = ads.checkCanReceive(ads.video.CardNoteBuyPop) && !GameFunc.isGameRuning()
 
         if (app.getOnlineParam("cashout_type", "SmallWithdrawal") != "SmallWithdrawal") {
-            this.$("node_withdrawal").active = false
+            // this.$("node_withdrawal").active = false
             return
         }
         const data = checkSmallWithdrawal()
-        this.$("node_withdrawal").active = !data.receive && !GameFunc.isGameRuning()
+        // this.$("node_withdrawal").active = !data.receive && !GameFunc.isGameRuning()
         this.$("label_withdrawal", cc.Label).string = data.count > 0 ? `还需观看视频${data.count}次` : "可立即提现"
     }
 
@@ -131,6 +133,13 @@ export default class BaiYuanActivity extends BaseActivity {
         this.$("progress_hb_round", cc.ProgressBar).progress = now / sum
     }
 
+    @listen(EventName.game_wait_show)
+    onGameWaitShow() {
+        this.$("btn_lottery").active = false
+        this.$("btn_card_count").active = false
+        this.$("btn_tomorrow").active = false
+    }
+
     @listen(EventName.game_start)
     onGameStart() {
         this.$("btn_lottery").active = false
@@ -143,7 +152,7 @@ export default class BaiYuanActivity extends BaseActivity {
 
     @listen("proto_gc_baiyuan_hb_round_not")
     proto_gc_baiyuan_hb_round_not(message: Iproto_gc_baiyuan_hb_round_not) {
-        this.$("btn_hb_round").active = true
+        this.$("btn_hb_round").active = false
         this.refreshHBRound(message.nCurRound, message.nLimitRound)
     }
 

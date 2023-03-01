@@ -11,7 +11,7 @@ resources_exts: &resources_exts
     - .png
     - .jpg
 android_path: &android_path
-  android_path: D:\AndroidProjects\zxddz-android
+  android_path: D:\zxddz-android
 version_url: &version_url
   version_url: https://statics.weipinggame.com.cn/get/loading/configs?pn=com.union.hbddz.ad.kuaishou&fwversion=14042902&gtype=mainF33&sgtype=f33&sign=3afd28e370c9af8ecf2b02e382b4e38c&md5=d40383ab4e303867e7d57c132a41b3af01&uid=&imei=&level=&gameNums=0&loginSecret=0725038722bf9d6855e367683c20ca49&buildCode=1&appConfigGame=1238&appcode=1
 
@@ -20,9 +20,9 @@ commands:
   # - compile_creater
   - compress_resources
   - compress_assets
-  - publish_test
+  # - publish_test
   # - publish_process
-  # - publish_android
+  - publish_android
   # - compile_apk
   - toast_finish
 compile_proto:

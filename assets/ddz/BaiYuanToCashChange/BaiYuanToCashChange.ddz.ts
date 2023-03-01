@@ -22,6 +22,8 @@ export default class BaiYuanToCashChange extends BasePop {
         this.$("result_lord_lose").active = !bomb && !win && isLord
         this.$("result_win").active = !bomb && win && !isLord
         this.$("result_lose").active = !bomb && !win && !isLord
+        this.$("icon_zhadan").active = bomb && !win
+
 
         const value = appfunc.toCash(this.params.value).toFixed(2)
         if (win) {

@@ -5,6 +5,7 @@ import { storage } from "../../../base/storage"
 import TaskQueue from "../../../base/TaskQueue"
 import { utils } from "../../../base/utils"
 import BasePop from "../../../base/view/BasePop"
+import { report } from "../../../report"
 import { EAdType } from "../../ads"
 import { app } from "../../app"
 import { startFunc } from "../../startFunc"
@@ -96,7 +97,7 @@ export interface IAppSessionInfo {
 const AdBannerSizeName = "AdBannerSize"
 export class AppNative extends Platform {
     supports: string[] = []
-    plugins: { name: string, type: string, tag: string, mid: string }[]
+    plugins: { name: string, type: string, tag: string, mid: string }[] = []
     readonly thirdparty: string = "thirdparty/"
     readonly weChatSessionName: string = "SessionWeiXin"
 
@@ -143,7 +144,7 @@ export class AppNative extends Platform {
                 const config = data.config
                 cc.log("[AppNative.readConfig] env", typeof config.env, config.env)
                 if (config.env != null) {
-                    app.env = parseInt(config.env)
+                    app.env = storage.get("ENV") ?? parseInt(config.env)
                 }
             }
         }
@@ -160,7 +161,7 @@ export class AppNative extends Platform {
 
     private setPlugins(config: { game: { PacketName: string }[], plugins: { name: string, type: string, tag: string, mid: string }[] }) {
         cc.log("[AppNative.setPlugins]", config)
-        this.plugins = config.plugins
+        this.plugins = config.plugins || []
 
         if (cc.sys.isBrowser) {
             monitor.emit("platform_init")
@@ -189,6 +190,7 @@ export class AppNative extends Platform {
     private onPluginCallBack(data?: string) {
         cc.log("[AppNative.onPluginCallBack]", data)
         this.onCallBack(true, JSON.parse(data))
+        // app.switchPlugin()
     }
 
     private onCallBack(success: boolean, ...args: any[]) {
@@ -204,7 +206,7 @@ export class AppNative extends Platform {
 
     private onAdsCallBack(data: string) {
         cc.log("[AppNative.onAdsCallBack]", data)
-        const info: { AdsResultCode: number, msg?: string, adsInfo?: { bannerWidth: string, bannerHeight: string, nativeWidth: string, nativeHeight: string, adSize: number } } = JSON.parse(data)
+        const info: { AdsResultCode: number, msg?: string, adsInfo?: { adId: string, bannerWidth: string, bannerHeight: string, nativeWidth: string, nativeHeight: string, adSize: number, ecpm: string } } = JSON.parse(data)
         if ([EAppAdsResult.BANNER_SUCCESS, EAppAdsResult.BANNER_FAIL].includes(info.AdsResultCode)) {
             // banner
             if (info.adsInfo == null) {
@@ -232,7 +234,7 @@ export class AppNative extends Platform {
             if (info.AdsResultCode == EAppAdsResult.REWARTVIDEO_SUCCESS) {
                 cc.audioEngine.resumeMusic()
                 monitor.emit("ads_loading_hide")
-                this.onCallBack(true)
+                this.onCallBack(true, info.adsInfo.ecpm)
             } else if (info.AdsResultCode == EAppAdsResult.REWARTVIDEO_FAIL) {
                 cc.audioEngine.resumeMusic()
                 monitor.emit("ads_loading_hide")
@@ -242,6 +244,8 @@ export class AppNative extends Platform {
                 cc.audioEngine.resumeMusic()
                 monitor.emit("ads_loading_hide")
                 this.onCallBack(false)
+
+                app.user.switch_plugin = false
             } else if (info.AdsResultCode == EAppAdsResult.REWARTVIDEO_LOAD_FAIL) {
                 if (this.usedAdsDatas) {
                     this.openAdvert({
@@ -253,7 +257,10 @@ export class AppNative extends Platform {
                     return
                 }
                 startFunc.showToast("视频广告加载失败 请再点击一次")
+                monitor.emit("ads_loading_hide")
                 this.onCallBack(false)
+                if (info.msg) report("广告", "加载失败", info.adsInfo.adId, info.msg)
+                app.user.switch_plugin = false
             } else if (info.AdsResultCode == EAppAdsResult.REWARTVIDEO_LOAD_SUCCESS) {
                 cc.audioEngine.pauseMusic()
                 // 播放视频时关闭banner
@@ -291,18 +298,27 @@ export class AppNative extends Platform {
             } else if (info.AdsResultCode == EAppAdsResult.NATIVE_FAIL) {
             } else if (info.AdsResultCode == EAppAdsResult.NATIVE_CLOSE) {
                 monitor.emit("ads_loading_hide")
+                app.user.switch_plugin = false
             }
         } else if ([EAppAdsResult.INTER_SUCCEES, EAppAdsResult.INTER_FAIL, EAppAdsResult.INTER_CLOSE].includes(info.AdsResultCode)) {
             // inter
             if (info.AdsResultCode == EAppAdsResult.INTER_SUCCEES) {
                 monitor.emit("ads_loading_show", -1, true) // 防误触遮罩
             } else if (info.AdsResultCode == EAppAdsResult.INTER_FAIL) {
+                monitor.emit("ads_loading_hide")
                 this.onCallBack(true)
+
+                app.user.switch_plugin = false
             } else if (info.AdsResultCode == EAppAdsResult.INTER_CLOSE) {
                 monitor.emit("ads_loading_hide")
                 this.onCallBack(true)
+
+                app.user.switch_plugin = false
             }
         }
+
+        // app.user.switch_plugin = true
+        // app.switchPlugin()
     }
 
     onShowPopup(popup: BasePop) {
@@ -395,7 +411,14 @@ export class AppNative extends Platform {
         info.PlatformHost = hosts[app.env][EHOST.web]
         cc.log("[AppNative.login]", params.sessionType, info)
 
-        this.callBack = params.callback
+        app.user.switch_plugin = true
+
+        let callback = (data: IAppSessionInfo) => {
+            app.user.switch_plugin = false
+            params.callback?.(data)
+        }
+
+        this.callBack = callback//params.callback
         this.loadPlugin(params.sessionType, EPluginType.kPluginSession)
         this.pluginProxy.userItemsLogin(JSON.stringify(info))
     }
@@ -503,6 +526,7 @@ export class AppNative extends Platform {
             SharedImg: data.SharedImg || "file://thirdparty/icon.png",
         }
         cc.log("[AppNative.share]", info)
+        // app.user.switch_plugin = true
         this.pluginProxy.shareWithItems(JSON.stringify(info))
     }
 
@@ -546,9 +570,41 @@ export class AppNative extends Platform {
     }
 
     /**
+     * 预加载广告
+     */
+    preloadAdvert(params: { type: EAdType, index?: number }) {
+        console.log("===preloadAdvert", JSON.stringify(params))
+        const appAdType = this.getAppAdType(params.type)
+        // 根据广告点查找广告配置
+        let configs: IAdsConfig[]
+        if (params.type == EAdType.Video) {
+            configs = this.videoConfigs[params.index]
+        }
+        if (configs == null || configs.length == 0) {
+            configs = this.getCommoAdsConfigs(appAdType)
+        }
+        if (configs == null || configs.length == 0) {
+            return
+        }
+
+        configs = configs.slice()
+
+        // let config: IAdsConfig
+        for (const cfg of configs) {
+            const info = {
+                adType: appAdType.toString(),
+                adId: cfg.adId,
+            }
+            cc.log("[AppNative.preLoadAdvert]", params.type, info)
+            this.loadPlugin(cfg.name, EPluginType.kPluginAds)
+            this.pluginProxy.preloadAds?.(JSON.stringify(info))
+        }
+    }
+
+    /**
      * 展示广告
      */
-    openAdvert(params: { type: EAdType, index?: number, success?: Function, excludes?: string[] }) {
+    openAdvert(params: { type: EAdType, index?: number, success?: Function, excludes?: string[], transId?: string }) {
         const appAdType = this.getAppAdType(params.type)
         // 根据广告点查找广告配置
         let configs: IAdsConfig[]
@@ -622,7 +678,7 @@ export class AppNative extends Platform {
             cc.log("[AppNative.openAdvert] banner rect", rect)
             monitor.emit("platform_ad_banner_size", rect)
         } else if (params.type == EAdType.Video) {
-            // video 添加遮罩
+            // video 添加遮罩            
             monitor.emit("ads_loading_show")
         }
 
@@ -643,8 +699,12 @@ export class AppNative extends Platform {
             adWidth: "0",
             adHeight: "0",
             adSize: adSize.toString(),
+
+            guid: app.user.guid,
+            transId: params.transId,
         }
         cc.log("[AppNative.openAdvert]", params.type, info)
+        app.user.switch_plugin = true
         this.callBack = params.success
         this.loadPlugin(config.name, EPluginType.kPluginAds)
         this.pluginProxy.showAds(JSON.stringify(info))
@@ -788,6 +848,10 @@ export class AppNative extends Platform {
         if (!app.datas.kuaishou_callback) {
             return
         }
+        // if (type === 1) {
+        //     report("快手", `用户激活`)
+        // }
+
         http.open("http://ad.partner.gifshow.com/track/activate", {
             event_type: type,
             event_time: new Date().getTime(),
@@ -823,4 +887,23 @@ export class AppNative extends Platform {
             }
         })
     }
+
+    logEvent(name: string, param?: any): void {
+        if (this.pluginProxy) {
+            cc.log("[PluginManager.logEvent]", name, JSON.stringify(param))
+            this.loadPlugin("AnalyticsMonitor", 2)
+            cc.log("_loadPlugin AnalyticsMonitor end")
+            this.pluginProxy.logEvent(TAG_LOG.TAG_LOG_EVENT_ID, name, JSON.stringify(param) || '')
+        }
+    }
+}
+
+enum TAG_LOG {
+    TAG_LOG_EVENT_ID = 0,
+    TAG_LOG_EVENT_ID_KV,
+    TAG_LOG_EVENT_ID_DURATION,
+    TAG_LOG_EVENT_LABEL_DURATION,
+    TAG_LOG_EVENT_BEGINTAG_LOG_EVENT_END,
+    TAG_LOG_EVENT_LABEL_BEGIN,
+    TAG_LOG_EVENT_LABEL_END
 }

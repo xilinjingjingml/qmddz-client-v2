@@ -10,7 +10,7 @@ const { ccclass } = cc._decorator
 export default class UserCtrl extends BaseView {
 
     start() {
-        this.$("labelName", cc.Label).string = app.user.nickname
+        // this.$("labelName", cc.Label).string = app.user.nickname
         this.setSprite({ node: this.$("face"), path: app.user.face, adjustSize: true })
 
         this.setItemNum()

@@ -85,9 +85,9 @@ export default class BaseView extends cc.Component {
         if (!this._$) {
             this._$ = utils.mark(this.node)
         }
-        const item = this._$[name] || cc.find(name, this.node)
+        const item = this._$[name] || cc.find(name, this.node) || new cc.Node()
         if (item && type) {
-            return item.getComponent(type)
+            return item.getComponent(type) || {}
         }
 
         return item

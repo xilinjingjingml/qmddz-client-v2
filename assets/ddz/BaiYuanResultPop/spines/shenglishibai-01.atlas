@@ -1,0 +1,41 @@
+
+shenglishibai-01.png
+size: 771,460
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+sli
+  rotate: true
+  xy: 499, 63
+  size: 395, 183
+  orig: 395, 183
+  offset: 0, 0
+  index: -1
+tuoy
+  rotate: false
+  xy: 2, 2
+  size: 495, 456
+  orig: 495, 456
+  offset: 0, 0
+  index: -1
+xg
+  rotate: false
+  xy: 499, 17
+  size: 44, 44
+  orig: 44, 44
+  offset: 0, 0
+  index: -1
+xxxx222
+  rotate: false
+  xy: 684, 305
+  size: 81, 153
+  orig: 81, 153
+  offset: 0, 0
+  index: -1
+xxxxxx111
+  rotate: false
+  xy: 684, 183
+  size: 85, 120
+  orig: 85, 120
+  offset: 0, 0
+  index: -1

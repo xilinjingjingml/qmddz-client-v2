@@ -1,0 +1,48 @@
+
+gxhde.png
+size: 364,141
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c1
+  rotate: true
+  xy: 216, 9
+  size: 53, 55
+  orig: 53, 55
+  offset: 0, 0
+  index: -1
+c2
+  rotate: true
+  xy: 158, 8
+  size: 54, 56
+  orig: 54, 56
+  offset: 0, 0
+  index: -1
+c3
+  rotate: true
+  xy: 2, 16
+  size: 46, 76
+  orig: 46, 76
+  offset: 0, 0
+  index: -1
+c4
+  rotate: true
+  xy: 80, 17
+  size: 45, 76
+  orig: 45, 76
+  offset: 0, 0
+  index: -1
+guangdian
+  rotate: false
+  xy: 80, 2
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+gxhde
+  rotate: false
+  xy: 2, 64
+  size: 360, 75
+  orig: 360, 75
+  offset: 0, 0
+  index: -1

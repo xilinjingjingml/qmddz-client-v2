@@ -5,6 +5,7 @@ import { startFunc } from "../start/startFunc"
 import { appfunc } from "./appfunc"
 import lobbyOpcode from "./proto/lobby.opcode"
 import message = require("./proto/lobby.message")
+import { report } from "../report"
 
 export default class LobbySocket implements ISocketDelegate {
     socket: ISocketWrapper
@@ -41,14 +42,18 @@ export default class LobbySocket implements ISocketDelegate {
     @listen("proto_lc_verity_ticket_ack")
     proto_lc_verity_ticket_ack(message: Iproto_lc_verity_ticket_ack) {
         if (message.ret == 0) {
+            cc.sys.localStorage.setItem("guid", app.user.guid)
+
             app.user.ply_state = message.plyStatus
-            appfunc.setUserData(message.plyLobbyData, message.plyItems)
+            appfunc.setUserData(message.plyLobbyData, message.plyItems, "verity_ticket")
 
             appfunc.setServerTime(message.timeStamp)
 
             this.send_proto_cl_get_player_game_list_req()
             this.proto_cl_check_relief_status_req()
             appfunc.getTaskList(0)
+
+            report("socket", "verity_ticket_ack")
         } else {
             cc.error("[proto_lc_verity_ticket_ack]", message.ret)
         }
@@ -80,7 +85,8 @@ export default class LobbySocket implements ISocketDelegate {
                 app.servers.get(server.gameId).push(server)
             })
 
-            if (app.user.ply_state.plyStatus == 2 || app.user.ply_state.plyStatus == 5) {
+            if ((app.user.ply_state.plyStatus == 2 || app.user.ply_state.plyStatus == 5) &&
+                (cc.director.getScene().name == "lobby" || cc.director.getScene().name == "login")) {
                 app.user.ply_state.plyStatus = 0
                 appfunc.gobackGame(app.user.ply_state.gameId, app.user.ply_state.gameServerId)
             }
@@ -89,6 +95,7 @@ export default class LobbySocket implements ISocketDelegate {
         }
     }
 
+    @listen("reget_game_list")
     send_proto_cl_get_player_game_list_req() {
         this.socket.send<Iproto_cl_get_player_game_list_req>("proto_cl_get_player_game_list_req", { gameList: app.gameList })
     }

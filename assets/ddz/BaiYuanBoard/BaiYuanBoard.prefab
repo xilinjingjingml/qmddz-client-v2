@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "board",
+    "_name": "BaiYuanBoard",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -60,7 +60,7 @@
       "array": [
         375,
         667,
-        0,
+        -539.52636,
         0,
         0,
         0,
@@ -117,7 +117,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 750,
       "height": 0
     },
     "_anchorPoint": {
@@ -129,7 +129,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        245,
+        0,
         625,
         0,
         0,
@@ -166,7 +166,7 @@
         "__id__": 4
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 12
@@ -585,7 +585,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 217,
+      "width": -8,
       "height": 52
     },
     "_anchorPoint": {
@@ -598,7 +598,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        0,
+        -6.134,
         0,
         0,
         0,
@@ -632,7 +632,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 217,
+      "width": -8,
       "height": 52
     },
     "_resize": 1,
@@ -675,9 +675,9 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 33,
+    "_alignFlags": 41,
     "_left": 0,
-    "_right": 130,
+    "_right": 0,
     "_top": 42,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -711,7 +711,7 @@
       "__id__": 1
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 20
@@ -733,8 +733,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 471,
-      "height": 200
+      "width": 360,
+      "height": 160
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -746,7 +746,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        225,
+        194,
         0,
         0,
         0,
@@ -815,7 +815,7 @@
     "_alignFlags": 1,
     "_left": 0,
     "_right": 0,
-    "_top": 342,
+    "_top": 393,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,

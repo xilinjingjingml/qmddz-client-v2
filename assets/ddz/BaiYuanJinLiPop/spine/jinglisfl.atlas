@@ -1,0 +1,90 @@
+
+jinglisfl.png
+size: 943,773
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+faguang
+  rotate: false
+  xy: 448, 13
+  size: 326, 548
+  orig: 326, 548
+  offset: 0, 0
+  index: -1
+guang
+  rotate: true
+  xy: 2, 129
+  size: 642, 444
+  orig: 642, 444
+  offset: 0, 0
+  index: -1
+jlsfl
+  rotate: false
+  xy: 2, 22
+  size: 402, 105
+  orig: 402, 105
+  offset: 0, 0
+  index: -1
+saoguang
+  rotate: true
+  xy: 776, 101
+  size: 460, 106
+  orig: 460, 106
+  offset: 0, 0
+  index: -1
+xg
+  rotate: false
+  xy: 884, 449
+  size: 44, 44
+  orig: 44, 44
+  offset: 0, 0
+  index: -1
+xingxing_2
+  rotate: false
+  xy: 2, 2
+  size: 19, 18
+  orig: 19, 18
+  offset: 0, 0
+  index: -1
+yawu
+  rotate: true
+  xy: 884, 206
+  size: 241, 37
+  orig: 241, 37
+  offset: 0, 0
+  index: -1
+yushen
+  rotate: true
+  xy: 448, 563
+  size: 208, 488
+  orig: 208, 488
+  offset: 0, 0
+  index: -1
+yyy889
+  rotate: false
+  xy: 884, 495
+  size: 57, 66
+  orig: 57, 66
+  offset: 0, 0
+  index: -1
+yyyq1
+  rotate: true
+  xy: 406, 16
+  size: 60, 31
+  orig: 60, 31
+  offset: 0, 0
+  index: -1
+zzqq1
+  rotate: false
+  xy: 406, 78
+  size: 32, 49
+  orig: 32, 49
+  offset: 0, 0
+  index: -1
+zzzqqq3
+  rotate: true
+  xy: 776, 33
+  size: 66, 65
+  orig: 66, 65
+  offset: 0, 0
+  index: -1

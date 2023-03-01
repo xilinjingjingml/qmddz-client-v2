@@ -1,0 +1,137 @@
+
+chaihongbao.png
+size: 1023,1023
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+03q
+  rotate: true
+  xy: 724, 252
+  size: 576, 281
+  orig: 576, 281
+  offset: 0, 0
+  index: -1
+07q
+  rotate: true
+  xy: 724, 830
+  size: 191, 286
+  orig: 191, 286
+  offset: 0, 0
+  index: -1
+08q
+  rotate: false
+  xy: 724, 2
+  size: 113, 248
+  orig: 113, 248
+  offset: 0, 0
+  index: -1
+gggttt
+  rotate: false
+  xy: 2, 30
+  size: 350, 40
+  orig: 350, 40
+  offset: 0, 0
+  index: -1
+guangdian
+  rotate: false
+  xy: 1007, 815
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+shouzhi-yy
+  rotate: false
+  xy: 839, 19
+  size: 170, 231
+  orig: 170, 231
+  offset: 0, 0
+  index: -1
+ui-quan
+  rotate: false
+  xy: 2, 152
+  size: 720, 869
+  orig: 720, 869
+  offset: 0, 0
+  index: -1
+xingguang
+  rotate: false
+  xy: 2, 72
+  size: 77, 78
+  orig: 77, 78
+  offset: 0, 0
+  index: -1
+
+chaihongbao2.png
+size: 961,1012
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+01q
+  rotate: true
+  xy: 702, 326
+  size: 684, 240
+  orig: 684, 240
+  offset: 0, 0
+  index: -1
+04q
+  rotate: false
+  xy: 430, 23
+  size: 529, 281
+  orig: 529, 281
+  offset: 0, 0
+  index: -1
+05q
+  rotate: false
+  xy: 2, 2
+  size: 426, 302
+  orig: 426, 302
+  offset: 0, 0
+  index: -1
+bbbbbbbxx
+  rotate: false
+  xy: 2, 306
+  size: 698, 704
+  orig: 698, 704
+  offset: 0, 0
+  index: -1
+
+chaihongbao3.png
+size: 923,670
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+01
+  rotate: false
+  xy: 434, 430
+  size: 480, 238
+  orig: 480, 238
+  offset: 0, 0
+  index: -1
+02q
+  rotate: true
+  xy: 208, 29
+  size: 639, 224
+  orig: 639, 224
+  offset: 0, 0
+  index: -1
+06q
+  rotate: false
+  xy: 434, 40
+  size: 332, 388
+  orig: 332, 388
+  offset: 0, 0
+  index: -1
+chai-shangban
+  rotate: true
+  xy: 2, 2
+  size: 666, 204
+  orig: 666, 204
+  offset: 0, 0
+  index: -1
+shouzhi
+  rotate: false
+  xy: 768, 215
+  size: 153, 213
+  orig: 153, 213
+  offset: 0, 0
+  index: -1

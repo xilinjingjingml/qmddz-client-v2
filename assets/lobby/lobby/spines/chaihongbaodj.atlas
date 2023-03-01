@@ -1,0 +1,40 @@
+
+chaihongbaodj.png
+size: 852,971
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+01
+  rotate: false
+  xy: 2, 2
+  size: 480, 238
+  orig: 480, 238
+  offset: 0, 0
+  index: -1
+ddjj
+  rotate: true
+  xy: 700, 269
+  size: 700, 150
+  orig: 700, 150
+  offset: 0, 0
+  index: -1
+qj
+  rotate: false
+  xy: 2, 242
+  size: 696, 727
+  orig: 696, 727
+  offset: 0, 0
+  index: -1
+
+chaihongbaodj2.png
+size: 669,400
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bj
+  rotate: false
+  xy: 2, 2
+  size: 665, 396
+  orig: 665, 396
+  offset: 0, 0
+  index: -1

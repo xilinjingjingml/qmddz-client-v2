@@ -1,0 +1,41 @@
+
+wanjiapipeizhong.png
+size: 235,52
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+jia
+  rotate: false
+  xy: 2, 2
+  size: 44, 48
+  orig: 44, 48
+  offset: 0, 0
+  index: -1
+pei
+  rotate: false
+  xy: 94, 5
+  size: 44, 45
+  orig: 44, 45
+  offset: 0, 0
+  index: -1
+pi
+  rotate: true
+  xy: 189, 8
+  size: 42, 44
+  orig: 42, 44
+  offset: 0, 0
+  index: -1
+wan
+  rotate: false
+  xy: 48, 4
+  size: 44, 46
+  orig: 44, 46
+  offset: 0, 0
+  index: -1
+zhong
+  rotate: true
+  xy: 140, 9
+  size: 41, 47
+  orig: 41, 47
+  offset: 0, 0
+  index: -1

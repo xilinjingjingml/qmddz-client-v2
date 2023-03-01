@@ -299,11 +299,10 @@
     "_parent": {
       "__id__": 7
     },
-    "_id": "a4nZfA1S5Ntp2HouhRbVk9",
     "_prefab": {
       "__id__": 9
     },
-    "_name": "mainUI",
+    "_name": "mainBg",
     "_active": true,
     "_trs": {
       "__type__": "TypedArray",
@@ -326,7 +325,8 @@
       "x": 0,
       "y": 0,
       "z": 0
-    }
+    },
+    "_id": "84xskstydL74G9x1EAfV6g"
   },
   {
     "__type__": "cc.PrefabInfo",

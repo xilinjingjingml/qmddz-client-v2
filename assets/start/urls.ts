@@ -45,7 +45,7 @@ export const urls = {
     MOBILE_BIND_USER: { host: EHOST.login, url: "new/gateway/phone/login" },
     BIND_WEIXIN: { host: EHOST.login, url: "visitor/weixin/bind" },
     BIND_ZFB: { host: EHOST.login, url: "alipay/verified/bind" },
-    ANTI_ADDICTION: { host: EHOST.login, url: "phone/antiAddiction/info"},
+    ANTI_ADDICTION: { host: EHOST.login, url: "phone/antiAddiction/info" },
 
     // web
     LOADING_CONFIGS: { host: EHOST.web, url: "get/loading/configs" },
@@ -67,7 +67,10 @@ export const urls = {
     LOAD_GAME_NUM: { host: EHOST.web, url: "load/game/num/rank" },
     ACTIVE_BLESS_INFO: { host: EHOST.web, url: "get/blessing" },
     EXCHANGE_RECORD: { host: EHOST.web, url: "get/user/goods/exchange/log" },
-    ACTIVE_MONEY_CHANGE: { host: EHOST.web, url: "activity/money/change" },
+    ACTIVE_MONEY_CHANGE: { host: EHOST.web, url: "activity/money/change", method: "POST" },
+
+    CREATE_AD_ORDER: { host: EHOST.web, url: "ad/order", method: "POST" },
+    FINISH_AD_ORDER: { host: EHOST.web, url: "ad/notify", method: "POST" },
 
     // pay
     SHOPITEMS: { host: EHOST.pay, url: "shop/box/list" },

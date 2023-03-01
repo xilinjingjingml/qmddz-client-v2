@@ -1,5 +1,7 @@
+import { math } from "../../../base/math"
 import { listen } from "../../../base/monitor"
 import BaseView from "../../../base/view/BaseView"
+import { appfunc } from "../../../lobby/appfunc"
 import { app } from "../../../start/app"
 import { ITEM } from "../../../start/config"
 
@@ -23,6 +25,13 @@ export default class AutoItem extends BaseView {
         if (itemId != this.itemId) {
             return
         }
-        this.getComponent(cc.Label).string = "" + itemNum
+        if (itemId === ITEM.TO_CASH || itemId === ITEM.OLD_TO_CASH) {
+            this.getComponent(cc.Label).string = "" + (itemNum / 100).toFixed(2)
+        } else if (itemId === ITEM.INGOT) {
+            this.getComponent(cc.Label).string = "" + math.div(itemNum, 10000).toFixed(2)
+        } else {
+            this.getComponent(cc.Label).string = "" + itemNum
+        }
+
     }
 }

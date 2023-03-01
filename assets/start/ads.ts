@@ -1,7 +1,9 @@
 import { http } from "../base/http"
 import { monitor } from "../base/monitor"
+import { report, reportParam } from "../report"
 import { app } from "./app"
-import { ITEM } from "./config"
+import { ITEM, s1 } from "./config"
+import { AppNative } from "./scripts/platforms/AppNative"
 import { startFunc } from "./startFunc"
 import { urls } from "./urls"
 
@@ -86,6 +88,12 @@ export namespace ads {
         New_BankruptDefend: 108,     // 破产补助
         New_EarlyGain: 109,          // 提现加速
         // New_CardNote: 110,           // 结算看视频得记牌器
+
+        Free_Ingot: 47,     // 免费元宝
+        Jiasutixian: 48,    // 加速提现
+        JinLiFuLi: 49,      // 锦鲤福利
+        Jiasutixian2: 50,    // 加速提现2
+        Jiasutixian3: 51,    // 加速提现3
     }
 
     export const banner = {
@@ -95,7 +103,7 @@ export namespace ads {
     export const awards = {
         [video.DynamicGold]: { index: ITEM.GOLD_COIN, number: -1, adindex: video.DynamicGold },
         [video.DrawRp]: { index: ITEM.REDPACKET_TICKET, number: -1, adindex: video.DrawRp },
-        [video.CardNoteBuyPop]: { index: ITEM.CARD_RECORD, number: 4, adindex: video.CardNoteBuyPop },
+        [video.CardNoteBuyPop]: { index: ITEM.CARD_RECORD, number: 5, adindex: video.CardNoteBuyPop },
     }
 
     const config: IAdData = {
@@ -160,9 +168,32 @@ export namespace ads {
                 }
             }
 
+            app.datas.adTotal = res.adTotal
+            app.datas.adToday = app.datas.adToday || 0
+            app.datas.byLevel = res.byLevel
+            app.datas.cashStatus = res.cashStatus?.[0] || {}
+            app.datas.cashTask = res.cashTask || {}
+
             initialized = true
             monitor.emit("ads_config_update")
+
+            let ap = app.getOnlineParam("ad_preload")
+            console.log("===ad_preload", JSON.stringify(ap))
+            if (Array.isArray(ap) && ap.length > 0) {
+                for (let id of ap) {
+                    app.platform.preloadAdvert({ type: EAdType.Video, index: id })
+                }
+            }
         })
+    }
+
+    export function sign(p: any) {
+        let s = ""
+        for (let k in p) {
+            s += (s.length ? "#" : "") + (k + "=" + p[k])
+        }
+        s += "#" + s1
+        return md5(s)
     }
 
     export function getVideoData(index: number) {
@@ -220,47 +251,125 @@ export namespace ads {
         return EAdMethod.Video
     }
 
-    function requestAward(index: number, success: (res: any) => void) {
-        http.open(urls.GET_AD_AWARD, {
-            pid: app.user.guid,
-            ticket: app.user.ticket,
-            gameid: app.gameId,
-            taskInd: index,
-            sign: md5("pid=" + app.user.guid + "&gameid=" + app.gameId + "&key=abcd123321efgh"),
-            signDay: 0
-        }, (err, res) => {
-            if (res) {
-                if (res.ret == 0) {
-                    success(res)
-                } else if (res.ret == -4) {
-                    // TODO checkPhoneBinding()
-                } else {
-                    startFunc.showToast(res.msg)
+    function requestAward(index: number, order: any, ecpm: number, success: (res: any) => void) {
+        report("广告奖励", "请求奖励", index)
+        let getAward = (ingot: number) => {
+            http.open(urls.GET_AD_AWARD, {
+                pid: app.user.guid,
+                ticket: app.user.ticket,
+                gameid: app.gameId,
+                taskInd: index,
+                sign: md5("pid=" + app.user.guid + "&gameid=" + app.gameId + "&key=abcd123321efgh"),
+                signDay: 0
+            }, (err, res) => {
+                if (res) {
+                    if (res.ret == 0) {
+                        res.ingot = ingot
+                        report("广告奖励", "获取奖励", index)
+                        app.datas.adTotal++
+                        success(res)
+                    } else if (res.ret == -4) {
+                        // TODO checkPhoneBinding()
+                        report("广告奖励", "奖励失败-4", index)
+                    } else {
+                        startFunc.showToast(res.msg)
+                        report("广告奖励", "奖励失败" + res.msg, index)
+                    }
                 }
-            }
-        })
+            })
+        }
+        finishAdOrder(order, ecpm, (res) => getAward(res.itemNum || 0))
     }
 
     export function receiveAward(opt: IAdsReceiveOpt) {
+        report("广告", "请求广告", opt.index)
         if (!checkCanReceive(opt.index)) {
             startFunc.showToast("您今日的奖励次数已用完，请明天再来！")
+
+            report("广告", "次数已用完", opt.index)
             return
         }
 
         const method = opt.method ?? nextMethod(opt.index)
 
-        const receive = function () {
-            requestAward(opt.index, (res) => {
+        const receive = function (ecpm?: any) {
+            ecpm = Number.parseInt(ecpm)
+
+            let ecpmReport = app.getOnlineParam("ecpm_report") || []
+            let subs = app.pn.split(".")
+            let id = Number(subs[subs.length - 1])
+            if (isNaN(id)) id = 0
+            ecpmReport = ecpmReport[id]
+            let local = JSON.parse(cc.sys.localStorage.getItem("ad_record") || "{}")
+            if (!local.report && Array.isArray(ecpmReport)) {
+                local.record = local.record || []
+                ecpmReport.sort((a, b) => a.count < b.count ? -1 : a.count > b.count ? 1 : a.ecpm > b.ecpm ? -1 : 1)
+                for (let i of ecpmReport) {
+                    if (!local.record[i.id]) {
+                        local.record[i.id] = {}
+                        local.record[i.id].count = 1
+                        local.record[i.id].ecpm = ecpm >= i.ecpm ? 1 : 0
+                    } else {
+                        local.record[i.id].count++
+                        ecpm >= i.ecpm && local.record[i.id].ecpm++
+                    }
+                    if (local.record[i.id].count === i.acount && local.record[i.id].ecpm >= i.ecount) {
+                        if (cc.sys.isNative) {
+                            // let an = (app.platform as AppNative)
+                            // if (an) {
+                            //     an.uploadKuaiShou(143)
+                            //     an?.logEvent("EVENT_KEY_PATH_OPTIMIZATION")
+                            // }
+                            (app.platform as AppNative).uploadKuaiShou(143)
+                            // report("广告", `优质用户ID:${i.id}`, `ecpm:${i.ecpm}`, `adCount:${i.acount}`, `ecpmCount:${i.ecount}`)                            
+                            reportParam({ ad0: i.id, ad1: i.ecpm, ad2: i.acount, ad3: i.ecount }, "广告", `优质用户`)
+                            local.report = true
+                            break
+                        }
+                    }
+                }
+
+                cc.sys.localStorage.setItem("ad_record", JSON.stringify(local))
+            }
+
+            // let adrecord = JSON.parse(cc.sys.localStorage.getItem("ad_record") || "{}")
+            // if (!adrecord.report) {
+            //     adrecord.adcount = adrecord.adcount ? adrecord.adcount + 1 : 1
+            //     ecpm >= 10000 && (adrecord.ecpm0 = adrecord.ecpm0 ? adrecord.ecpm0 + 1 : 1)
+            //     ecpm >= 6000 && (adrecord.ecpm1 = adrecord.ecpm1 ? adrecord.ecpm1 + 1 : 1)
+            //     // 5次100的和8次60的
+            //     if ((adrecord.adcount >= 5 && adrecord.ecpm0 >= 2) || (adrecord.adcount >= 8 && adrecord.ecpm1 >= 2)) {
+            //         if (cc.sys.isNative) {
+            //             (app.platform as AppNative).uploadKuaiShou(143)
+            //             report("广告", "优质用户", JSON.stringify(adrecord))
+            //             adrecord.report = true
+            //         }
+            //     }
+            //     cc.sys.localStorage.setItem("ad_record", JSON.stringify(adrecord))
+            // }
+
+
+            reportParam({ ep: ecpm }, "广告", "播放完成", opt.index)
+            requestAward(opt.index, opt.order, ecpm, (res) => {
                 if (config.videos[opt.index]) {
                     config.videos[opt.index].count++
                 }
 
-                if (opt.showAward || opt.showAward == null) {
-                    let awards: IAward[] = []
+                let awards: IAward[] = []
 
-                    if (res.itemIndex != null && res.itemNum != null) {
-                        awards.push({ index: res.itemIndex, num: res.itemNum })
-                    } else if (opt.index == video.Wages) {
+                if (res.ingot) {
+                    awards.push({ index: ITEM.INGOT, num: res.ingot })
+                }
+
+                if (res.itemIndex != null && res.itemNum != null) {
+                    awards.push({ index: res.itemIndex, num: res.itemNum })
+                }
+                
+                if (opt.showAward || opt.showAward == null) {
+                    // if (res.itemIndex != null && res.itemNum != null) {
+                    //     awards.push({ index: res.itemIndex, num: res.itemNum })
+                    // } else
+                    if (opt.index == video.Wages) {
                         // TODO index == video.Wages
                         // const lv = DataManager.CommonData["VipData"] ? (DataManager.CommonData["VipData"].vipLevel || 0) : 0
                         // if (DataManager.CommonData.VipAwardConfig && DataManager.CommonData.VipAwardConfig[lv]) {
@@ -286,6 +395,8 @@ export namespace ads {
                     }
                 }
 
+                res.awards = awards
+
                 monitor.emit("reload_user_data")
 
                 opt.success && opt.success(res)
@@ -293,19 +404,27 @@ export namespace ads {
             })
         }
 
-        if (method == EAdMethod.Free) {
-            receive()
-        } else if (method == EAdMethod.Share) {
-            const data = opt.shareData || {}
-            data.callback = receive
-            app.platform.sociaShare(data)
-        } else {
-            app.platform.openAdvert({
-                type: EAdType.Video,
-                index: opt.index,
-                success: receive,
-            })
+        report("广告", "处理类型" + method, opt.index)
+        let play = (transId) => {
+            opt.order = transId
+            if (method == EAdMethod.Free) {
+                receive(-1)
+            } else if (method == EAdMethod.Share) {
+                const data = opt.shareData || {}
+                data.callback = receive
+                app.platform.sociaShare(data)
+            } else {
+                report("广告", "播放广告", opt.index)
+                app.platform.openAdvert({
+                    type: EAdType.Video,
+                    index: opt.index,
+                    transId: transId,
+                    success: receive,
+                })
+            }
         }
+
+        createAdOrder(opt.index, (transId) => play(transId))
     }
 
     export function openBanner(index: number) {
@@ -327,6 +446,62 @@ export namespace ads {
         app.platform.openAdvert({
             type: EAdType.Inter,
             index: index
+        })
+    }
+
+
+    // https://t_statics.wpgame.com.cn/ad/order?pid=20000008&ticket=CC69B721B9A276FC71768294688099B5&ad_id=1
+    // https://t_statics.wpgame.com.cn/ad/notify?pid=20000008&ticket=CC69B721B9A276FC71768294688099B5&trans_id=202210245507544980&ecpm=90
+    function createAdOrder(adId: any, callback: Function) {
+        report("广告订单", "创建订单", adId)
+        let params = {
+            pid: app.user.guid,
+            ticket: app.user.ticket,
+            aid: adId,
+        }
+        http.open(urls.CREATE_AD_ORDER, {
+            pid: params.pid,
+            ticket: params.ticket,
+            ad_id: params.aid,
+            sign: sign(params)
+        }, (err, res) => {
+            if (res) {
+                if (res.ret == 0) {
+                    callback?.(res.trans_id)
+                    report("广告奖励", "创建成功")
+                } else {
+                    startFunc.showToast(res.msg)
+                    report("广告奖励", "创建失败" + res.msg, adId)
+                }
+            }
+        })
+    }
+
+    function finishAdOrder(transId, ecpm, callback: Function) {
+        report("广告订单", "完成订单", transId)
+        let params = {
+            pid: app.user.guid,
+            ticket: app.user.ticket,
+            transId: transId,
+            ecpm: ecpm,
+        }
+        http.open(urls.FINISH_AD_ORDER, {
+            pid: params.pid,
+            ticket: params.ticket,
+            trans_id: params.transId,
+            ecpm: ecpm,
+            sign: sign(params)
+        }, (err, res) => {
+            if (res) {
+                if (res.ret == 0) {
+                    callback?.(res)
+                    report("广告奖励", "获取奖励")
+                } else {
+                    res.msg = res.msg || "奖励领取失败"
+                    startFunc.showToast(res.msg)
+                    report("广告奖励", "完成失败" + res.ret, transId, ecpm)
+                }
+            }
         })
     }
 }

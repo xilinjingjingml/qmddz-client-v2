@@ -212,7 +212,7 @@ export default class AreaCard extends BaseView {
         }
     }
 
-    private updateCardsPos() {
+    updateCardsPos() {
         if (this.node.childrenCount == 0) {
             return
         }
@@ -279,7 +279,7 @@ export default class AreaCard extends BaseView {
         this.cardPool.put(node)
     }
 
-    private getCard() {
+    getCard() {
         return this.cardPool.get() || cc.instantiate(this.card)
     }
 

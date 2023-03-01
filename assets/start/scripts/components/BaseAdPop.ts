@@ -24,9 +24,9 @@ export default class BaseAdPop extends BasePop {
             return
         }
 
-        if (this.bannerIndex != null) {
-            ads.openBanner(this.bannerIndex)
-        }
+        // if (this.bannerIndex != null) {
+        //     ads.openBanner(this.bannerIndex)
+        // }
 
         this.scheduleOnce(() => monitor.emit("ViewManager_showPopup", this), 0.1)
     }

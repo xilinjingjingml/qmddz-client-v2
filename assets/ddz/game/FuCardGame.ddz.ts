@@ -41,7 +41,7 @@ export default class FuCardGame extends BaseGame {
             name += level + "场"
         }
 
-        this.$("room_title", cc.Label).string = name
+        // this.$("room_title", cc.Label).string = name
     }
 
     @listen(EventName.game_dizhu_update)

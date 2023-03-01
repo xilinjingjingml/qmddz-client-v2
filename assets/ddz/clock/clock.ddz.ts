@@ -81,7 +81,6 @@ export default class clock extends BaseChair {
             this.scheduleOnce(() => this.startTime(Math.floor(message.sPeriod / 1000) - 1), 1)
             return
         }
-
         this.startTime(Math.floor(message.sPeriod / 1000))
     }
 

@@ -37,6 +37,7 @@ export default class BaseBoard extends BaseView {
 
     @listen(EventName.game_reinit)
     onGameReinit() {
+        this.$("node_card").active = false
         this.$("node_card").children.forEach(child => child.active = false)
         this.$("node_lordCard").children.forEach(child => child.active = false)
     }
@@ -88,24 +89,42 @@ export default class BaseBoard extends BaseView {
             return
         }
 
-        message.vecCards.forEach((card, i) => {
-            const pos = this.$("node_card").convertToNodeSpaceAR(this.$("node_lordCard").convertToWorldSpaceAR(cc.v2(-75 * (i - 1), 0)))
-            const nodeCard = this.$("node_card").children[i]
-            cc.Tween.stopAllByTarget(nodeCard)
-            cc.tween(nodeCard)
-                .set({ x: -Card_Gap * (i - 1), y: 0, scale: Card_Scale_Start })
-                .to(Action_Time, { scaleX: 0 })
-                .call(() => nodeCard.getComponent(Card).setCard(card))
-                .to(Action_Time, { scaleX: Card_Scale_Start })
-                .to(Action_Time, { x: pos.x, y: pos.y, scale: Card_Scale_End })
-                .call(() => {
-                    nodeCard.active = false
+        if (message.cLord < 0) {
+            message.vecCards.forEach((card, i) => {
+                const nodeCard = this.$("node_card").children[i]
+                cc.Tween.stopAllByTarget(nodeCard)
+                cc.tween(nodeCard)
+                    .to(Action_Time, { scaleX: 0 })
+                    .call(() => nodeCard.getComponent(Card).setCard(card))
+                    .to(Action_Time, { scaleX: Card_Scale_Start })
+                    .start()
+            })
+        } else {
+            message.vecCards.forEach((card, i) => {
+                const pos = this.$("node_card").convertToNodeSpaceAR(this.$("node_lordCard").convertToWorldSpaceAR(cc.v2(-75 * (i - 1), 0)))
+                const nodeCard = this.$("node_card").children[i]
+                cc.Tween.stopAllByTarget(nodeCard)
+                cc.tween(nodeCard)
+                    .set({ x: -Card_Gap * (i - 1), y: 0, scale: Card_Scale_Start })
+                    .to(Action_Time, { scaleX: 0 })
+                    .call(() => nodeCard.getComponent(Card).setCard(card))
+                    .to(Action_Time, { scaleX: Card_Scale_Start })
+                    .to(Action_Time, { x: pos.x, y: pos.y, scale: Card_Scale_End })
+                    .call(() => {
+                        nodeCard.active = false
 
-                    const nodeLordCard = this.$("node_lordCard").children[i]
-                    nodeLordCard.active = true
-                    nodeLordCard.getComponent(LordCard).setCard(card)
-                })
-                .start()
-        })
+                        const nodeLordCard = this.$("node_lordCard").children[i]
+                        nodeLordCard.active = true
+                        nodeLordCard.getComponent(LordCard).setCard(card)
+                    })
+                    .start()
+            })
+        }
+    }
+
+    @listen(EventName.game_dealTheCardsEnd)
+    show_lordCard() {
+        console.log("jin---show_lordCard: ")
+        this.$("node_card").active = true
     }
 }

@@ -36,6 +36,8 @@ export namespace GameRule {
 	const m_cardInfo3s: ICardInfos = { size: 3, vecCardInfos: [] }
 	const m_cardInfo31s: ICardInfos = { size: 4, vecCardInfos: [] }
 	const m_cardInfo32s: ICardInfos = { size: 5, vecCardInfos: [] }
+	const m_cardInfo42s: ICardInfos = { size: 6, vecCardInfos: [] } //四带二单
+	const m_cardInfo44s: ICardInfos = { size: 8, vecCardInfos: [] } //四带二对
 	let m_cards: Iproto_CCard[] = [] //处理的牌
 	let m_typeNum: number = -1
 
@@ -880,19 +882,39 @@ export namespace GameRule {
 		return false
 	}
 
-	//检测三带
-	export function checkSanDai(typeNum: number) {
-		let cardInfo = getCardInfoByTypeNum(m_cardInfo3s, typeNum)
+	//检测三带一
+	export function checkSanDai_1(typeNum: number) {
+		// let cardInfo = getCardInfoByTypeNum(m_cardInfo3s, typeNum)
+		// if (cardInfo && cardInfo.long == 1) {
+		// 	return true
+		// }
+
+		let cardInfo = getCardInfoByTypeNum(m_cardInfo31s, typeNum)
 		if (cardInfo && cardInfo.long == 1) {
 			return true
 		}
 
-		cardInfo = getCardInfoByTypeNum(m_cardInfo31s, typeNum)
-		if (cardInfo && cardInfo.long == 1) {
-			return true
-		}
+		// cardInfo = getCardInfoByTypeNum(m_cardInfo32s, typeNum)
+		// if (cardInfo && cardInfo.long == 1) {
+		// 	return true
+		// }
 
-		cardInfo = getCardInfoByTypeNum(m_cardInfo32s, typeNum)
+		return false
+	}
+
+	//检测三带二
+	export function checkSanDai_2(typeNum: number) {
+		// let cardInfo = getCardInfoByTypeNum(m_cardInfo3s, typeNum)
+		// if (cardInfo && cardInfo.long == 1) {
+		// 	return true
+		// }
+
+		// let cardInfo = getCardInfoByTypeNum(m_cardInfo31s, typeNum)
+		// if (cardInfo && cardInfo.long == 1) {
+		// 	return true
+		// }
+
+		let cardInfo = getCardInfoByTypeNum(m_cardInfo32s, typeNum)
 		if (cardInfo && cardInfo.long == 1) {
 			return true
 		}

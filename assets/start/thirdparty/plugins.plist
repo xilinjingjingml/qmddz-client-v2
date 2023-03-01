@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>PacketName</key>
-			<string>com.union.hbddz.ad.android</string>
+			<string>com.union.hbddz.ad.kuaishou</string>
 		</dict>
 	</array>
 	<key>plugins</key>
@@ -21,36 +21,6 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>AnalyticsUmeng</string>
-			<key>type</key>
-			<string>2</string>
-			<key>default</key>
-			<string>1</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>ExtendQIYUKF</string>
-			<key>type</key>
-			<string>6</string>
-			<key>tag</key>
-			<string>3</string>
-			<key>default</key>
-			<string>1</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>PushXinGe</string>
-			<key>type</key>
-			<string>7</string>
-			<key>tag</key>
-			<string>4</string>
-			<key>default</key>
-			<string>1</string>
-		</dict>
-		<dict>
-			<key>LoginRequestURL</key>
-			<string>new/gateway/visitor/login</string>
-			<key>name</key>
 			<string>SessionGuest</string>
 			<key>type</key>
 			<string>5</string>
@@ -62,8 +32,24 @@
 			<string>2</string>
 		</dict>
 		<dict>
-			<key>OrderRequestURL</key>
-			<string>weixin/intl/pay</string>
+			<key>name</key>
+			<string>SessionPhone</string>
+			<key>type</key>
+			<string>5</string>
+			<key>tag</key>
+			<string>1</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>SessionWeiXin</string>
+			<key>type</key>
+			<string>5</string>
+			<key>tag</key>
+			<string>4</string>
+			<key>default</key>
+			<string>1</string>
+		</dict>
+		<dict>
 			<key>name</key>
 			<string>IAPWeiXin</string>
 			<key>type</key>
@@ -88,50 +74,8 @@
 			<string>1</string>
 		</dict>
 		<dict>
-			<key>CheckRequestURL</key>
-			<string>vou/pay/result</string>
-			<key>OrderRequestURL</key>
-			<string>alipay/intl/pay</string>
 			<key>name</key>
-			<string>IAPAlipay</string>
-			<key>type</key>
-			<string>3</string>
-			<key>default</key>
-			<string>1</string>
-			<key>mid</key>
-			<string>2</string>
-		</dict>
-		<dict>
-			<key>default</key>
-			<string>0</string>
-			<key>gameid</key>
-			<string>11</string>
-			<key>name</key>
-			<string>IAPAppStore</string>
-			<key>type</key>
-			<string>3</string>
-			<key>mid</key>
-			<string>5</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>AdsTTAds</string>
-			<key>type</key>
-			<string>1</string>
-			<key>tag</key>
-			<string>1</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>AdsQQAds</string>
-			<key>type</key>
-			<string>1</string>
-			<key>tag</key>
-			<string>1</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>AdsYXAds</string>
+			<string>AdsMSDKAds</string>
 			<key>type</key>
 			<string>1</string>
 			<key>tag</key>

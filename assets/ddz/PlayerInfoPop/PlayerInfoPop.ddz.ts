@@ -2,10 +2,13 @@ import { audio } from "../../base/audio"
 import { NodeExtends } from "../../base/extends/NodeExtends"
 import { UserExtends } from "../../base/extends/UserExtends"
 import { math } from "../../base/math"
+import { listen } from "../../base/monitor"
 import { utils } from "../../base/utils"
 import BasePop from "../../base/view/BasePop"
 import { appfunc } from "../../lobby/appfunc"
+import { app } from "../../start/app"
 import { AudioManager } from "../audio/AudioManager.ddz"
+import { EventName } from "../game/GameConfig.ddz"
 import { GameFunc } from "../game/GameFunc.ddz"
 
 const { ccclass } = cc._decorator
@@ -53,6 +56,15 @@ export default class PlayerInfoPop extends BasePop {
         this.$("settting").active = this.params.type == 0
         this.$("magic").active = this.params.type == 1
 
+        this.$("labelName", cc.Label).string = "" + (this.params.data.nickname.length > 6 ? this.params.data.nickname.substring(0, 6) + "..." : this.params.data.nickname)
+        this.$("labelUserId", cc.Label).string = this.params.type === 0 ? "ID:" + app.user.guid : ""
+
+        this.$("content/labelLocal", cc.Label).string = this.params.localtion || "未知"
+        this.$("content/labelLv", cc.Label).string = this.params.type === 0 ? "等级: " + app.datas.byLevel + "级" : ""
+
+        this.$("settting/games", cc.Label).string = `${app.user.won + app.user.lost}`
+        this.$("settting/won", cc.Label).string = `${app.user.won != 0 ? math.fixd(app.user.won / (app.user.won + app.user.lost) * 100) : "0"}%`
+
         this.refreshMusicSwith()
         this.refreshEffectSwith()
     }
@@ -94,5 +106,15 @@ export default class PlayerInfoPop extends BasePop {
         const active = audio.getEffectsVolume() > 0
         this.$("effect_open").active = active
         this.$("effect_close").active = !active
+    }
+
+    @listen(EventName.game_start)
+    gameStart() {
+        this.close()
+    }
+
+    @listen(EventName.game_end)
+    gameEnd() {
+        this.close()
     }
 }

@@ -1,0 +1,55 @@
+
+quanbutiz.png
+size: 402,530
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dddddd
+  rotate: true
+  xy: 2, 8
+  size: 122, 168
+  orig: 122, 168
+  offset: 0, 0
+  index: -1
+hhhhb
+  rotate: false
+  xy: 2, 132
+  size: 220, 225
+  orig: 220, 225
+  offset: 0, 0
+  index: -1
+qqqqqqq
+  rotate: true
+  xy: 224, 187
+  size: 170, 174
+  orig: 170, 174
+  offset: 0, 0
+  index: -1
+szzzz
+  rotate: false
+  xy: 302, 65
+  size: 97, 120
+  orig: 97, 120
+  offset: 0, 0
+  index: -1
+uiui
+  rotate: false
+  xy: 2, 359
+  size: 352, 169
+  orig: 352, 169
+  offset: 0, 0
+  index: -1
+xg
+  rotate: false
+  xy: 356, 484
+  size: 44, 44
+  orig: 44, 44
+  offset: 0, 0
+  index: -1
+xxxdd
+  rotate: false
+  xy: 172, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,209 @@
+
+jiazaidonghua.png
+size: 489,489
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+12
+  rotate: false
+  xy: 181, 361
+  size: 88, 87
+  orig: 90, 90
+  offset: 1, 2
+  index: -1
+6
+  rotate: false
+  xy: 361, 361
+  size: 86, 88
+  orig: 90, 90
+  offset: 3, 1
+  index: -1
+13
+  rotate: false
+  xy: 361, 1
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+2
+  rotate: false
+  xy: 1, 91
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+7
+  rotate: false
+  xy: 1, 361
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+11
+  rotate: false
+  xy: 271, 360
+  size: 88, 87
+  orig: 90, 90
+  offset: 1, 2
+  index: -1
+24
+  rotate: false
+  xy: 181, 181
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+17
+  rotate: false
+  xy: 360, 181
+  size: 87, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+14
+  rotate: false
+  xy: 91, 91
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+22
+  rotate: false
+  xy: 361, 91
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+20
+  rotate: false
+  xy: 181, 91
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+1
+  rotate: false
+  xy: 1, 1
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+23
+  rotate: false
+  xy: 271, 271
+  size: 88, 87
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+3
+  rotate: false
+  xy: 1, 181
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+19
+  rotate: false
+  xy: 91, 361
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+10
+  rotate: false
+  xy: 271, 1
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+4
+  rotate: false
+  xy: 1, 271
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+9
+  rotate: false
+  xy: 181, 1
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+15
+  rotate: false
+  xy: 91, 181
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+5
+  rotate: false
+  xy: 271, 181
+  size: 87, 88
+  orig: 90, 90
+  offset: 2, 1
+  index: -1
+8
+  rotate: false
+  xy: 91, 1
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+16
+  rotate: false
+  xy: 91, 271
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+21
+  rotate: false
+  xy: 271, 91
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+18
+  rotate: false
+  xy: 361, 271
+  size: 87, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+25
+  rotate: false
+  xy: 181, 271
+  size: 88, 88
+  orig: 90, 90
+  offset: 1, 1
+  index: -1
+梅花
+  rotate: false
+  xy: 449, 181
+  size: 38, 37
+  orig: 38, 37
+  offset: 0, 0
+  index: -1
+黑桃
+  rotate: false
+  xy: 308, 449
+  size: 38, 33
+  orig: 38, 33
+  offset: 0, 0
+  index: -1
+方块
+  rotate: false
+  xy: 271, 449
+  size: 35, 38
+  orig: 35, 38
+  offset: 0, 0
+  index: -1
+红桃
+  rotate: false
+  xy: 449, 220
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1

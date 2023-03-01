@@ -53,6 +53,8 @@ export default class DdzSocket implements ISocketDelegate {
     proto_bc_login_ack(message: Iproto_bc_login_ack) {
         if (message.ret == 0 || message.ret == 1 || message.ret == 2) {
             monitor.emit(EventName.socket_login, message)
+            console.log("jin---proto_bc_login_ack: ", message)
+            app.user.dogfall = message.plyBaseData.dogfall
         } else if (message.ret == -2) {
             const servers = app.servers.get(message.plyStatus.gameId)
             let lasetServer: IServerData

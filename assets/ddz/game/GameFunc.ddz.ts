@@ -78,6 +78,7 @@ export namespace GameFunc {
             dizhu: 1,
             players: {},
         }
+        console.log("jin---initGameData:", data)
         app.datas.runGameDatas = data
     }
 
@@ -193,6 +194,7 @@ export namespace GameFunc {
         }
 
         const sMyChairId = getSMyChairId()
+        // console.log("jin---S2C:", sMyChairId, sChairId)
         if (sMyChairId < 0) {
             cc.error("[GameFunc.S2C] sMyChairId", sMyChairId)
             return

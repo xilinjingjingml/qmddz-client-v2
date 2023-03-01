@@ -9,7 +9,7 @@ export default class mainBg extends cc.Component {
         node.scale = Math.max(cc.winSize.width / node.width, cc.winSize.height / node.height)
 
         // loading转圈
-        cc.tween(cc.find("node_loading/loading_bg", this.node)).by(1, { angle: -360 }).repeatForever().start()
+        // cc.tween(cc.find("node_loading/loading_bg", this.node)).by(1, { angle: -360 }).repeatForever().start()
 
         if (CC_JSB) {
             // logo

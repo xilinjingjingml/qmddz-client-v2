@@ -11,7 +11,7 @@ const { ccclass } = cc._decorator
 export default class Relief extends BasePop {
 
     start() {
-        this.$("labelNumber", cc.Label).string = "" + app.datas.reliefStatus.reliefAwardCount
+        // this.$("label_value", cc.Label).string = (app.datas.reliefStatus.reliefAwardCount / 100).toFixed(2) + "元"
     }
 
     onPressGet(event: cc.Event.EventTouch) {
@@ -21,7 +21,7 @@ export default class Relief extends BasePop {
         ads.receiveAward({
             index: ads.video.BankruptDefend,
             success: () => {
-                SocketManager.send<Iproto_cl_get_relief_req>("lobby", "proto_cl_get_relief_req", { type: 0 })
+                // SocketManager.send<Iproto_cl_get_relief_req>("lobby", "proto_cl_get_relief_req", { type: 0 })
                 this.isValid && this.close()
             }
         })

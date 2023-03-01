@@ -27,7 +27,7 @@ export namespace startFunc {
         })
     }
 
-    export function showUpdate() {
+    export function showUpdate() {        
         ViewManager.showScene({ bundle: app.bundule, path: "update/update" })
     }
 

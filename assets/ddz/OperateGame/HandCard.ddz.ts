@@ -1,4 +1,5 @@
 import { listen, monitor } from "../../base/monitor"
+import { report } from "../../report"
 import AreaCard from "../card/AreaCard.ddz"
 import Card from "../card/Card.ddz"
 import { EventName } from "../game/GameConfig.ddz"
@@ -41,6 +42,8 @@ export default class HandCard extends BaseChair {
             cc.Tween.stopAllByTarget(this.node)
         }
         this.onTouchMove(event)
+
+        // report("斗地主", "选牌")
     }
 
     private onTouchMove(event: cc.Event.EventTouch) {
@@ -144,28 +147,90 @@ export default class HandCard extends BaseChair {
     private playDealCardAni() {
         // 加快发牌动画 暂停音效
         // AudioManager.playSound("audio_dispatch")
-        this.node.children.forEach(child => child.active = false)
+        let cardVal = this.node.children.map(child => child.getComponent(Card).getCard())
+        console.log(cardVal)
+        this.node.children.forEach((child, idx) => {
+            child.active = false
+            let change = this.node.children[Math.floor(Math.random() * cardVal.length)]
+            if (change) {
+                let card = change.getComponent(Card).getCard()
+                change.getComponent(Card).setCard(child.getComponent(Card).getCard())
+                child.getComponent(Card).setCard(card)
+            }
+        })
 
+        // 发牌动画 // by sonke 20221019
+        let cards: cc.Node[] = []
+        let center = this.node.convertToNodeSpaceAR(this.node.parent.convertToWorldSpaceAR(cc.v3()))
+        for (let i = 0; i < 3; i++) {
+            let card = this.getComponent(AreaCard).getCard()
+            card.parent = this.node
+            card.position = center
+            card.setSiblingIndex(18 + i)
+            card.getComponent(Card).setCardBack(true)
+            cards.push(card)
+        }
+        //通知手牌计数
+        monitor.emit(EventName.game_player_handCard_count)
+        
         let i = 0
+        let j = 0
         cc.Tween.stopAllByTarget(this.node)
         cc.tween(this.node)
             .then(cc.tween()
                 .call(() => {
-                    this.node.children[i++].active = true
-                    monitor.emit(EventName.game_deal_card_num, i)
+                    let chair = i++ % 3
+                    let player = GameFunc.getPlayer(chair)
+                    let scale = .4
+                    let hand: cc.Node = cc.find("node_handcard", player.node)
+                    if (!hand) {
+                        hand = this.node
+                        scale = 1
+                    }
+                    console.log(hand.position)
+                    let card = cards[2 - (i % 3)]
+                    cc.tween(card)
+                        .set({ position: center })
+                        .to(.04, { scale: scale, position: this.node.convertToNodeSpaceAR(hand.convertToWorldSpaceAR(cc.v3())) })
+                        .call(() => {
+                            if (hand === this.node) {
+                                this.node.children[j++].active = true
+                                monitor.emit(EventName.game_deal_card_num, j)
+                            }
+                        })
+                        .delay(.01)
+                        .set({ position: center, scale: 1 })
+                        .call(() => card.setSiblingIndex(18))
+                        .start()
                 })
-                .delay(0.04))
-            .repeat(this.node.childrenCount)
+                .delay(.03)
+            )
+            .repeat(51)
+            .call(() => cards.forEach(i => i.removeFromParent(true)))
+            // .then(cc.tween()
+            //     .call(() => {
+            //         // this.node.children[i++].active = true
+            //         monitor.emit(EventName.game_deal_card_num, i)
+            //     })
+            //     .delay(0.04))
+            // .repeat(this.node.childrenCount)
             .call(() => {
-                this.node.children.forEach(child => {
+                this.node.children.forEach((child, idx) => {
                     const x = child.x
                     cc.tween(child)
                         .to(0.15, { x: 0 })
+                        .call(() => child.getComponent(Card).setCard(cardVal[idx]))
                         .to(0.15, { x: x })
+                        .call(()=>{
+                            console.log("jin---发牌完毕")
+                            //todo 显示3张底牌
+                            monitor.emit(EventName.game_dealTheCardsEnd)
+                        })
                         .start()
                 })
             })
             .start()
+
     }
 
     private playLordCard(cards: Iproto_CCard[]) {

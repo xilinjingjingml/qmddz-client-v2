@@ -1,0 +1,62 @@
+
+tianjianghongbao.png
+size: 921,609
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+anniu
+  rotate: true
+  xy: 823, 291
+  size: 316, 96
+  orig: 316, 96
+  offset: 0, 0
+  index: -1
+guangdian
+  rotate: false
+  xy: 695, 17
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+lizi_guang_2
+  rotate: true
+  xy: 823, 200
+  size: 89, 90
+  orig: 89, 90
+  offset: 0, 0
+  index: -1
+rmb
+  rotate: true
+  xy: 695, 64
+  size: 151, 108
+  orig: 151, 108
+  offset: 0, 0
+  index: -1
+tjhb
+  rotate: true
+  xy: 695, 217
+  size: 390, 126
+  orig: 390, 126
+  offset: 0, 0
+  index: -1
+uiditu
+  rotate: true
+  xy: 2, 2
+  size: 605, 691
+  orig: 605, 691
+  offset: 0, 0
+  index: -1
+zg
+  rotate: false
+  xy: 695, 32
+  size: 118, 30
+  orig: 118, 30
+  offset: 0, 0
+  index: -1
+zuigao
+  rotate: false
+  xy: 805, 164
+  size: 65, 34
+  orig: 65, 34
+  offset: 0, 0
+  index: -1

@@ -14,9 +14,10 @@ const { ccclass } = cc._decorator
 export default class BaiYuanReliefPop extends BasePop {
 
     params: { itemNum: number }
+    awards: IAward[] = []
 
     start() {
-        this.$("labelNumber", cc.Label).string = math.fixd(appfunc.toCash(this.params.itemNum))
+        this.$("label_value", cc.Label).string = (this.params.itemNum / 100).toFixed(2) + "元"
     }
 
     onPressGet(event: cc.Event.EventTouch) {
@@ -25,16 +26,19 @@ export default class BaiYuanReliefPop extends BasePop {
 
         ads.receiveAward({
             index: ads.video.New_BankruptDefend,
-            success: () => this.isValid && GameFunc.send<Iproto_cg_baiyuan_bankruptcy_defend_req>("proto_cg_baiyuan_bankruptcy_defend_req", {})
+            success: (res) => {
+                this.awards = res.awards
+                this.isValid && GameFunc.send<Iproto_cg_baiyuan_bankruptcy_defend_req>("proto_cg_baiyuan_bankruptcy_defend_req", {})
+            }
         })
     }
 
     @listen("proto_gc_baiyuan_bankruptcy_defend_ack")
     proto_gc_baiyuan_bankruptcy_defend_ack(message: Iproto_gc_baiyuan_bankruptcy_defend_ack) {
         if (message.cRet == 0) {
-            const awards = []
-            message.vecItemInfo.forEach(info => awards.push({ index: info.nItemId, num: info.nItemNum }))
-            appfunc.showAwardPop(awards, this.removeCloseCallback())
+            // const awards = []
+            message.vecItemInfo.forEach(info => this.awards.push({ index: info.nItemId, num: info.nItemNum }))
+            appfunc.showAwardPop(this.awards, this.removeCloseCallback())
             this.close()
         } else {
             startFunc.showToast("领取失败！")

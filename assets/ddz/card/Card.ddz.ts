@@ -52,18 +52,18 @@ export default class Card extends BaseCard {
             this.$("value_lord").getComponent(cc.RenderComponent).setMaterial(0, material)
 
             // color_lord
-            this.setSprite({ node: this.$("color_lord"), bundle: GameFunc.bundle, path: "card/images/color_lord" + card.mNColor, delay: true })
+            this.setSprite({ node: this.$("color_lord"), bundle: GameFunc.bundle, path: "card/images/color_lord" + card.mNColor, delay: false })
         } else {
             // value
-            this.setSprite({ node: this.$("value"), bundle: GameFunc.bundle, path: "card/images/" + card.mNValue, delay: true })
+            this.setSprite({ node: this.$("value"), bundle: GameFunc.bundle, path: "card/images/" + card.mNValue, delay: false })
             this.$("value").getComponent(cc.RenderComponent).setMaterial(0, material)
 
             // color_small
-            this.setSprite({ node: this.$("color_small"), bundle: GameFunc.bundle, path: "card/images/color" + card.mNColor, delay: true })
+            this.setSprite({ node: this.$("color_small"), bundle: GameFunc.bundle, path: "card/images/color" + card.mNColor, delay: false })
             this.$("color_small").getComponent(cc.RenderComponent).setMaterial(0, material)
 
             // color
-            this.setSprite({ node: this.$("color"), bundle: GameFunc.bundle, path: "card/images/color" + card.mNColor, delay: true })
+            this.setSprite({ node: this.$("color"), bundle: GameFunc.bundle, path: "card/images/color" + card.mNColor, delay: false })
             this.$("color").getComponent(cc.RenderComponent).setMaterial(0, material)
         }
     }

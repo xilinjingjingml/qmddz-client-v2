@@ -1,5 +1,6 @@
 import AutoLoad from "../../base/components/AutoLoad"
 import { listen, monitor } from "../../base/monitor"
+import { appfunc } from "../../lobby/appfunc"
 import { app } from "../../start/app"
 import { ITEM } from "../../start/config"
 import { EventName } from "../game/GameConfig.ddz"
@@ -17,13 +18,19 @@ export default class MyPlayer extends player {
     }
 
     start() {
-        // 金豆
-        this.setItem(ITEM.GOLD_COIN, app.user.getItemNum(ITEM.GOLD_COIN))
-        // 福卡
-        this.setItem(ITEM.REDPACKET_TICKET, app.user.getItemNum(ITEM.REDPACKET_TICKET))
+        // // 金豆
+        // this.setItem(ITEM.GOLD_COIN, app.user.getItemNum(ITEM.GOLD_COIN))
+        // // 福卡
+        // this.setItem(ITEM.REDPACKET_TICKET, app.user.getItemNum(ITEM.REDPACKET_TICKET))
         // 红包
         this.setItem(ITEM.TO_CASH, app.user.getItemNum(ITEM.TO_CASH))
+        this.setItem(ITEM.INGOT, app.user.getItemNum(ITEM.INGOT))
 
+        cc.director.once(cc.Director.EVENT_AFTER_DRAW, () => {
+            app.datas.cashVec = this.$("node_avater/node_infoHB").convertToWorldSpaceAR(cc.v2(-95, 0))
+            app.datas.ingotVec = this.$("node_avater/node_infoYB").convertToWorldSpaceAR(cc.v2(-95, 0))
+        })
+        
         this.reinit()
     }
 
@@ -57,7 +64,23 @@ export default class MyPlayer extends player {
 
     @listen("item_update")
     setItem(itemId: ITEM, itemNum: number) {
-        super.setItem(itemId, itemNum)
+        console.log("jin---setItem:", itemId, itemNum)
+        // super.setItem(itemId, itemNum)
+        if(itemId == ITEM.TO_CASH) {
+            this.$("yuan_num", cc.Label).string = "" + appfunc.toCash(itemNum).toFixed(2)// + "元"
+
+            const progress = itemNum / appfunc.CASH_OUT_NUM
+            this.$("progress_hb", cc.ProgressBar).progress = progress
+            // this.$("label_progress_hb", cc.Label).string = Math.floor(progress * 100) + "%"
+        }
+        
+        if (itemId === ITEM.INGOT) {
+            this.$("yuanbao_num", cc.Label).string = "" + itemNum
+            this.$("progress_yb", cc.ProgressBar).progress = itemNum / appfunc.SMAILL_CASH_OUT_NUM
+            this.$("yuanbao", cc.Label).string = `≈ ${(Math.floor(itemNum / 100) / 100).toFixed(2)}元`
+        }
+
+        
     }
 
     playHbChangeAni(node: cc.Node) {
@@ -91,5 +114,9 @@ export default class MyPlayer extends player {
     @listen("proto_gc_play_card_req")
     proto_gc_play_card_req(message: Iproto_gc_play_card_req) {
         this.refreshPutCards([])
+    }
+
+    onPressCashout() {
+        appfunc.showCashOutPop()
     }
 }

@@ -5,9 +5,10 @@ import { SocketManager } from "../base/socket/SocketManager"
 import { storage } from "../base/storage"
 import { time } from "../base/time"
 import { ViewManager } from "../base/view/ViewManager"
+import { report } from "../report"
 import { ads } from "../start/ads"
 import { app } from "../start/app"
-import { GAME, GAME_TYPE, ITEM, ShopBoxType } from "../start/config"
+import { GAME, GAME_TYPE, ITEM, s0, ShopBoxType } from "../start/config"
 import { areas, nicknames } from "../start/constant"
 import { startFunc } from "../start/startFunc"
 import { urls } from "../start/urls"
@@ -80,6 +81,7 @@ export namespace appfunc {
     }
 
     export function showAdLoading(time: number = 20, showMask: boolean = false) {
+        // app.user.switch_plugin = true
         ViewManager.showPopup({ bundle: "lobby", path: "AdLoading/AdLoading", mask: { show: showMask }, params: { time: time } })
     }
 
@@ -108,6 +110,7 @@ export namespace appfunc {
     }
 
     export function closeAdLoading() {
+        // app.user.switch_plugin = false
         ViewManager.close("AdLoading")
     }
 
@@ -153,7 +156,8 @@ export namespace appfunc {
         return Math.ceil(ms / 1000)
     }
 
-    export function setUserData(data: Iproto_PlyLobbyData, items: Iproto_ItemData[]) {
+    export function setUserData(data: Iproto_PlyLobbyData, items: Iproto_ItemData[], type?: string) {
+
         const money = Math.max(data.money, 0)
         app.user.setItemNum(ITEM.GOLD_COIN, money)
         app.user.updateItems(items)
@@ -161,8 +165,12 @@ export namespace appfunc {
         app.user.gift = data.gift
         app.user.money = money
         app.user.score = data.score
-        app.user.won = data.won
-        app.user.lost = data.lost
+        if (type == "verity_ticket") {
+            app.user.won = data.won
+            app.user.lost = data.lost
+
+            cc.sys.localStorage.setItem("games", app.user.won + app.user.lost)
+        }
         app.user.money_rank = data.moneyRank
         app.user.won_rank = data.wonRank
 
@@ -247,8 +255,8 @@ export namespace appfunc {
             uid: app.user.guid,
             sign: md5("uid=" + app.user.guid + "&key=8923mjcm0d089d"),
             pn: app.pn,
-            taskid: channel == 3 ? ads.video.New_HappyLottery : 2,
-            pnum: channel == 3 ? 0 : 1
+            taskid: ads.video.New_HappyLottery,
+            pnum: 0
         }
 
         http.open(urls.DARW_DIAL, param, (err, res) => {
@@ -256,7 +264,7 @@ export namespace appfunc {
         })
     }
 
-    export function getCooldownTime(key: string, time: number = 300) {
+    export function getCooldownTime(key: string, time: number = 90) {
         const lastOpTime = storage.get(key) || 0
         if (lastOpTime > 0) {
             return time - (accurateTime() - lastOpTime)
@@ -299,31 +307,32 @@ export namespace appfunc {
         })
     }
     //防沉迷
-    export function hasAntiAddition(){
+    export function hasAntiAddition() {
         //1.本地存储信息
         console.log("jin---anti_addiction_valid: ", storage.get("anti_addiction_valid"))
-        if(!storage.get("anti_addiction_valid")){
+        if (!storage.get("anti_addiction_valid")) {
             return false
         }
         return true
     }
-    export function UpdateAntiAddition(idCard : string, realName : string, callback: Function){
+    export function UpdateAntiAddition(idCard: string, realName: string, callback: Function) {
         http.open(urls.ANTI_ADDICTION, {
             idCard: idCard,
             realName: realName,
             uid: app.user.guid,
         }, (err, res) => {
-            if(err){
+            if (err) {
                 console.log("jin---UpdateAntiAddition err: ", err)
             }
 
             if (res) {
                 console.log("jin---UpdateAntiAddition res: ", res)
-                if(res.ret == 0 && res.authenStatus == 0){
+                if (res.ret == 0 && res.authenStatus == 0) {
                     startFunc.showToast(res.msg)
                     callback && callback(true)
-                }else{
-                    startFunc.showToast(res.msg)
+                } else {
+                    // startFunc.showToast(res.msg)
+                    startFunc.showToast("实名认证失败，请确认您的实名信息是否有误！")
                     callback && callback(false)
                     return
                 }
@@ -450,6 +459,7 @@ export namespace appfunc {
         [ITEM.LOOK_LORDCARD]: { name: "看底牌卡", hasicon: true },
         [ITEM.TO_CASH]: { name: "红包", hasicon: true },
         [ITEM.FREE_LOSE]: { name: "免扣符", hasicon: true },
+        [ITEM.INGOT]: { name: "元宝", hasicon: true },
     }
 
     export function getItemIconInfo(index: number) {
@@ -579,8 +589,14 @@ export namespace appfunc {
 
         if (server) {
             gotoGame({ bundle: "ddz", path: "game" }, server)
+            // report("开始游戏", "进入游戏")
         } else {
-            startFunc.showToast("没有合适的游戏场次！")
+            // startFunc.showToast("没有合适的游戏场次！")            
+            monitor.once("server_status_update", () => {
+                startGame(gameid, gametype, level)
+            })
+            monitor.emit("reget_game_list")
+            report("开始游戏", "没有合适场次")
         }
     }
 
@@ -646,7 +662,8 @@ export namespace appfunc {
     /**
      * 提现数量
      */
-    export const CASH_OUT_NUM = 20000
+    export const CASH_OUT_NUM = 88800
+    export const SMAILL_CASH_OUT_NUM = 3000
 
     export function toCash(n: number) {
         return math.div(n, 100)
@@ -655,4 +672,36 @@ export namespace appfunc {
     export function toFuCard(n: number) {
         return math.div(n, 10000)
     }
+
+    export function showWebview(params?: any) {
+        ViewManager.showPopup({ bundle: "lobby", path: "setting/webview", params: params })
+    }
+
+    export function showSignPop(closeCallback?: Function) {
+        ViewManager.showPopup({ bundle: "lobby", path: "sign/sign", params: { closeCallback: closeCallback } })
+        // ViewManager.showPopup({ bundle: "ddz", path: "JiasutixianPop/JiasutixianPop", params: {} })
+    }
+
+    
+    export function sign0(p: any) {
+        let s = ""
+        for (let k in p) {
+            s += (["flag"].includes(k) ? "" : (s.length ? "&" : "") + k + "=" + p[k])
+        }
+        s += "&key=" + s0
+        return md5(s)
+    }
+
+}
+
+let consoleError = window.console.error
+window.console.error = (...args: any[]) => {
+    consoleError && consoleError.apply(window, args);
+    report("error", JSON.stringify(args))
+}
+
+let ccerror = cc.error
+cc.error = (...args: any[]) => {
+    ccerror && ccerror.apply(window, args);
+    report("error", JSON.stringify(args))
 }

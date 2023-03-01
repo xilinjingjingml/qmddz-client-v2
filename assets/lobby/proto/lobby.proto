@@ -231,3 +231,64 @@ message proto_lc_get_at_achieve_award_ack{
 	required	int32	ret	=	1;
 	repeated	proto_ATAchieveAward	vecAwards	=	2;
 }
+
+message proto_AccumulateSigninAward2{
+
+	required	int32	days	=	1;
+	required	string	award_strings	=	2;
+}
+message proto_ContinuousSigninAward{
+
+	required	int32	days	=	1;
+	required	string	award_strings	=	2;
+}
+
+message proto_AccumulateSigninAward{
+
+	required	int32	today	=	1;
+	required	int32	accumulate_days	=	2;
+	repeated	proto_AccumulateSigninAward2	acc_signin_award	=	3;
+	repeated	proto_ContinuousSigninAward	con_signin_award	=	4;
+}
+
+message proto_AccumulateSigninInfo{
+
+	repeated	int32	signin_days	=	1;
+	required	int32	buqianka	=	2;
+	required	proto_AccumulateSigninAward	signin_award	=	3;
+}
+
+message proto_cl_get_user_accumulate_signin_days_req{
+
+}
+message proto_lc_get_user_accumulate_signin_days_ack{
+
+	required	int32	ret	=	1;
+	required	proto_AccumulateSigninInfo	signin_info	=	2;
+}
+
+message proto_cl_set_user_accumulate_signin_days_req{
+
+	required	int32	day	=	1;
+}
+message proto_lc_set_user_accumulate_signin_days_ack{
+
+	required	int32	ret	=	1;
+	required	int32	day	=	2;
+	required	int32	continuous_days	=	3;
+	required	int32	accumulatye_days	=	4;
+	required	int32	money	=	5;
+}
+
+message proto_cl_get_user_accumulate_signin_award_req{
+
+	required	int32	continupus_days	=	1;
+	required	int32	accumulate_days	=	2;
+	required 	int32 	type_ 			= 	3;
+}
+message proto_lc_get_user_accumulate_signin_award_ack{
+
+	required	int32	ret	=	1;
+	required	int32	continupus_days	=	2;
+	required	int32	accumulate_days	=	3;
+}

@@ -29,7 +29,9 @@ export enum EOperate {
     CO_NO_STAMINA = 25,          //没有体力
     CO_DELAY_KEEPSTAR_TIME = 26, //没有体力		
     CO_SUPER_T_DOUBLE = 27,      //超级加倍
-    CO_CALL4 = 28,               //叫4分
+    CO_CALL4 = 28,               //叫4元
+    CO_CALL8 = 29,               //叫8元
+    
 }
 
 export enum EPlayer {
@@ -69,11 +71,15 @@ export const EventName = {
     game_exchange_item: "game_exchange_item",
     game_onPressExit: "game_onPressExit",
     game_onPressStart: "game_onPressStart",
+    startOfGamePop: "startOfGamePop",
+    game_showdizuAni: "game_showdizuAni",
     game_OperateButton_onPressChuPai: "game_OperateButton_onPressChuPai",
     game_OperateButton_onPressTiShi: "game_OperateButton_onPressTiShi",
     game_OperateButton_showPutButtons: "game_OperateButton_showPutButtons",
     game_player_hb_change: "game_player_hb_change",
+    game_player_handCard_count: "game_player_handCard_count",
     game_refreshHandCards: "game_refreshHandCards",
+    game_dealTheCardsEnd: "game_dealTheCardsEnd",
     game_result_next: "game_result_next",
     game_result_start: "game_result_start",
     game_showCard: "game_showCard",

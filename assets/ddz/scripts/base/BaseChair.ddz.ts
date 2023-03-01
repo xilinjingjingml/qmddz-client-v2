@@ -18,6 +18,8 @@ export default class BaseChair extends BaseView {
     }
 
     isSelf(sChairId: number) {
+        
+        // console.log("jin---isSelf:", this.params.chairId, sChairId, GameFunc.S2C(sChairId))
         return this.params.chairId == GameFunc.S2C(sChairId)
     }
 }

@@ -11,9 +11,20 @@ const { ccclass } = cc._decorator
 @ccclass
 export default class RedPacketView extends BaseView {
 
+    // _idx: number = 0
+
     start() {
         this.setMoneyNum()
-        this.$("labelPlayerNum", cc.Label).string = Math.floor(-310583 + (appfunc.accurateTime() - 1604289417) / 10) + "人正在赚红包中"
+        // this.$("labelPlayerNum", cc.Label).string = Math.floor(-310583 + (appfunc.accurateTime() - 1604289417) / 10) + "人正在赚红包中"
+        let spine = this.$("chaihongbaodj", sp.Skeleton)
+        spine.setCompleteListener(this.loopAni.bind(this))
+        this.loopAni()
+    }
+
+    loopAni() {
+        let spine = this.$("chaihongbaodj", sp.Skeleton)
+        // spine.addAnimation(0, this._idx ++ % 2 === 0 ? "animation" : "animation2", false)
+        spine.addAnimation(0, Math.floor(Math.random() * 100) % 3 === 0 ? "animation2" : "animation", false)
     }
 
     @listen("user_data_update")
@@ -23,6 +34,7 @@ export default class RedPacketView extends BaseView {
         }
 
         this.$("labelMoneyNum", cc.Label).string = math.fixd(appfunc.toCash(app.user.getItemNum(ITEM.TO_CASH)))
+        this.$("yuanbao_price", cc.RichText).string = `元宝可提金额 <size=40><b>${(app.user.getItemNum(ITEM.INGOT) / 10000).toFixed(2)}</b></size> 元`
     }
 
     @listen("fake_money_update")
@@ -69,6 +81,17 @@ export default class RedPacketView extends BaseView {
 
     onPressGoGame() {
         audio.playMenuEffect()
+        if (app.user.getItemNum(ITEM.TO_CASH) < 800) {
+            appfunc.showReliefPop({
+                closeCallback: () => {
+                    if (!this.isValid) return
+                    if (app.user.getItemNum(ITEM.TO_CASH) >= 800) {
+                        this.scheduleOnce(this.onPressGoGame.bind(this), 1)
+                    }
+                }
+            })
+            return
+        }
         appfunc.startGame(GAME.DDZ, GAME_TYPE.DDZ_BAIYUAN)
     }
 }

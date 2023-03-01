@@ -24,7 +24,7 @@ export default class MenuCtrl extends BaseView {
 
     @listen("tomorrow_status_update")
     setTomorrowActive() {
-        this.$("tomorrow_gift").active = app.datas.TomorrowStatus.enabled
+        // this.$("tomorrow_gift").active = app.datas.TomorrowStatus.enabled
     }
 
     @listen("main_view_change")

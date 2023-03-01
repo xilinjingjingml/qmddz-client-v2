@@ -57,6 +57,22 @@ export default class BaiYuanGame extends BaseGame {
         }
 
         GameView.showBaiYuanCashOut()
+        let result_order = storage.get("result_order")//当前显示礼包
+        let result_bukan_order = storage.get("result_bukan_order")//不看时顺序
+        let result_noSeeAd_count = storage.get("result_noSeeAd_count")//三局不看广告，强制看
+        let result_next = storage.get("result_next")
+        if (result_order == null || result_order == undefined || result_bukan_order > 4) {
+            storage.set("result_order", 1)
+        }
+        if (result_bukan_order == null || result_bukan_order == undefined || result_bukan_order > 4) {
+            storage.set("result_bukan_order", 1)
+        }
+        if (result_noSeeAd_count == null || result_noSeeAd_count == undefined || result_noSeeAd_count > 4) {
+            storage.set("result_noSeeAd_count", 1)
+        }
+        if (result_next == null || result_next == undefined) {
+            storage.set("result_next", 1)//1:开 2.关
+        }
     }
 
     @listen(EventName.game_onPressExit)
@@ -85,11 +101,14 @@ export default class BaiYuanGame extends BaseGame {
 
     checkMoneyLimit() {
         if (this.isRelief()) {
-            if (ads.checkCanReceive(ads.video.New_BankruptDefend)) {
-                GameFunc.send<Iproto_cg_baiyuan_can_bankruptcy_defend_req>("proto_cg_baiyuan_can_bankruptcy_defend_req", {})
-            } else {
-                this.showReliefOver()
-            }
+            // if (ads.checkCanReceive(ads.video.New_BankruptDefend)) {
+            //     GameFunc.send<Iproto_cg_baiyuan_can_bankruptcy_defend_req>("proto_cg_baiyuan_can_bankruptcy_defend_req", {})
+            // } else {
+            //     this.showReliefOver()
+            // }
+            appfunc.showReliefPop({
+                closeCallback: () => this.isValid && this.scheduleOnce(this.tryMoneyLimit.bind(this), 1)
+            })
             return true
         }
 
@@ -97,7 +116,7 @@ export default class BaiYuanGame extends BaseGame {
     }
 
     isRelief() {
-        return app.user.getItemNum(ITEM.TO_CASH) < app.getOnlineParam("baiyuan_low_money", 2000)
+        return app.user.getItemNum(ITEM.TO_CASH) <= 200//app.getOnlineParam("baiyuan_low_money", 2000)
     }
 
     showReliefOver() {
@@ -119,13 +138,17 @@ export default class BaiYuanGame extends BaseGame {
 
     showGameResultPops() {
         this.taskQueue.clear()
-        this.taskQueue.add(this.showRoundHB, this)
         this.taskQueue.add(this.showBaiYuanResult, this)
-        this.taskQueue.add(this.showBaiYuanLuckWelfare, this)
         this.taskQueue.add(this.showBaiYuanRegainLose, this)
+        // this.taskQueue.add(this.showRoundHB, this)
+        this.taskQueue.add(this.showBaiYuanJiaSuTiXian, this)
+        this.taskQueue.add(this.showBaiYuanLuckWelfare, this)
+        this.taskQueue.add(this.showBaiYuanJinLi, this)
         this.taskQueue.add(this.showBaiYuanRound, this)
-        this.taskQueue.add(this.showTomorrow, this)
-        this.taskQueue.add(this.showDailyGift, this)
+        this.taskQueue.add(this.showCashout, this)
+
+        // this.taskQueue.add(this.showTomorrow, this)
+        // this.taskQueue.add(this.showDailyGift, this)
         this.taskQueue.add(this.showGameNext, this)
         this.taskQueue.run()
     }
@@ -172,20 +195,21 @@ export default class BaiYuanGame extends BaseGame {
 
     // 输赢动画
     showBaiYuanResult(next: Function) {
-        const message: Iproto_gc_game_result_not1 = this.cacheMessages["proto_gc_game_result_not1"]
 
+        const message: Iproto_gc_game_result_not1 = this.cacheMessages["proto_gc_game_result_not1"]
+        console.log("jin---showBaiYuanResult:", message)
         let count = 0
         message.vecUserResult1.forEach(v => {
             const isMe = GameFunc.S2C(v.nChairID) == EPlayer.Me
             if (isMe) {
                 this.winStreakCount = v.nScore > 0 ? this.winStreakCount + 1 : 0
             }
-
+            console.log("jin---showBaiYuanResult:", v, isMe)
             if (v.nScore == 0) {
                 return
             }
 
-            if (isMe || v.nScore < 0) {
+            if (isMe && v.nScore > 0) {
                 count++
             }
 
@@ -195,11 +219,14 @@ export default class BaiYuanGame extends BaseGame {
             }
         })
 
+        console.log("jin---showBaiYuanResult:", count)
         if (count == 0) {
             next()
             return
         }
-
+        app.user.won++
+        cc.sys.localStorage.setItem("games", app.user.won + app.user.lost)
+        console.log("jin---showBaiYuanResult11: ", app.user.won, app.user.lost, app.user.dogfall)
         GameView.showBaiYuanResultPop({
             closeCallback: next,
             message: message,
@@ -208,39 +235,102 @@ export default class BaiYuanGame extends BaseGame {
         })
     }
 
-    // 幸运红包
+
+    //加速提现
+    showBaiYuanJiaSuTiXian(next: Function) {
+        // const message = this.cacheMessages["proto_gc_baiyuan_luck_welfare_not"]
+        // if (!message) {
+        //     next()
+        //     return
+        // }
+        let round: Number = app.user.won + app.user.lost + app.user.dogfall
+        console.log("jin---showBaiYuanJiaSuTiXian11: ", app.user.won, app.user.lost, app.user.dogfall)
+        if (round == 1) {
+            next()
+            return
+        }
+        const result_order = storage.get("result_order")
+        console.log("jin---showBaiYuanJiaSuTiXian: ", result_order)
+        if (result_order != 1) {
+            next()
+            return
+        }
+
+        GameView.showBaiYuanJiaSuTiXianPop({
+            closeCallback: next,
+            message: {},
+        })
+    }
+
+
+    // 幸运红包(天降红包)
     showBaiYuanLuckWelfare(next: Function) {
-        const message = this.cacheMessages["proto_gc_baiyuan_luck_welfare_not"]
-        if (!message) {
+        // const message = this.cacheMessages["proto_gc_baiyuan_luck_welfare_not"]
+        // console.log("jin---showBaiYuanLuckWelfare11: ", message)
+        // if (!message) {
+        //     next()
+        //     return
+        // }
+
+        let round: Number = app.user.won + app.user.lost + app.user.dogfall
+        if (round == 1) {
             next()
             return
         }
 
-        if (this.roundCount == 1 && !app.getOnlineParam("game_baiyuan_luck_round_1", false)) {
+        const result_order = storage.get("result_order")
+        console.log("jin---showBaiYuanLuckWelfare: ", result_order)
+        if (result_order != 2) {
             next()
             return
         }
 
-        if (!this.checkGameRoundPop(GameRoundPop.LuckWelfare)) {
-            next()
-            return
-        }
+        // if (this.roundCount == 1 && !app.getOnlineParam("game_baiyuan_luck_round_1", false)) {
+        //     next()
+        //     return
+        // }
 
+        // if (!this.checkGameRoundPop(GameRoundPop.LuckWelfare)) {
+        //     next()
+        //     return
+        // }
 
-        if (!ads.checkCanReceive(ads.video.New_LuckyGift)) {
-            next()
-            return
-        }
+        // if (!ads.checkCanReceive(ads.video.New_LuckyGift)) {
+        //     next()
+        //     return
+        // }
 
         GameView.showBaiYuanLuckWelfarePop({
             closeCallback: next,
-            message: message,
+            message: {},
+        })
+    }
+
+    //todo 锦鲤福利
+    showBaiYuanJinLi(next: Function) {
+        const result_order = storage.get("result_order")
+        console.log("jin---showBaiYuanJinLi: ", result_order)
+        if (result_order != 3) {
+            next()
+            return
+        }
+
+        let round: Number = app.user.won + app.user.lost + app.user.dogfall
+        if (round == 1) {
+            next()
+            return
+        }
+
+        GameView.showBaiYuanJinLiPop({
+            closeCallback: next,
+            message: {}
         })
     }
 
     // 追回损失
     showBaiYuanRegainLose(next: Function) {
         const message = this.cacheMessages["proto_gc_baiyuan_regain_lose_not"]
+        console.log("jin---showBaiYuanRegainLose:", message, this.checkGameRoundPop(GameRoundPop.RegainLose), ads.checkCanReceive(ads.video.New_RegainLose))
         if (!message) {
             next()
             return
@@ -255,7 +345,9 @@ export default class BaiYuanGame extends BaseGame {
             next()
             return
         }
-
+        app.user.lost++
+        cc.sys.localStorage.setItem("games", app.user.won + app.user.lost)
+        console.log("jin---showBaiYuanRegainLose11: ", app.user.won, app.user.lost, app.user.dogfall)
         GameView.showBaiYuanRegainLosePop({
             closeCallback: next,
             message: message,
@@ -264,25 +356,39 @@ export default class BaiYuanGame extends BaseGame {
 
     // 局数红包
     showBaiYuanRound(next: Function) {
-        const message = this.cacheMessages["proto_gc_baiyuan_hb_round_award_not"]
-        if (!message) {
+        // const message = this.cacheMessages["proto_gc_baiyuan_hb_round_award_not"]
+        // if (!message) {
+        //     next()
+        //     return
+        // }
+
+        let round: Number = app.user.won + app.user.lost + app.user.dogfall
+        if (round == 1) {
             next()
             return
         }
 
-        if (!this.checkGameRoundPop(GameRoundPop.HBRound)) {
+        const result_order = storage.get("result_order")
+        console.log("jin---showBaiYuanRound: ", result_order)
+        if (result_order != 4) {
             next()
             return
         }
 
-        if (!ads.checkCanReceive(ads.video.New_GameRedPacket)) {
-            next()
-            return
-        }
+        // if (!this.checkGameRoundPop(GameRoundPop.HBRound)) {
+        //     next()
+        //     return
+        // }
 
+        // if (!ads.checkCanReceive(ads.video.New_GameRedPacket)) {
+        //     next()
+        //     return
+        // }
+        // storage.set("result_bukan_order", 1)
+        // storage.set("result_order", 1)
         GameView.showBaiYuanRoundPop({
             closeCallback: next,
-            message: message,
+            message: {},
         })
     }
 
@@ -344,20 +450,24 @@ export default class BaiYuanGame extends BaseGame {
                     const check = (data: IItemInfo) => {
                         return ordered.some(order => order.itemIndex == data.itemIndex && (data.itemIndex != ITEM.TO_CASH || order.itemNum == data.itemNum))
                     }
-
-                    if (data.some(data => !check(data))) {
-                        storage.setToday("game_TomorrowGift", count + 1)
-                        GameView.showTomorrowPop({
-                            closeCallback: next
-                        })
-                        return
-                    }
                 }
 
                 next()
             })
         })
     }
+
+    //todo 0.3元提现
+    showCashout(next: Function) {
+        if (!storage.get("first_cashout") && app.user.getItemNum(ITEM.INGOT) > 3000) {
+            appfunc.showCashOutPop({ closeCallback: next })
+            storage.set("first_cashout", true)
+        } else {
+            next()
+            return
+        }
+    }
+
 
     // 每日礼包
     showDailyGift(next: Function) {
@@ -517,5 +627,11 @@ export default class BaiYuanGame extends BaseGame {
     @listen("proto_gc_baiyuan_luck_welfare_not")
     proto_gc_baiyuan_luck_welfare_not(message: Iproto_gc_baiyuan_luck_welfare_not) {
         this.cacheMessages["proto_gc_baiyuan_luck_welfare_not"] = message
+    }
+
+    //todo 继续游戏界面
+    @listen(EventName.game_result_next)
+    showGoToGame() {
+        GameView.showGoToGamePop()
     }
 }

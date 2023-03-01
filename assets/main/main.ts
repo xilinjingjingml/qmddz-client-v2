@@ -1,3 +1,5 @@
+import { report } from "../report"
+
 const { ccclass } = cc._decorator
 
 @ccclass
@@ -5,6 +7,7 @@ export default class main extends cc.Component {
     nodePersist: cc.Node
 
     onLoad() {
+        report("首页", "加载")
         const frameSize = cc.view.getFrameSize()
         const canvas = cc.Canvas.instance
         const wideScreen = frameSize.width / frameSize.height > canvas.designResolution.width / canvas.designResolution.height
@@ -15,6 +18,7 @@ export default class main extends cc.Component {
     }
 
     start() {
+        report("首页", "开始")
         cc.log("[main.start]")
         this.loadBundles(["base", "start"])
 

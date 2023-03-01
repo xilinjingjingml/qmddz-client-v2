@@ -6,9 +6,14 @@ const { ccclass } = cc._decorator
 @ccclass
 export default class BaiYuanCashOut extends BasePop {
 
+    _pause: boolean = true
+
     start() {
         this.node.parent.zIndex = 10000
         this.$("nodePop").opacity = 0
+
+        cc.game.on("cashout_pause", this.onPause, this)
+        cc.game.on("cashout_resume", this.onResume, this)
     }
 
     showNotice(name: string) {
@@ -46,9 +51,18 @@ export default class BaiYuanCashOut extends BasePop {
 
     @listen("proto_lc_broadcast_message_not")
     proto_lc_broadcast_message_not(messsage: Iproto_lc_broadcast_message_not) {
+        if (this._pause) return
         const result = /恭喜用户(.*)成功兑换(.*)元话费/.exec(messsage.msg)
         if (result && Number(result[2]) > 20) {
             this.showNotice(result[1])
         }
+    }
+
+    onPause() {
+        this._pause = true
+    }
+
+    onResume() {
+        this._pause = false
     }
 }

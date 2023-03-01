@@ -8,8 +8,7 @@ import { app } from "../../start/app"
 import { ITEM } from "../../start/config"
 import { AudioManager } from "../audio/AudioManager.ddz"
 import AreaCard from "../card/AreaCard.ddz"
-import { chatEmojis, ChatPrefix, chatTexts, ChatType } from "../chat/chat.ddz"
-import { EOperate, EventName } from "../game/GameConfig.ddz"
+import { EOperate, EventName, EPlayer } from "../game/GameConfig.ddz"
 import { GameFunc } from "../game/GameFunc.ddz"
 import { ECardPoint, GameRule } from "../game/GameRule.ddz"
 import { GameView } from "../game/GameView.ddz"
@@ -121,6 +120,7 @@ export default class player extends BaseChair {
             this.$("label_fucard", cc.Label).string = math.short(itemNum) + ""
         } else if (itemId == ITEM.TO_CASH) {
             this.$("label_hb", cc.Label).string = appfunc.toCash(itemNum).toFixed(2) + "元"
+            
         }
 
         this.items[itemId] = itemNum
@@ -128,6 +128,7 @@ export default class player extends BaseChair {
 
     // 显示玩家操作文字
     showOperate(operate: EOperate = EOperate.CO_NONE) {
+        // console.log("jin---showOperate: ", operate)
         let opath = ""
         let audio = ""
         if (operate == EOperate.CO_NONE) {
@@ -148,6 +149,17 @@ export default class player extends BaseChair {
         } else if (operate == EOperate.CO_CALL3) {
             opath = "op_3fen"
             audio = "audio_score3"
+
+        } else if (operate == EOperate.CO_CALL4) {
+            opath = "op_4fen"
+            audio = "audio_call_lord"
+            this.playSpine_call()
+
+        } else if (operate == EOperate.CO_CALL8) {
+            opath = "op_8fen"
+            audio = "audio_call_lord"
+            this.playSpine_call()
+        
         } else if (operate == EOperate.CO_CALLROB) {
             opath = "op_jiaodizhu"
             audio = "audio_call_lord"
@@ -166,9 +178,11 @@ export default class player extends BaseChair {
             this.isMyPlayer && monitor.emit(EventName.game_showCard)
         } else if (operate == EOperate.CO_TIMEOUT) {
             return
-        } else if (operate == EOperate.CO_READY) {
-            opath = "op_ready"
-        } else if (operate == EOperate.CO_NOLORD) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } 
+        // else if (operate == EOperate.CO_READY) {
+        //     opath = "op_ready"
+        // } 
+        else if (operate == EOperate.CO_NOLORD) {
             return
         } else if (operate == EOperate.CO_F_DOUBLE) {
             opath = "op_bujiabei"
@@ -446,7 +460,9 @@ export default class player extends BaseChair {
 
     @listen("proto_gc_common_not")
     proto_gc_common_not(message: Iproto_gc_common_not) {
+        // console.log("jin---proto_gc_common_not前:", message)
         if (message.cChairID < 0 || this.isSelf(message.cChairID)) {
+            // console.log("jin---proto_gc_common_not后:", message)
             this.showOperate(message.nOp)
         }
     }
@@ -484,82 +500,82 @@ export default class player extends BaseChair {
         this.playPutCardsSound(message.cType)
     }
 
-    @listen("proto_bc_chat_not")
-    proto_bc_chat_not(message: Iproto_bc_chat_not) {
-        if (this.data?.plyGuid != message.plyGuid) {
-            return
-        }
+    // @listen("proto_bc_chat_not")
+    // proto_bc_chat_not(message: Iproto_bc_chat_not) {
+    //     if (this.data?.plyGuid != message.plyGuid) {
+    //         return
+    //     }
 
-        this.$("chat_bubble_text").active = false
-        this.$("chat_bubble_emoji").active = false
+    //     this.$("chat_bubble_text").active = false
+    //     this.$("chat_bubble_emoji").active = false
 
-        const front = message.message.substr(0, 4)
-        const end = message.message.substr(4)
-        if (front == ChatPrefix[ChatType.Text]) {
-            let chatData: { id: number, text: string, audio: string }
-            for (const data of chatTexts) {
-                if ((data.id + "") == end) {
-                    chatData = data
-                    break
-                }
-            }
+    //     const front = message.message.substr(0, 4)
+    //     const end = message.message.substr(4)
+    //     if (front == ChatPrefix[ChatType.Text]) {
+    //         let chatData: { id: number, text: string, audio: string }
+    //         for (const data of chatTexts) {
+    //             if ((data.id + "") == end) {
+    //                 chatData = data
+    //                 break
+    //             }
+    //         }
 
-            if (!chatData) {
-                return
-            }
+    //         if (!chatData) {
+    //             return
+    //         }
 
-            this.$("node_chat").active = true
-            cc.Tween.stopAllByTarget(this.$("node_chat"))
+    //         // this.$("node_chat").active = true
+    //         // cc.Tween.stopAllByTarget(this.$("node_chat"))
 
-            this.$("chat_bubble_text").active = true
-            this.$("chat_label", cc.Label).string = chatData.text
-            AudioManager.playEffect("audio_chat_" + chatData.id, null, () => {
-                this.$("node_chat").active = false
-            })
-        } else if (front == ChatPrefix[ChatType.Emoji]) {
-            let chatData: { id: number, icon: string, emoji: string }
-            for (const data of chatEmojis) {
-                if ((data.id + "") == end) {
-                    chatData = data
-                    break
-                }
-            }
+    //         // this.$("chat_bubble_text").active = true
+    //         // this.$("chat_label", cc.Label).string = chatData.text
+    //         // AudioManager.playEffect("audio_chat_" + chatData.id, null, () => {
+    //         //     this.$("node_chat").active = false
+    //         // })
+    //     } else if (front == ChatPrefix[ChatType.Emoji]) {
+    //         let chatData: { id: number, icon: string, emoji: string }
+    //         for (const data of chatEmojis) {
+    //             if ((data.id + "") == end) {
+    //                 chatData = data
+    //                 break
+    //             }
+    //         }
 
-            if (!chatData) {
-                return
-            }
+    //         if (!chatData) {
+    //             return
+    //         }
 
-            this.$("node_chat").active = true
-            cc.Tween.stopAllByTarget(this.$("node_chat"))
+    //         // this.$("node_chat").active = true
+    //         // cc.Tween.stopAllByTarget(this.$("node_chat"))
 
-            const nodeEmoji = this.$("chat_bubble_emoji")
-            nodeEmoji.active = true
+    //         // const nodeEmoji = this.$("chat_bubble_emoji")
+    //         // nodeEmoji.active = true
 
-            const name = chatData.id + ""
-            const frameAnimation = this.$("chat_emoji", FrameAnimation)
-            frameAnimation.setSpirte(name)
+    //         // const name = chatData.id + ""
+    //         // const frameAnimation = this.$("chat_emoji", FrameAnimation)
+    //         // frameAnimation.setSpirte(name)
 
-            const size = this.$("chat_emoji").getContentSize()
-            nodeEmoji.setContentSize(cc.size(size.width + 40, size.height + 40))
-            this.$("chat_emoji").y = (0.5 - nodeEmoji.anchorY) * nodeEmoji.height
+    //         // const size = this.$("chat_emoji").getContentSize()
+    //         // nodeEmoji.setContentSize(cc.size(size.width + 40, size.height + 40))
+    //         // this.$("chat_emoji").y = (0.5 - nodeEmoji.anchorY) * nodeEmoji.height
 
-            const frameAnimationClip = frameAnimation.getFrameAnimationClip(name)
-            let count = frameAnimationClip ? Math.floor(10 / frameAnimationClip.total) : 1
-            const playAni = () => {
-                count--
-                if (count < 0) {
-                    this.$("node_chat").active = false
-                    return
-                }
+    //         // const frameAnimationClip = frameAnimation.getFrameAnimationClip(name)
+    //         // let count = frameAnimationClip ? Math.floor(10 / frameAnimationClip.total) : 1
+    //         // const playAni = () => {
+    //         //     count--
+    //         //     if (count < 0) {
+    //         //         this.$("node_chat").active = false
+    //         //         return
+    //         //     }
 
-                const animation = this.$("chat_emoji", cc.Animation)
-                animation.targetOff(this)
-                animation.play(name)
-                animation.on("finished", playAni, this)
-            }
-            playAni()
-        }
-    }
+    //         //     const animation = this.$("chat_emoji", cc.Animation)
+    //         //     animation.targetOff(this)
+    //         //     animation.play(name)
+    //         //     animation.on("finished", playAni, this)
+    //         // }
+    //         // playAni()
+            //     }
+            // }
 
     playPutCardsSound(cardType: Iproto_CCardsType) {
         if (cardType.mNTypeNum == 0) {
@@ -590,5 +606,72 @@ export default class player extends BaseChair {
         } else if (GameRule.checkFeiJi(cardType.mNTypeNum)) {
             AudioManager.playEffect("audio_feiji", this.data.sex)
         }
+    }
+
+    playSpine_call(){
+        console.log("jin---playSpine_call: ")
+        let node = this.$("dragonBone_call")
+        node.active = true
+        const dragonBone = node.getComponent(dragonBones.ArmatureDisplay)
+        dragonBone.playAnimation("newAnimation", 1)
+        dragonBone.addEventListener(dragonBones.EventObject.COMPLETE,()=>{
+            // this.playSpine_lord()
+            node.active = false
+        },this)
+    }
+
+    playSpine_lord(){
+        console.log("jin---playSpine_lord: ")
+        cc.tween(this.$("sp_dizhu"))
+            .delay(1)
+            .call(()=>{
+                const node = this.$("sp_dizhu")
+                const spine = node.getComponent(sp.Skeleton)
+                node.opacity = 255
+                spine.setAnimation(0, "001", false)
+                spine.setCompleteListener((track: sp.spine.TrackEntry) => {
+                    spine.setCompleteListener(null)
+                    node.opacity = 0
+                    let Pos: cc.Vec2 = this.$("ani_pos").getPosition()//.convertToWorldSpaceAR(cc.Vec2.ZERO)//
+                    let Pos_icon_dizhu: cc.Vec2 = this.$("icon_dizhu").getPosition()//.convertToWorldSpaceAR(cc.Vec2.ZERO)//
+                    let t = 0.5
+                    this.$("icon_dizhu").opacity = 255
+                    cc.tween(this.$("icon_dizhu"))
+                        .to(t, {scale: 0.4, position: cc.v3(Pos.x, Pos.y, 0)},{ easing: 'sineInOut'})
+                        .set({opacity:0, position:cc.v3(Pos_icon_dizhu.x, Pos_icon_dizhu.y, 0), scale: 1})
+                        .start()
+                })
+            })  
+            .start()
+            
+    }
+
+    @listen(EventName.game_showdizuAni)
+    showDiZhuAni(isShow, ChairID){
+        console.log("jin---showDiZhuAni: ", isShow, ChairID)
+        // if(ChairID == undefined || ChairID == -1){
+        //     return
+        // }
+        if (!this.isSelf(ChairID)) {
+            return
+        }
+        console.log("jin---showDiZhuAni11: ", isShow, ChairID)
+        this.playSpine_lord()
+    }
+
+    
+    @listen(EventName.game_player_handCard_count)
+    handCardCount(){
+        console.log("jin---handCardCount: ")
+        this.$("label_handnum").active = true
+        const label = this.$("label_handnum", cc.Label)
+        let i = 0
+        cc.tween(this.node)
+            .then(cc.tween()
+                .call(()=>{label.string = i++ + ""})
+                .delay(.08)
+            )
+            .repeat(18)
+            .start()
     }
 }
